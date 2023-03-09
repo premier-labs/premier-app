@@ -10,7 +10,6 @@ const style = {
   Sentence: styled("div")<{ fontSize?: string }>(({ theme, fontSize = "17.5px" }) => ({
     fontFamily: theme.fontFamily.primary,
     fontSize: fontSize,
-    color: "black",
     fontWeight: 900,
     paddingRight: "35px",
     textAlign: "center",

@@ -7,7 +7,7 @@ const style = {
   AppBar: styled(AppBar)(({ theme }) => ({
     ...theme.myBreakpoints.static,
     height: theme.header.height,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.secondary,
     boxShadow: "none",
     display: "flex",
     justifyContent: "center",

@@ -2,6 +2,7 @@ import LogoIcon from "@common/assets/images/logo-typo.svg";
 import Clickable from "@common/components/clickable";
 import { Grid, Toolbar } from "@mui/material";
 import Typos from "@common/components/typography";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { FC } from "react";
 
@@ -16,21 +17,21 @@ export const Navbar: FC = ({}) => {
             <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
               <Grid item>
                 <Clickable address="/">
-                  <img alt="" src={LogoIcon} style={{ width: "200px" }} />
+                  <img alt="" src={LogoIcon} style={{ width: "175px" }} />
                 </Clickable>
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item>
-            <Grid container justifyContent="end" columnSpacing={2}>
+            <Grid container justifyContent="end" columnSpacing={2} style={{ height: "100%" }}>
               <Grid
                 item
                 sx={{ display: { xs: "none", md: "flex" } }}
                 style={{ alignItems: "center" }}
               >
                 <Clickable address="/docs">
-                  <Typos.NormalTitle>Docs</Typos.NormalTitle>
+                  <Typos.NormalTitle style={{ fontWeight: 500 }}>Docs</Typos.NormalTitle>
                 </Clickable>
               </Grid>
               <Grid
@@ -47,9 +48,22 @@ export const Navbar: FC = ({}) => {
                   }}
                 ></div>
               </Grid>
-              <Grid item>
+              <Grid
+                item
+                sx={{ display: { xs: "none", md: "flex" } }}
+                style={{ alignItems: "center" }}
+              >
                 <Clickable address="/app/drop/0">
                   <Style.OpenApp>Enter app</Style.OpenApp>
+                </Clickable>
+              </Grid>
+              <Grid
+                item
+                sx={{ display: { xs: "flex", md: "none" } }}
+                style={{ alignItems: "center" }}
+              >
+                <Clickable address="/app/drop/0">
+                  <MenuIcon />
                 </Clickable>
               </Grid>
             </Grid>

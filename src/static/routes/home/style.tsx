@@ -5,7 +5,7 @@ import { Grid, Typography } from "@mui/material";
 const style = {
   Root: styled("div")(({ theme }) => ({
     ...theme.myBreakpoints.static,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.secondary,
     paddingTop: theme.header.height,
     minHeight: `calc(100vh - ${theme.header.height})`,
   })),
@@ -45,6 +45,13 @@ const style = {
     padding: "25px",
     boxSizing: "border-box",
     backgroundColor: theme.colors.primary,
+  })),
+  test: styled("div")(({ theme }) => ({
+    ...theme.myBreakpoints.antiStatic,
+    backgroundColor: "black",
+    color: "white",
+    marginTop: "5vh",
+    marginBottom: "5vh",
   })),
 
   Title: styled("div")(({ theme }) => ({
@@ -110,9 +117,9 @@ const style = {
     // backgroundColor: "red",
   })),
   ContainerExempleDrip: styled("div")(({ theme }) => ({
-    backgroundColor: "white",
+    backgroundColor: theme.colors.primary,
     padding: "15px",
-    borderRadius: "5px",
+    borderRadius: "25px",
     boxShadow: `2.5px 2.5px 2.5px ${theme.colors.secondary}, -.1px -.1px 1.5px ${theme.colors.secondary}`,
   })),
   ContainerExempleDripContainer: styled("div")(({ theme }) => ({
@@ -176,7 +183,7 @@ const style = {
 
   ContainerInfoDiv: styled("div")(({ theme }) => ({
     padding: "10px",
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.secondary,
     borderRadius: "5px",
   })),
   ContentCategory: styled("div")(({ theme }) => ({

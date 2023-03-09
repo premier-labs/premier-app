@@ -187,6 +187,28 @@ const themeOpts = {
         paddingRight: "20px",
       },
     },
+    antiStatic: {
+      [breakpoints.up("lg")]: {
+        marginLeft: "-10vw",
+        marginRight: "-10vw",
+      },
+      [breakpoints.down("lg")]: {
+        marginLeft: "-7vw",
+        marginRight: "-7vw",
+      },
+      [breakpoints.down("md")]: {
+        marginLeft: "-5vw",
+        marginRight: "-5vw",
+      },
+      [breakpoints.down("sm")]: {
+        marginLeft: "-2vw",
+        marginRight: "-2vw",
+      },
+      [breakpoints.down("sm")]: {
+        marginLeft: "-20px",
+        marginRight: "-20px",
+      },
+    },
     app: {
       paddingLeft: "25px",
       paddingRight: "25px",

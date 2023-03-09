@@ -10,6 +10,7 @@ import Typos from "@common/components/typography";
 import { useTheme } from "@common/theme";
 
 import Style from "./style";
+import Marquee from "@common/components/marquee";
 
 const DemoPlaceholderList: {
   collectionName: string;
@@ -124,23 +125,25 @@ const HomeComponent: FC = ({}) => {
   return (
     <Style.Root>
       <Grid container style={{ height: "100%" }}>
+        <Grid item xs={12} style={{ paddingTop: "15vh", paddingBottom: "15vh" }}>
+          <Typos.Big style={{ textAlign: "center", fontFamily: "wide", fontSize: "3.5em" }}>
+            Get Your
+            <br /> <b style={{ fontWeight: 700, color: color }}>${placeholderItem.item}</b> <br />
+            On The wall !
+          </Typos.Big>
+        </Grid>
+      </Grid>
+
+      <Grid container>
         <Grid item xs={12} md={9} lg={8} xl={7}>
           <Grid
             container
             direction="column"
             justifyContent="center"
-            rowSpacing={5}
-            sx={{ height: { lg: "90%" }, marginTop: { xs: "25px", lg: "0px" } }}
+            spacing={10}
+            style={{ height: "100%" }}
+            // sx={{ height: { lg: "90%" }, marginTop: { xs: "25px", lg: "0px" } }}
           >
-            <Grid item>
-              <Typos.Big>
-                Get Your
-                <br />
-                <b style={{ fontWeight: 700, color: color }}>${placeholderItem.item}</b> <br />
-                On The wall !
-              </Typos.Big>
-            </Grid>
-
             <Grid item>
               <Style.ContainerExempleDrip>
                 <Grid container columnSpacing={2} rowSpacing={2} direction="row-reverse">
@@ -238,6 +241,29 @@ const HomeComponent: FC = ({}) => {
                 </Grid>
               </Style.ContainerExempleDrip>
             </Grid>
+            <Grid
+              item
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typos.NormalBig
+                style={{
+                  fontWeight: 700,
+                  textAlign: "center",
+                  fontSize: "2em",
+                  fontFamily: "wide",
+                }}
+              >
+                We collaborate hand to hand with artists and luxury companies to create{" "}
+                <span style={{ color: color }}>custom-made</span>,{" "}
+                <span style={{ color: color }}>unique</span>,{" "}
+                <span style={{ color: color }}>high end</span> and{" "}
+                <span style={{ color: color }}>exlusive</span> physical objects from your digital
+                possessions.
+              </Typos.NormalBig>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -260,7 +286,11 @@ const HomeComponent: FC = ({}) => {
             initialTokenNameId="random"
           />
         </Grid>
-
+      </Grid>
+      <Style.test>
+        <Marquee word="EXCLUSIVE" fontSize="1.5em" />
+      </Style.test>
+      <Grid container>
         <Grid
           item
           xs={12}
@@ -268,16 +298,7 @@ const HomeComponent: FC = ({}) => {
             paddingTop: "50px",
             paddingBottom: "50px",
           }}
-        >
-          <Typos.NormalBig style={{ fontWeight: 700, textAlign: "center" }}>
-            We collaborate hand to hand with artists and luxury companies to create{" "}
-            <span style={{ color: color }}>custom-made</span>,{" "}
-            <span style={{ color: color }}>unique</span>,{" "}
-            <span style={{ color: color }}>high end</span> and{" "}
-            <span style={{ color: color }}>exlusive</span> physical objects from your digital
-            possessions.
-          </Typos.NormalBig>
-        </Grid>
+        ></Grid>
 
         <Grid
           item
