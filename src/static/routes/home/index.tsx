@@ -11,6 +11,7 @@ import { useTheme } from "@common/theme";
 
 import Style from "./style";
 import Marquee from "@common/components/marquee";
+import LogoIcon from "@common/assets/images/logo-typo.svg";
 
 const DemoPlaceholderList: {
   collectionName: string;
@@ -70,7 +71,7 @@ const DemoPlaceholderList: {
   },
 ];
 
-const DemoTextures = ["models/0.texture.png", "models/1.texture.png", "models/2.texture.png"];
+const DemoTextures = ["models/2.texture.png", "models/0.texture.png", "models/1.texture.png"];
 
 const HomeComponent: FC = ({}) => {
   const theme = useTheme();
@@ -125,12 +126,18 @@ const HomeComponent: FC = ({}) => {
   return (
     <Style.Root>
       <Grid container style={{ height: "100%" }}>
-        <Grid item xs={12} style={{ paddingTop: "15vh", paddingBottom: "15vh" }}>
-          <Typos.Big style={{ textAlign: "center", fontFamily: "wide", fontSize: "3.5em" }}>
+        <Grid item xs={12} style={{ paddingTop: "10vh", paddingBottom: "10vh" }}>
+          <Typos.Big style={{ textAlign: "center", fontFamily: "wide", fontSize: "4em" }}>
             Get Your
             <br /> <b style={{ fontWeight: 700, color: color }}>${placeholderItem.item}</b> <br />
-            On The wall !
+            On The Wall !
           </Typos.Big>
+          <div style={{ height: "25px" }} />
+          <Typos.Normal
+            style={{ textAlign: "center", fontFamily: "wide", fontSize: "1.25em", fontWeight: 900 }}
+          >
+            Metaverse-based brand.
+          </Typos.Normal>
         </Grid>
       </Grid>
 
@@ -141,7 +148,7 @@ const HomeComponent: FC = ({}) => {
             direction="column"
             justifyContent="center"
             spacing={10}
-            style={{ height: "100%" }}
+            style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
             // sx={{ height: { lg: "90%" }, marginTop: { xs: "25px", lg: "0px" } }}
           >
             <Grid item>
@@ -252,7 +259,7 @@ const HomeComponent: FC = ({}) => {
                 style={{
                   fontWeight: 700,
                   textAlign: "center",
-                  fontSize: "2em",
+                  fontSize: "2.25em",
                   fontFamily: "wide",
                 }}
               >
@@ -260,7 +267,7 @@ const HomeComponent: FC = ({}) => {
                 <span style={{ color: color }}>custom-made</span>,{" "}
                 <span style={{ color: color }}>unique</span>,{" "}
                 <span style={{ color: color }}>high end</span> and{" "}
-                <span style={{ color: color }}>exlusive</span> physical objects from your digital
+                <span style={{ color: color }}>exclusive</span> physical objects from your digital
                 possessions.
               </Typos.NormalBig>
             </Grid>
@@ -273,7 +280,7 @@ const HomeComponent: FC = ({}) => {
           md={3}
           lg={4}
           xl={5}
-          style={{ height: `calc(100vh - ${theme.header.height}` }}
+          style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
         >
           <SceneLoader
             sceneRef={sceneRef}
@@ -287,19 +294,12 @@ const HomeComponent: FC = ({}) => {
           />
         </Grid>
       </Grid>
+
       <Style.test>
         <Marquee word="EXCLUSIVE" fontSize="1.5em" />
       </Style.test>
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          style={{
-            paddingTop: "50px",
-            paddingBottom: "50px",
-          }}
-        ></Grid>
 
+      <Grid container>
         <Grid
           item
           xs={12}
@@ -307,22 +307,22 @@ const HomeComponent: FC = ({}) => {
             backgroundColor: theme.colors.secondary,
             padding: "25px",
             marginTop: "5vh",
-            marginBottom: "5vh",
             borderRadius: "5px",
           }}
         >
           <Typos.Huge
             style={{
-              marginTop: "7.5vh",
-              marginBottom: "7.5vh",
+              marginBottom: "5vh",
               textAlign: "center",
+              fontFamily: "wide",
+              fontSize: "4em",
             }}
           >
-            Discover Drip
+            Discover <span style={{ color }}>Drip</span>
           </Typos.Huge>
 
           <Grid container direction="row" spacing={0}>
-            <Grid xs={12} style={{ marginBottom: "5vh" }}>
+            <Grid xs={12} style={{ marginBottom: "7.5vh" }}>
               <Grid container justifyContent="center">
                 <Grid xs={12} md={8}>
                   <Typos.Big
@@ -330,12 +330,16 @@ const HomeComponent: FC = ({}) => {
                       textAlign: "center",
                       padding: "15px",
                       borderRadius: "5px",
+                      fontFamily: "wide",
+                      fontSize: "2em",
+                      fontWeight: 700,
                     }}
                   >
                     A Drip is a <span style={{ color: color }}>custom-made</span> NFT backed by a{" "}
                     <span style={{ color: color }}>unique</span>,{" "}
-                    <span style={{ color: color }}>high end</span> and{" "}
-                    <span style={{ color: color }}>exlusive</span> physical object.
+                    <span style={{ color: color }}>high end</span>,{" "}
+                    <span style={{ color: color }}>exclusive</span> and{" "}
+                    <span style={{ color: color }}>redeemable</span> physical object.
                   </Typos.Big>
                 </Grid>
               </Grid>
@@ -351,22 +355,21 @@ const HomeComponent: FC = ({}) => {
                 }}
               >
                 <Grid item xs={12} sm={6}>
-                  <Typos.Big style={{ fontFamily: "futura" }}>Mint</Typos.Big>
-                  <Typos.Normal style={{ paddingTop: "25px" }}>
-                    The first step is to {colored("mint your Drip")}.
+                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Mint</Typos.Big>
+                  <Typos.Normal
+                    style={{
+                      paddingTop: "25px",
+                    }}
+                  >
+                    The first step is to {colored("mint")} your {colored("drip")}.
                     <br />
                     <br />
-                    Upon minting you will be able to modify your Drip accordingly to your liking and
-                    depending on the amount of different changeable {colored("parameters")} the Drip
-                    will have.
+                    During this phase you will be able to mint your {colored("Drip")} accordingly to
+                    the amount of different changeable {colored("parameters")} it will have.
                     <br />
                     <br />
-                    For this first Drop you will only be able to modify the{" "}
-                    {colored("texture and color")} of the skateboard deck.
-                    <br />
-                    <br />
-                    When minting your Drip, you can either{" "}
-                    {colored("mutate it directly, or do it later")}.
+                    For our first Drop you will be able to modify the {colored("color")} of the
+                    skateboard deck.
                   </Typos.Normal>
                 </Grid>
                 <Grid item xs={1} sx={{ display: { xs: "none", sm: "block" } }} />
@@ -422,13 +425,17 @@ const HomeComponent: FC = ({}) => {
                 </Grid>
                 <Grid item xs={1} />
                 <Grid item xs={12} sm={6} style={{}}>
-                  <Typos.Big style={{ fontFamily: "futura" }}>Mutate</Typos.Big>
+                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Mutate</Typos.Big>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
-                    A Drip can either be in two states: {colored("Default and Mutated")}.
+                    A Drip can either be in two states: {colored("Default")} and{" "}
+                    {colored("Mutated")}. Right after minting a Drip is not mutated, it is in a{" "}
+                    {colored("Default state")}
+                    .
                     <br />
                     <br />
-                    Upon minting a Drip is not mutated, it is in a {colored("Default state")}. It
-                    means that the Drip {colored("can still be mutated")}.
+                    Being in a {colored("Mutated state")} is mandatory for a {colored("Drip")} to be{" "}
+                    {colored("redeemed")}. However, you can mint a {colored("Drip")} and leave it as
+                    is and to do whatever you want with it.
                     <br />
                     <br />
                     Mutating is the fact of {colored('"stamping"')} your Drip with an NFT. Once a
@@ -447,7 +454,7 @@ const HomeComponent: FC = ({}) => {
                 }}
               >
                 <Grid item xs={12} sm={6}>
-                  <Typos.Big style={{ fontFamily: "futura" }}>Redeem</Typos.Big>
+                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Redeem</Typos.Big>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
                     Once in a Mutated state a Drip become {colored("redeemable")}.
                     <br />
@@ -490,7 +497,13 @@ const HomeComponent: FC = ({}) => {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
 
+      <Style.test>
+        <Marquee word="CUSTOM" fontSize="1.5em" />
+      </Style.test>
+
+      <Grid container>
         <Grid
           item
           xs={12}
@@ -519,7 +532,13 @@ const HomeComponent: FC = ({}) => {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
 
+      <Style.test>
+        <Marquee word="UNIQUE" fontSize="1.5em" />
+      </Style.test>
+
+      <Grid container>
         <Grid
           item
           xs={12}

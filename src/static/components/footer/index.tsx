@@ -18,7 +18,7 @@ export const Footer: FC = () => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Clickable address="/">
-                <img alt="" src={LogoTypo} style={{ width: "150px" }} />
+                <img alt="" src={LogoTypo} style={{ width: "175px" }} />
               </Clickable>
             </Grid>
           </Grid>

@@ -31,7 +31,7 @@ const style = {
   })),
   ButtonDiscover: styled(Grid)(({ theme }) => ({
     ...theme.button.normal,
-    borderRadius: "5px",
+    borderRadius: "25px",
   })),
   ScreenContainer: styled("div")(({ theme }) => ({
     width: `100%`,

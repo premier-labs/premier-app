@@ -23,7 +23,7 @@ const themeBasics = {
 
   fontFamily: {
     primary: "montserrat",
-    secondary: "sourcecode",
+    secondary: "Source Code Pro",
     tertiary: "futura",
     wide: "wide",
   },
@@ -125,6 +125,7 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 500,
       fontSize: "1em",
+      lineHeight: "1.1em",
       [breakpoints.up("xl")]: {
         fontSize: "1.1em",
       },

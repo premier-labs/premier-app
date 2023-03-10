@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 const style = {
   RootFooter: styled("div")(({ theme }) => ({
     ...theme.myBreakpoints.static,
-
+    backgroundColor: theme.colors.primary,
     paddingTop: "7.5vh",
     paddingBottom: "7.5vh",
     [theme.breakpoints.down("sm")]: {
@@ -13,7 +13,6 @@ const style = {
       paddingTop: "5vh",
       paddingBottom: "5vh",
     },
-    backgroundColor: theme.colors.secondary,
   })),
   ContentCategory: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
