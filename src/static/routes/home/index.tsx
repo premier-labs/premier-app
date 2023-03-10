@@ -127,7 +127,7 @@ const HomeComponent: FC = ({}) => {
     <Style.Root>
       <Grid container style={{ height: "100%" }}>
         <Grid item xs={12} style={{ paddingTop: "10vh", paddingBottom: "10vh" }}>
-          <Typos.Big style={{ textAlign: "center", fontFamily: "wide", fontSize: "4em" }}>
+          <Typos.Big style={{ textAlign: "center", fontFamily: "wide" }}>
             Get Your
             <br /> <b style={{ fontWeight: 700, color: color }}>${placeholderItem.item}</b> <br />
             On The Wall !
@@ -259,7 +259,6 @@ const HomeComponent: FC = ({}) => {
                 style={{
                   fontWeight: 700,
                   textAlign: "center",
-                  fontSize: "2.25em",
                   fontFamily: "wide",
                 }}
               >
@@ -305,33 +304,29 @@ const HomeComponent: FC = ({}) => {
           xs={12}
           style={{
             backgroundColor: theme.colors.secondary,
-            padding: "25px",
             marginTop: "5vh",
             borderRadius: "5px",
           }}
         >
-          <Typos.Huge
+          <Typos.Big
             style={{
               marginBottom: "5vh",
               textAlign: "center",
               fontFamily: "wide",
-              fontSize: "4em",
             }}
           >
             Discover <span style={{ color }}>Drip</span>
-          </Typos.Huge>
+          </Typos.Big>
 
           <Grid container direction="row" spacing={0}>
             <Grid xs={12} style={{ marginBottom: "7.5vh" }}>
               <Grid container justifyContent="center">
                 <Grid xs={12} md={8}>
-                  <Typos.Big
+                  <Typos.NormalBig
                     style={{
                       textAlign: "center",
-                      padding: "15px",
                       borderRadius: "5px",
                       fontFamily: "wide",
-                      fontSize: "2em",
                       fontWeight: 700,
                     }}
                   >
@@ -340,7 +335,7 @@ const HomeComponent: FC = ({}) => {
                     <span style={{ color: color }}>high end</span>,{" "}
                     <span style={{ color: color }}>exclusive</span> and{" "}
                     <span style={{ color: color }}>redeemable</span> physical object.
-                  </Typos.Big>
+                  </Typos.NormalBig>
                 </Grid>
               </Grid>
             </Grid>
@@ -355,7 +350,7 @@ const HomeComponent: FC = ({}) => {
                 }}
               >
                 <Grid item xs={12} sm={6}>
-                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Mint</Typos.Big>
+                  <Typos.NormalBig style={{ fontFamily: "wide" }}>Mint</Typos.NormalBig>
                   <Typos.Normal
                     style={{
                       paddingTop: "25px",
@@ -425,7 +420,7 @@ const HomeComponent: FC = ({}) => {
                 </Grid>
                 <Grid item xs={1} />
                 <Grid item xs={12} sm={6} style={{}}>
-                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Mutate</Typos.Big>
+                  <Typos.Big style={{ fontFamily: "wide" }}>Mutate</Typos.Big>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
                     A Drip can either be in two states: {colored("Default")} and{" "}
                     {colored("Mutated")}. Right after minting a Drip is not mutated, it is in a{" "}
@@ -454,7 +449,7 @@ const HomeComponent: FC = ({}) => {
                 }}
               >
                 <Grid item xs={12} sm={6}>
-                  <Typos.Big style={{ fontFamily: "wide", fontSize: "3em" }}>Redeem</Typos.Big>
+                  <Typos.Big style={{ fontFamily: "wide" }}>Redeem</Typos.Big>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
                     Once in a Mutated state a Drip become {colored("redeemable")}.
                     <br />
@@ -509,15 +504,10 @@ const HomeComponent: FC = ({}) => {
           xs={12}
           style={{
             backgroundColor: theme.colors.secondary,
-            padding: "25px",
-            marginTop: "5vh",
-            marginBottom: "5vh",
-            borderRadius: "5px",
           }}
         >
           <Typos.Huge
             style={{
-              marginTop: "7.5vh",
               marginBottom: "10vh",
               textAlign: "center",
             }}
@@ -538,21 +528,16 @@ const HomeComponent: FC = ({}) => {
         <Marquee word="UNIQUE" fontSize="1.5em" />
       </Style.test>
 
-      <Grid container>
+      <Grid container style={{ paddingBottom: "5vh" }}>
         <Grid
           item
           xs={12}
           style={{
             backgroundColor: theme.colors.secondary,
-            padding: "25px",
-            marginTop: "5vh",
-            marginBottom: "5vh",
-            borderRadius: "5px",
           }}
         >
           <Typos.Huge
             style={{
-              marginTop: "7.5vh",
               marginBottom: "10vh",
               textAlign: "center",
             }}

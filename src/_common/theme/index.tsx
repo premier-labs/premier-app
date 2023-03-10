@@ -93,19 +93,19 @@ const themeOpts = {
         fontSize: "3em",
       },
       [breakpoints.only("xs")]: {
-        fontSize: "2em",
+        fontSize: "2.25em",
       },
     },
     normalBig: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
-      fontSize: "4em",
+      fontSize: "2.25em",
       [breakpoints.down("md")]: {
-        fontSize: "3em",
+        fontSize: "2em",
       },
       [breakpoints.only("xs")]: {
-        fontSize: "2em",
+        fontSize: "1.5em",
       },
     },
     normalBold: {
@@ -113,12 +113,6 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 800,
       fontSize: "1.1em",
-    },
-    normalTitle: {
-      fontFamily: themeBasics.fontFamily.primary,
-      fontColor: themeBasics.colors.black,
-      fontWeight: 600,
-      fontSize: "0.9em",
     },
     normal: {
       fontFamily: themeBasics.fontFamily.primary,
