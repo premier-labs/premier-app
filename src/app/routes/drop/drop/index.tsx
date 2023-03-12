@@ -355,13 +355,6 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
           <Style.LeftSide>
             <Grid container direction="column" style={{ height: "100%" }}>
               <Grid item>
-                <Style.HeaderFirstLeftSideTitle>
-                  Hello
-                  <b style={{ borderBottom: "2px solid black", marginLeft: "8px" }}>{name}</b>,
-                </Style.HeaderFirstLeftSideTitle>
-              </Grid>
-
-              <Grid item>
                 <Style.HeaderLeftSide container alignItems="center">
                   <Grid item flexGrow={1}>
                     <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>

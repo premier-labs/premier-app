@@ -43,16 +43,14 @@ const style = {
     color: "black",
   })),
   Wallet: styled(Grid)(({ theme }) => ({
-    ...theme.button.normal,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.primary,
     color: "black",
-    paddingLeft: "25px",
+    paddingLeft: "7.5px",
     paddingRight: "25px",
-  })),
-  WalletENS: styled(Typography)(({ theme }) => ({
-    fontFamily: theme.fontFamily.primary,
-    fontWeight: 700,
-    fontSize: "1em",
+    borderRadius: "25px",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    // height: "50px",
   })),
   GoToAppButton: styled("div")(({ theme }) => ({
     ...theme.button.normal,
@@ -61,12 +59,18 @@ const style = {
     fontWeight: 700,
     fontSize: "0.8em",
   })),
-
-  WalletAddy: styled(Typography)(({ theme }) => ({
+  WalletENS: styled("div")(({ theme }) => ({
+    fontFamily: theme.fontFamily.primary,
+    fontWeight: 700,
+    fontSize: "0.85em",
+    marginBottom: "5px",
+    marginTop: "1.5px",
+  })),
+  WalletAddy: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
     fontWeight: 600,
     color: "grey",
-    fontSize: "0.75em",
+    fontSize: "0.65em",
   })),
   WalletView: styled("div")(({ theme }) => ({
     padding: "15px",

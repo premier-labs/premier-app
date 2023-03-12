@@ -231,17 +231,25 @@ export const NavbarComponent: FC = () => {
                         style={{
                           display: "flex",
                           justifyContent: "center",
+                          alignItems: "center",
                           marginRight: "10px",
                         }}
                       >
                         <img
-                          src="https://cdn-icons-png.flaticon.com/512/17/17004.png"
+                          src="https://avatars.githubusercontent.com/u/5032"
                           alt=""
-                          style={{ width: "25px", height: "25px", borderRadius: "1500px" }}
+                          style={{ width: "32.5px", height: "32.5px", borderRadius: "1500px" }}
                         />
                       </Grid>
                       <Grid item>
-                        <Style.WalletENS>{name ?? shortenAddress(address)}</Style.WalletENS>
+                        <Grid container direction="column" justifyContent="center">
+                          <Grid item>
+                            <Style.WalletENS>{name}</Style.WalletENS>
+                          </Grid>
+                          <Grid item>
+                            <Style.WalletAddy>{shortenAddress(address)}</Style.WalletAddy>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Style.Wallet>
                   ) : (
