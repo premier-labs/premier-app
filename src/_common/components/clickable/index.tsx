@@ -33,14 +33,20 @@ const Clickable: FC<props> = ({
     );
   } else if (external) {
     elem = activated ? (
-      <Style.RootHref target="_blank" href={address}>
+      <Style.RootHref target={newPage ? "_blank" : ""} href={address}>
         {children}
       </Style.RootHref>
     ) : (
       <>{children}</>
     );
   } else {
-    elem = activated ? <Style.RootLink to={address}>{children}</Style.RootLink> : <>{children}</>;
+    elem = activated ? (
+      <Style.RootLink target={newPage ? "_blank" : ""} to={address}>
+        {children}
+      </Style.RootLink>
+    ) : (
+      <>{children}</>
+    );
   }
 
   if (!isSpan) {

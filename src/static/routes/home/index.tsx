@@ -356,15 +356,16 @@ const HomeComponent: FC = ({}) => {
                       paddingTop: "25px",
                     }}
                   >
-                    The first step is to {colored("mint")} your {colored("drip")}.
+                    The first step to enter in the PREMIER ecosystem is to {colored("mint")} your{" "}
+                    {colored("drip")}.
                     <br />
                     <br />
-                    During this phase you will be able to mint your {colored("Drip")} accordingly to
-                    the amount of different changeable {colored("parameters")} it will have.
+                    While doing so you will be able to customize your {colored("Drip")} accordingly
+                    to the amount of different changeable {colored("parameters")} it will have.
                     <br />
-                    <br />
-                    For our first Drop you will be able to modify the {colored("color")} of the
-                    skateboard deck.
+                    <br />A Drip can either be in two states: {colored("Default")} and{" "}
+                    {colored("Mutated")}. Right after minting a Drip is not mutated, it is in a{" "}
+                    {colored("Default state")}.
                   </Typos.Normal>
                 </Grid>
                 <Grid item xs={1} sx={{ display: { xs: "none", sm: "block" } }} />
@@ -422,10 +423,8 @@ const HomeComponent: FC = ({}) => {
                 <Grid item xs={12} sm={6} style={{}}>
                   <Typos.Big style={{ fontFamily: "wide" }}>Mutate</Typos.Big>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
-                    A Drip can either be in two states: {colored("Default")} and{" "}
-                    {colored("Mutated")}. Right after minting a Drip is not mutated, it is in a{" "}
-                    {colored("Default state")}
-                    .
+                    Mutating is the fact of {colored('"stamping"')} your Drip with an NFT. Once a
+                    Drip has been mutated, it is {colored("irreversible")}.
                     <br />
                     <br />
                     Being in a {colored("Mutated state")} is mandatory for a {colored("Drip")} to be{" "}
@@ -433,8 +432,6 @@ const HomeComponent: FC = ({}) => {
                     is and to do whatever you want with it.
                     <br />
                     <br />
-                    Mutating is the fact of {colored('"stamping"')} your Drip with an NFT. Once a
-                    Drip has been mutated, it is {colored("irreversible")}.
                   </Typos.Normal>
                 </Grid>
               </Grid>
@@ -454,8 +451,8 @@ const HomeComponent: FC = ({}) => {
                     Once in a Mutated state a Drip become {colored("redeemable")}.
                     <br />
                     <br />
-                    However, there will be a {colored("cooldown period")} from the opening of a mint
-                    to the opening of redeem requests.
+                    However, please note that there will be a {colored("cooldown period")} from the
+                    opening of a mint to the opening of redeem requests.
                     <br />
                     <br />
                     On top of that, the time it will take to arrive will depends on both the object

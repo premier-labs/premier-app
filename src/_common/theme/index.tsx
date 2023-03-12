@@ -114,6 +114,14 @@ const themeOpts = {
       fontWeight: 800,
       fontSize: "1.1em",
     },
+    normalTitle: {
+      fontFamily: themeBasics.fontFamily.primary,
+      fontColor: themeBasics.colors.black,
+      fontWeight: 500,
+      fontSize: "0.9em",
+      [breakpoints.up("xl")]: {},
+      [breakpoints.only("xs")]: {},
+    },
     normal: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,

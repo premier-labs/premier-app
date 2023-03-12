@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import { Grid } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 import DiscordIcon from "@common/assets/icons/discord.svg";
 import LogoTypo from "@common/assets/images/logo-typo.svg";
@@ -96,6 +97,11 @@ export const Footer: FC = () => {
                 spacing={1}
                 alignContent="center"
               >
+                <Grid item>
+                  <Clickable address="">
+                    <GitHubIcon />
+                  </Clickable>
+                </Grid>
                 <Grid item>
                   <Clickable address="">
                     <Style.ImgIcon2 src={DiscordIcon} alt="" />

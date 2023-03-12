@@ -5,7 +5,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar } from "@static/components/navbar";
 import { Footer } from "@static/components/footer";
 
-import Home from "@static/routes/home/index";
+import Home from "@static/routes/home";
 import OrderingPayments from "@static/routes/policy/Ordering&Payments";
 import ReturnsRefunds from "@static/routes/policy/Returns&Refunds";
 import ShippingDelivery from "@static/routes/policy/Shipping&Delivery";

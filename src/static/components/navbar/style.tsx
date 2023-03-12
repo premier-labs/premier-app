@@ -16,6 +16,17 @@ const style = {
   OpenApp: styled("div")(({ theme }) => ({
     ...theme.button.normal,
   })),
+  DrawerNav: styled("div")(({ theme }) => ({
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+  })),
+  DrawerClose: styled("div")(({ theme }) => ({
+    position: "absolute",
+    top: 20,
+    right: 20,
+  })),
   //
   Root: styled("div")(({ theme }) => ({
     ...theme.myBreakpoints.static,
