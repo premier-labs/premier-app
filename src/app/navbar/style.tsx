@@ -63,7 +63,7 @@ const style = {
     fontFamily: theme.fontFamily.primary,
     fontWeight: 700,
     fontSize: "0.85em",
-    marginBottom: "5px",
+    marginBottom: "3.5px",
     marginTop: "1.5px",
   })),
   WalletAddy: styled("div")(({ theme }) => ({

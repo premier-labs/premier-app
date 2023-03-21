@@ -242,7 +242,13 @@ export const NavbarComponent: FC = () => {
                         />
                       </Grid>
                       <Grid item>
-                        <Grid container direction="column" justifyContent="center">
+                        <Grid
+                          container
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="center"
+                          style={{ height: "100%" }}
+                        >
                           <Grid item>
                             <Style.WalletENS>{name}</Style.WalletENS>
                           </Grid>
