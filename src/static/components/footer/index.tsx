@@ -9,7 +9,7 @@ import LogoTypo from "@common/assets/images/logo-typo.svg";
 import Clickable from "@common/components/clickable";
 import Style from "./style";
 
-import { CREDENTIALS } from "@common/constants";
+import { CREDENTIALS, DISCORD_URL, GITHUB_URL, TWITTER_URL } from "@common/constants";
 
 export const Footer: FC = () => {
   return (
@@ -42,19 +42,19 @@ export const Footer: FC = () => {
             <Grid item xs={12} md={4}>
               <Style.ContentCategory>
                 <ul>
-                  <li>
+                  {/* <li>
                     <div style={{ display: "inline-block" }}>
                       <Clickable address="">Instagram</Clickable>
                     </div>
-                  </li>
+                  </li> */}
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="">Discord</Clickable>
+                      <Clickable address={DISCORD_URL}>Discord</Clickable>
                     </div>
                   </li>
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="">Twitter</Clickable>
+                      <Clickable address={TWITTER_URL}>Twitter</Clickable>
                     </div>
                   </li>
                 </ul>
@@ -65,21 +65,12 @@ export const Footer: FC = () => {
                 <ul>
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="/policy/returns-refunds">Returns {"&"} Refunds</Clickable>
+                      <Clickable address="/policy/refunds-policy">Refunds Policy</Clickable>
                     </div>
                   </li>
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="/policy/ordering-payment">
-                        Ordering {"&"} Payment
-                      </Clickable>
-                    </div>
-                  </li>
-                  <li>
-                    <div style={{ display: "inline-block" }}>
-                      <Clickable address="/policy/shipping-delivery">
-                        Shipping {"&"} Delivery
-                      </Clickable>
+                      <Clickable address="/policy/privacy-policy">Privacy Policy</Clickable>
                     </div>
                   </li>
                 </ul>
@@ -98,17 +89,17 @@ export const Footer: FC = () => {
                 alignContent="center"
               >
                 <Grid item>
-                  <Clickable address="">
+                  <Clickable address={GITHUB_URL}>
                     <GitHubIcon />
                   </Clickable>
                 </Grid>
                 <Grid item>
-                  <Clickable address="">
+                  <Clickable address={DISCORD_URL}>
                     <Style.ImgIcon2 src={DiscordIcon} alt="" />
                   </Clickable>
                 </Grid>
                 <Grid item>
-                  <Clickable address="">
+                  <Clickable address={TWITTER_URL}>
                     <TwitterIcon />
                   </Clickable>
                 </Grid>

@@ -72,19 +72,8 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
 
       <Style.Footer>
         <Grid container justifyContent="space-between">
-          <Grid item xs={2}>
-            <Grid container>
-              <Grid item xs={6}>
-                <Style.Credentials>{CREDENTIALS}</Style.Credentials>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={10}>
-            <Grid container flexDirection="row-reverse" columnSpacing={3}>
-              <Grid item>
-                <Style.Version>v1.0.0-beta</Style.Version>
-              </Grid>
-            </Grid>
+          <Grid item>
+            <Style.Credentials>{CREDENTIALS}</Style.Credentials>
           </Grid>
         </Grid>
       </Style.Footer>

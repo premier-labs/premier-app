@@ -406,13 +406,8 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
               </Grid>
             </Grid>
           </Style.LeftSide>
-          {/* <Style.LeftSideRightSide>
-              <Clickable onClick={() => sceneRef.current.reset3DView()}>
-                <Style.LeftSideRightSideInner>RESET 3D VIEW</Style.LeftSideRightSideInner>
-              </Clickable>
-            </Style.LeftSideRightSide> */}
         </Grid>
-        <Grid item xs={9} style={{ zIndex: 10 }}>
+        <Grid item xs={12} xl={9} style={{ zIndex: 10 }}>
           <Grid
             container
             direction="column"
@@ -425,7 +420,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                   <Grid item xs={12}>
                     <Style.InfoDivItemName>PLACEHOLDER</Style.InfoDivItemName>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6} xl={12}>
                     {imagesPreloaded && (
                       <img
                         style={{
@@ -600,8 +595,8 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                             <Style.MintPrice>{formatEther(drop.price)}</Style.MintPrice>
                           </Grid>
                           {/* <Grid item>
-                              <Style.MintPriceUsd>($0)</Style.MintPriceUsd>
-                            </Grid> */}
+                            <Style.MintPriceUsd>($0)</Style.MintPriceUsd>
+                          </Grid> */}
                         </Grid>
                       </Grid>
                       <Grid item xs={12}>

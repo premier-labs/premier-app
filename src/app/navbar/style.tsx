@@ -46,7 +46,7 @@ const style = {
     backgroundColor: theme.colors.primary,
     color: "black",
     paddingLeft: "7.5px",
-    paddingRight: "25px",
+    paddingRight: "30px",
     borderRadius: "25px",
     paddingTop: "5px",
     paddingBottom: "5px",

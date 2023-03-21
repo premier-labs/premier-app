@@ -360,13 +360,6 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
           <Style.LeftSide>
             <Grid container direction="column" style={{ height: "100%" }}>
               <Grid item>
-                <Style.HeaderFirstLeftSideTitle>
-                  Mutate your
-                  <b style={{ borderBottom: "2px solid black", marginLeft: "8px" }}>DRIP</b>,
-                </Style.HeaderFirstLeftSideTitle>
-              </Grid>
-
-              <Grid item>
                 <Style.HeaderLeftSide container alignItems="center">
                   <Grid item flexGrow={1}>
                     <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
@@ -419,7 +412,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
             </Grid>
           </Style.LeftSide>
         </Grid>
-        <Grid item xs={9} style={{ zIndex: 10 }}>
+        <Grid item xs={12} xl={9} style={{ zIndex: 10 }}>
           <Grid
             container
             direction="column"
@@ -433,7 +426,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                     <Style.InfoDivItemName>PLACEHOLDER</Style.InfoDivItemName>
                   </Grid>
                   {isDripMutated ? (
-                    <Grid item xs={12}>
+                    <Grid item xs={6} xl={12}>
                       <img
                         style={{
                           width: "100%",
@@ -444,7 +437,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                       />
                     </Grid>
                   ) : (
-                    <Grid item xs={12}>
+                    <Grid item xs={6} xl={12}>
                       {imagesPreloaded && (
                         <img
                           style={{

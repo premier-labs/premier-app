@@ -6,9 +6,8 @@ import { Navbar } from "@static/components/navbar";
 import { Footer } from "@static/components/footer";
 
 import Home from "@static/routes/home";
-import OrderingPayments from "@static/routes/policy/Ordering&Payments";
-import ReturnsRefunds from "@static/routes/policy/Returns&Refunds";
-import ShippingDelivery from "@static/routes/policy/Shipping&Delivery";
+import RefundsPolicy from "@static/routes/policy/Refunds";
+import PrivacyPolicy from "@static/routes/policy/Privacy";
 
 const App: FC = ({ children }) => {
   const location = useLocation();
@@ -22,9 +21,8 @@ const App: FC = ({ children }) => {
 
       <Routes>
         {/* Policy */}
-        <Route path="/policy/returns-refunds" element={<ReturnsRefunds />} />
-        <Route path="/policy/ordering-payment" element={<OrderingPayments />} />
-        <Route path="/policy/shipping-delivery" element={<ShippingDelivery />} />
+        <Route path="/policy/refunds-policy" element={<RefundsPolicy />} />
+        <Route path="/policy/privacy-policy" element={<PrivacyPolicy />} />
 
         {/* Home */}
         <Route path="/" element={<Home />} />

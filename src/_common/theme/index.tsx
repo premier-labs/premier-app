@@ -87,8 +87,8 @@ const themeOpts = {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
-      fontSize: "4em",
-      letterSpacing: "-0.025em",
+      fontSize: "4.5em",
+      letterSpacing: "-0.05em",
       [breakpoints.down("lg")]: {
         fontSize: "3em",
       },
@@ -100,7 +100,7 @@ const themeOpts = {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
-      fontSize: "2.25em",
+      fontSize: "2.35em",
       [breakpoints.down("md")]: {
         fontSize: "2em",
       },
