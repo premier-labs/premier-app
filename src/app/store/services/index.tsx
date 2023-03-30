@@ -1,6 +1,6 @@
 import { CONFIG } from "@common/config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { NFTsByCollection, Drip, Drips, Drop } from "@premier-labs/types";
+import { NFTsByCollection, Drip, Drips, Drop } from "@premier-types";
 
 import { io } from "socket.io-client";
 

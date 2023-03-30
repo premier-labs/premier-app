@@ -16,7 +16,7 @@ import Style from "./style";
 
 import LogoTypo from "@common/assets/images/logo-typo.svg";
 import CenterItem from "@common/components/grid/centerItem";
-import { DripStatus } from "@premier-labs/types";
+import { DripStatus } from "@premier-types";
 
 export const NavbarComponent: FC = () => {
   const { auth, authError, address, name } = useSelector((state) => state.web3);

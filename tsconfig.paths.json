@@ -6,10 +6,11 @@
       "@static/*": ["./src/static/*"],
       "@common/*": ["./src/_common/*"],
 
-      "@premier-labs/typechain": ["./node_modules/@premier-labs/contracts/dist/typechain"],
-      "@premier-labs/types": ["./node_modules/@premier-labs/contracts/dist/types"],
-      "@premier-labs/mock": ["./node_modules/@premier-labs/contracts/dist/mock"],
-      "@premier-labs/system": ["./node_modules/@premier-labs/contracts/dist/system"],
+      "@premier-contracts": ["./node_modules/@premier-labs/contracts/dist/contracts"],
+      "@premier-typechain": ["./node_modules/@premier-labs/contracts/dist/typechain"],
+      "@premier-types": ["./node_modules/@premier-labs/contracts/dist/types"],
+      "@premier-mock": ["./node_modules/@premier-labs/contracts/dist/mock"],
+      "@premier-system": ["./node_modules/@premier-labs/contracts/dist/system"],
 
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
     }

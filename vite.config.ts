@@ -9,25 +9,31 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: "@premier-labs/typechain",
+        find: "@premier-contracts",
+        replacement: fileURLToPath(
+          new URL("./node_modules/@premier-labs/contracts/dist/contracts", import.meta.url)
+        ),
+      },
+      {
+        find: "@premier-typechain",
         replacement: fileURLToPath(
           new URL("./node_modules/@premier-labs/contracts/dist/typechain", import.meta.url)
         ),
       },
       {
-        find: "@premier-labs/types",
+        find: "@premier-types",
         replacement: fileURLToPath(
           new URL("./node_modules/@premier-labs/contracts/dist/types", import.meta.url)
         ),
       },
       {
-        find: "@premier-labs/mock",
+        find: "@premier-mock",
         replacement: fileURLToPath(
           new URL("./node_modules/@premier-labs/contracts/dist/mock", import.meta.url)
         ),
       },
       {
-        find: "@premier-labs/system",
+        find: "@premier-system",
         replacement: fileURLToPath(
           new URL("./node_modules/@premier-labs/contracts/dist/system", import.meta.url)
         ),

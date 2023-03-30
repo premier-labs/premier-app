@@ -1,6 +1,6 @@
 import { sdk } from "@app/sdk";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { NFT } from "@premier-labs/types";
+import { NFT } from "@premier-types";
 import { BigNumber, ethers } from "ethers";
 
 export interface Web3 {

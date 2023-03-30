@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 
 import { Grid } from "@mui/material";
 
-import { ListMockTokens } from "@premier-labs/mock";
+import { ListMockTokens } from "@premier-mock";
 
 import SceneLoader, { sceneRef } from "@common/3d/scenes/skate_0";
 import Clickable from "@common/components/clickable";
@@ -70,7 +70,7 @@ const DemoPlaceholderList: {
   },
 ];
 
-const DemoTextures = ["models/2.texture.png", "models/0.texture.png", "models/1.texture.png"];
+const DemoTextures = ["models/0.texture.png", "models/2.texture.png", "models/1.texture.png"];
 
 const HomeComponent: FC = ({}) => {
   const theme = useTheme();
@@ -133,9 +133,9 @@ const HomeComponent: FC = ({}) => {
           </Typos.Big>
           <div style={{ height: "25px" }} />
           <Typos.Normal
-            style={{ textAlign: "center", fontFamily: "wide", fontSize: "1.25em", fontWeight: 900 }}
+            style={{ textAlign: "center", fontFamily: "wide", fontSize: "1.15em", fontWeight: 900 }}
           >
-            Metaverse-based brand.
+            A Brand For The New World.
           </Typos.Normal>
         </Grid>
       </Grid>
@@ -263,7 +263,7 @@ const HomeComponent: FC = ({}) => {
                 <span style={{ color: color }}>custom-made</span>,{" "}
                 <span style={{ color: color }}>unique</span>,{" "}
                 <span style={{ color: color }}>high end</span> and{" "}
-                <span style={{ color: color }}>exclusive</span> physical objects from your digital
+                <span style={{ color: color }}>exclusive</span> usable assets from your digital
                 possessions.
               </Typos.NormalBig>
             </Grid>
@@ -307,7 +307,6 @@ const HomeComponent: FC = ({}) => {
         >
           <Typos.Big
             style={{
-              marginBottom: "7.6vh",
               textAlign: "center",
               fontFamily: "wide",
             }}
@@ -315,22 +314,36 @@ const HomeComponent: FC = ({}) => {
             Discover <span style={{ color }}>Drip</span>
           </Typos.Big>
 
+          <div style={{ height: "25px" }} />
+          <Typos.Normal
+            style={{
+              textAlign: "center",
+              fontFamily: "wide",
+              fontSize: "1.15em",
+              fontWeight: 900,
+              marginBottom: "7.6vh",
+            }}
+          >
+            <span style={{ color }}>Between</span> Real World & Metaverse.
+          </Typos.Normal>
+
           <Grid container direction="row" spacing={0}>
             <Grid xs={12} style={{ marginBottom: "7.5vh" }}>
               <Grid container justifyContent="center">
-                <Grid xs={12} md={8}>
+                <Grid xs={12} md={9}>
                   <Typos.NormalBig
                     style={{
                       textAlign: "center",
                       borderRadius: "5px",
+                      fontWeight: 600,
                       fontFamily: "wide",
                     }}
                   >
-                    A Drip is a <span style={{ color: color }}>customizable</span> NFT backed by a{" "}
-                    <span style={{ color: color }}>unique</span>,{" "}
-                    <span style={{ color: color }}>high end</span>,{" "}
-                    <span style={{ color: color }}>exclusive</span> and{" "}
-                    <span style={{ color: color }}>redeemable</span> physical object.
+                    A Drip is a new form of NFT that combines your NFT with a{" "}
+                    <span style={{ color: color }}>customizable</span>,{" "}
+                    <span style={{ color: color }}>high end</span> and{" "}
+                    <span style={{ color: color }}>exclusive</span> usable asset. This asset takes a
+                    physical form in the real world and a digital form in the metaverse.
                   </Typos.NormalBig>
                 </Grid>
               </Grid>
@@ -490,7 +503,39 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      {/* <Style.test>
+      <Style.test>
+        <Marquee word="UNIQUE" fontSize="1.1em" />
+      </Style.test>
+
+      <Grid container>
+        <Grid
+          item
+          xs={12}
+          style={{
+            backgroundColor: theme.colors.secondary,
+            marginTop: "5vh",
+          }}
+        >
+          <Typos.Big
+            style={{
+              textAlign: "center",
+              fontFamily: "wide",
+              marginBottom: "7.6vh",
+            }}
+          >
+            Community
+          </Typos.Big>
+          <Grid container justifyContent="center">
+            <Grid item xs={12} md={10} xl={8}>
+              <Typos.Normal>
+                The first 10% holders of a Drop will share 5% of the total revenue of its mint sale.
+              </Typos.Normal>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Style.test>
         <Marquee word="CUSTOM" fontSize="1.1em" />
       </Style.test>
 
@@ -500,16 +545,18 @@ const HomeComponent: FC = ({}) => {
           xs={12}
           style={{
             backgroundColor: theme.colors.secondary,
+            marginTop: "5vh",
           }}
         >
-          <Typos.Huge
+          <Typos.Big
             style={{
-              marginBottom: "10vh",
               textAlign: "center",
+              fontFamily: "wide",
+              marginBottom: "7.6vh",
             }}
           >
-            Royalties
-          </Typos.Huge>
+            Contact
+          </Typos.Big>
           <Grid container justifyContent="center">
             <Grid item xs={12} md={10} xl={8}>
               <Typos.Normal>
@@ -518,7 +565,7 @@ const HomeComponent: FC = ({}) => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid> */}
+      </Grid>
 
       {/* <Style.test>
         <Marquee word="UNIQUE" fontSize="1.1em" />

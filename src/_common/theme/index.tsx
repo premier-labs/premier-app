@@ -88,7 +88,7 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
       fontSize: "4.5em",
-      letterSpacing: "-0.05em",
+      letterSpacing: "-0.04em",
       [breakpoints.down("lg")]: {
         fontSize: "3em",
       },
