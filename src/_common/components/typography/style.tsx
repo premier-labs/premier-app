@@ -19,6 +19,9 @@ const style = {
   NormalTitle: styled("div")(({ theme }) => ({
     ...theme.myTypography.normalTitle,
   })),
+  NavbarLink: styled("div")(({ theme }) => ({
+    ...theme.myTypography.navbarLink,
+  })),
 };
 
 export default style;

@@ -7,16 +7,14 @@ import { Grid, ImageList, ImageListItem, Modal } from "@mui/material";
 import { Drip, Drop, NFT } from "@premier-types";
 import { ethers } from "ethers";
 
-import EtherscanIcon from "@common/assets/icons/etherscan.svg";
-import OpenSeaIcon from "@common/assets/icons/opensea.svg";
-
 import { useCState } from "@common/3d/utils/hooks";
 import CenterItem from "@common/components/grid/centerItem";
 import { useImagePreloader } from "@common/hooks/imagePreloader";
-import logoeth from "@common/assets/images/logoeth.svg";
+import { IconEth, IconEtherscan, IconOpenSea } from "@common/assets/images";
 import Clickable from "@common/components/clickable";
 import Pastille from "@common/components/pastille";
 import Tooltip from "@common/components/tooltip";
+import { useTheme } from "@common/theme";
 
 import { useDispatch, useSelector } from "@app/store/hooks";
 import { useGetAssetsQuery, useGetDripQuery } from "@app/store/services";
@@ -32,6 +30,7 @@ const { AddressZero } = ethers.constants;
 const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, sceneRef }) => {
   const { auth, address, name, txProcess } = useSelector((state) => state.web3);
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery({ address: address }, { skip: !auth });
@@ -265,7 +264,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                         </CenterItem>
                         <CenterItem item>
                           <Clickable address={`${CONFIG.blockExplorerUrl}/tx/${step.tx}`}>
-                            <img src={EtherscanIcon} style={{ width: "16.5px" }} alt="" />
+                            <IconEtherscan style={{ width: "16.5px" }} />
                           </Clickable>
                         </CenterItem>
                       </Grid>
@@ -288,7 +287,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                           <Grid item xs={12}>
                             <Grid container columnSpacing={1}>
                               <Grid item>
-                                <img src={logoeth} style={{ width: "12.5px" }} alt="" />
+                                <IconEth style={{ width: "12.5px" }} />
                               </Grid>
                               <Grid item>
                                 <Style.MintPrice>{item.price}</Style.MintPrice>
@@ -477,7 +476,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
                         >
-                          <img src={OpenSeaIcon} style={{ width: "16.5px" }} alt="" />
+                          <IconOpenSea style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                       <Grid item>
@@ -485,7 +484,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
                         >
-                          <img src={EtherscanIcon} style={{ width: "16.5px" }} alt="" />
+                          <IconEtherscan style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                     </Grid>
@@ -544,7 +543,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 <Style.VersionName
                   style={{
                     backgroundColor: drop.metadata.versions[currentVersion].color,
-                    color: "black",
+                    color: theme.colors.black,
                     padding: "5px",
                   }}
                 >
@@ -589,7 +588,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                       <Grid item xs={12}>
                         <Grid container alignItems="baseline" columnSpacing={1}>
                           <Grid item>
-                            <img src={logoeth} style={{ width: "12.5px" }} alt="" />
+                            <IconEth style={{ width: "12.5px" }} />
                           </Grid>
                           <Grid item>
                             <Style.MintPrice>{formatEther(drop.price)}</Style.MintPrice>

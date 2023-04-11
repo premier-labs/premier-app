@@ -7,13 +7,9 @@ import { Grid, ImageList, ImageListItem, Modal } from "@mui/material";
 import { Drip, DripStatus, dripStatus, Drop, NFT } from "@premier-types";
 import { ethers } from "ethers";
 
-import EtherscanIcon from "@common/assets/icons/etherscan.svg";
-import OpenSeaIcon from "@common/assets/icons/opensea.svg";
-
 import { useCState } from "@common/3d/utils/hooks";
 import CenterItem from "@common/components/grid/centerItem";
 import { useImagePreloader } from "@common/hooks/imagePreloader";
-import logoeth from "@common/assets/images/logoeth.svg";
 import Clickable from "@common/components/clickable";
 import Pastille from "@common/components/pastille";
 import Tooltip from "@common/components/tooltip";
@@ -26,6 +22,7 @@ import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
 import { shortenAddress } from "@app/utils";
 import { CONFIG } from "@common/config";
+import { IconEth } from "@common/assets/images";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
@@ -281,7 +278,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           <Grid item xs={12}>
                             <Grid container columnSpacing={1}>
                               <Grid item>
-                                <img src={logoeth} style={{ width: "12.5px" }} alt="" />
+                                <IconEth style={{ width: "12.5px" }} />
                               </Grid>
                               <Grid item>
                                 <Style.MintPrice>{item.price}</Style.MintPrice>
@@ -497,7 +494,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
                         >
-                          <img src={OpenSeaIcon} style={{ width: "16.5px" }} alt="" />
+                          <OpenSeaIcon style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                       <Grid item>
@@ -505,7 +502,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
                         >
-                          <img src={EtherscanIcon} style={{ width: "16.5px" }} alt="" />
+                          <EtherscanIcon style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                     </Grid>

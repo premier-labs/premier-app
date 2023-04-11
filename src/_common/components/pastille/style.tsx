@@ -9,7 +9,6 @@ const style = {
       backgroundColor: $secondary
         ? bgcolor || theme.colors.tertiary
         : bgcolor || theme.colors.primary,
-      color: "black",
       borderRadius: "20px",
       paddingLeft: $secondary ? "15px" : "20px",
       paddingRight: $secondary ? "15px" : "20px",

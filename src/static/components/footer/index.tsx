@@ -1,13 +1,18 @@
 import { FC } from "react";
 
 import { Grid } from "@mui/material";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import GitHubIcon from "@mui/icons-material/GitHub";
 
-import DiscordIcon from "@common/assets/icons/discord.svg";
-import LogoTypo from "@common/assets/images/logo-typo.svg";
 import Clickable from "@common/components/clickable";
 import Style from "./style";
+
+import {
+  IconDiscord,
+  PremierLogo,
+  IconTwitter,
+  IconGithub,
+  PremierMagazineLogo,
+  PremierStudioLogo,
+} from "@common/assets/images";
 
 import { CREDENTIALS, DISCORD_URL, GITHUB_URL, TWITTER_URL } from "@common/constants";
 
@@ -19,7 +24,7 @@ export const Footer: FC = () => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Clickable address="/">
-                <img alt="" src={LogoTypo} style={{ width: "175px" }} />
+                <PremierLogo style={{ width: "125px" }} />
               </Clickable>
             </Grid>
           </Grid>
@@ -27,7 +32,7 @@ export const Footer: FC = () => {
 
         <Grid item xs={12} md={6}>
           <Grid container>
-            {/* <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4}>
               <Style.ContentCategory>
                 <ul>
                   <li>
@@ -37,16 +42,11 @@ export const Footer: FC = () => {
                   </li>
                 </ul>
               </Style.ContentCategory>
-            </Grid> */}
+            </Grid>
 
             <Grid item xs={12} md={4}>
               <Style.ContentCategory>
                 <ul>
-                  {/* <li>
-                    <div style={{ display: "inline-block" }}>
-                      <Clickable address="">Instagram</Clickable>
-                    </div>
-                  </li> */}
                   <li>
                     <div style={{ display: "inline-block" }}>
                       <Clickable address={DISCORD_URL}>Discord</Clickable>
@@ -55,6 +55,11 @@ export const Footer: FC = () => {
                   <li>
                     <div style={{ display: "inline-block" }}>
                       <Clickable address={TWITTER_URL}>Twitter</Clickable>
+                    </div>
+                  </li>
+                  <li>
+                    <div style={{ display: "inline-block" }}>
+                      <Clickable address="">Instagram</Clickable>
                     </div>
                   </li>
                 </ul>
@@ -90,17 +95,17 @@ export const Footer: FC = () => {
               >
                 <Grid item>
                   <Clickable address={GITHUB_URL}>
-                    <GitHubIcon />
+                    <IconGithub style={{ width: "25px", height: "25px" }} />
                   </Clickable>
                 </Grid>
                 <Grid item>
                   <Clickable address={DISCORD_URL}>
-                    <Style.ImgIcon2 src={DiscordIcon} alt="" />
+                    <IconDiscord style={{ width: "25px", height: "25px" }} />
                   </Clickable>
                 </Grid>
                 <Grid item>
                   <Clickable address={TWITTER_URL}>
-                    <TwitterIcon />
+                    <IconTwitter style={{ width: "25px", height: "25px" }} />
                   </Clickable>
                 </Grid>
               </Grid>

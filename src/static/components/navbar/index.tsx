@@ -6,10 +6,15 @@ import { Divider, Drawer, Grid, Toolbar } from "@mui/material";
 import Typos from "@common/components/typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
+import { useTheme } from "@common/theme";
+
+import { IconBook, IconDao, PremierLogo } from "@common/assets/images";
 
 import Style from "./style";
+import { DOCS_URL } from "@common/constants";
 
 export const Navbar: FC = ({}) => {
+  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = () => {
@@ -17,7 +22,7 @@ export const Navbar: FC = ({}) => {
   };
 
   return (
-    <Style.AppBar position="fixed">
+    <Style.AppBar position="relative">
       <Drawer anchor={"right"} open={open} onClose={() => toggleDrawer()}>
         <Style.DrawerNav>
           <Style.DrawerClose>
@@ -28,8 +33,8 @@ export const Navbar: FC = ({}) => {
           <Grid container alignItems="space-between" direction="column" spacing={2}>
             <Grid item style={{ display: "flex", justifyContent: "center" }}>
               <div style={{ display: "inline-block" }}>
-                <Clickable newPage address="https://github.com/premier-labs/premier-contracts">
-                  <Typos.NormalTitle style={{ fontWeight: 500 }}>Docs</Typos.NormalTitle>
+                <Clickable newPage address={DOCS_URL}>
+                  <Typos.NavbarLink>Docs</Typos.NavbarLink>
                 </Clickable>
               </div>
             </Grid>
@@ -54,23 +59,49 @@ export const Navbar: FC = ({}) => {
             <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
               <Grid item>
                 <Clickable address="/">
-                  <img alt="" src={LogoIcon} style={{ width: "175px" }} />
+                  <PremierLogo style={{ width: "125px" }} />
                 </Clickable>
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item>
-            <Grid container justifyContent="end" columnSpacing={2} style={{ height: "100%" }}>
+            <Grid container justifyContent="end" columnSpacing={1.25} style={{ height: "100%" }}>
               <Grid
                 item
                 sx={{ display: { xs: "none", md: "flex" } }}
                 style={{ alignItems: "center" }}
               >
-                <Clickable newPage address="https://github.com/premier-labs/premier-contracts">
-                  <Typos.NormalTitle style={{ fontWeight: 500 }}>Docs</Typos.NormalTitle>
+                <Clickable
+                  newPage
+                  address="https://github.com/premier-labs/premier-contracts"
+                  hoverAnimation={false}
+                  activated={false}
+                >
+                  <Typos.NavbarLink>
+                    <IconDao style={{ width: "15px", paddingRight: "7.5px" }} />
+                    DAO
+                  </Typos.NavbarLink>
                 </Clickable>
               </Grid>
+
+              <Grid
+                item
+                sx={{ display: { xs: "none", md: "flex" } }}
+                style={{ alignItems: "center" }}
+              >
+                <Clickable
+                  newPage
+                  address="https://github.com/premier-labs/premier-contracts"
+                  hoverAnimation={false}
+                >
+                  <Typos.NavbarLink>
+                    <IconBook style={{ width: "15px", paddingRight: "7.5px" }} />
+                    Docs
+                  </Typos.NavbarLink>
+                </Clickable>
+              </Grid>
+
               <Grid
                 item
                 sx={{ display: { xs: "none", md: "flex" } }}
@@ -78,9 +109,9 @@ export const Navbar: FC = ({}) => {
               >
                 <div
                   style={{
-                    height: "60%",
-                    width: "2.5px",
-                    backgroundColor: "black",
+                    height: "25px",
+                    width: "2px",
+                    backgroundColor: theme.colors.tertiary,
                     opacity: "100%",
                   }}
                 ></div>
@@ -90,8 +121,10 @@ export const Navbar: FC = ({}) => {
                 sx={{ display: { xs: "none", md: "flex" } }}
                 style={{ alignItems: "center" }}
               >
-                <Clickable address="/app/drop/0">
-                  <Style.OpenApp>Enter app</Style.OpenApp>
+                <Clickable newPage address="/app/drop/0" hoverAnimation={false}>
+                  <Typos.NavbarLink style={{ backgroundColor: "white" }}>
+                    Enter App
+                  </Typos.NavbarLink>
                 </Clickable>
               </Grid>
               <Grid

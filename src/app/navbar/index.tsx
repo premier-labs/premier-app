@@ -2,8 +2,6 @@ import React, { FC, useRef } from "react";
 
 import { Grid, Toolbar } from "@mui/material";
 
-import EtherscanIcon from "@common/assets/icons/etherscan.svg";
-import OpenseaIcon from "@common/assets/icons/opensea.svg";
 import Clickable from "@common/components/clickable";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -13,10 +11,11 @@ import { useGetDripsQuery } from "../store/services";
 import { login } from "../store/services/web3";
 import { shortenAddress } from "../utils";
 import Style from "./style";
+import { useTheme } from "@common/theme";
 
-import LogoTypo from "@common/assets/images/logo-typo.svg";
 import CenterItem from "@common/components/grid/centerItem";
 import { DripStatus } from "@premier-types";
+import { IconEtherscan, IconOpenSea, PremierLogo } from "@common/assets/images";
 
 export const NavbarComponent: FC = () => {
   const { auth, authError, address, name } = useSelector((state) => state.web3);
@@ -35,6 +34,8 @@ export const NavbarComponent: FC = () => {
 
   const f = useRef();
 
+  const theme = useTheme();
+
   return (
     <Style.Root>
       <Style.PointOpenWallet ref={f as any} />
@@ -45,7 +46,7 @@ export const NavbarComponent: FC = () => {
               <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
                 <Grid item>
                   <Clickable address="/">
-                    <img alt="" src={LogoTypo} style={{ width: "150px" }} />
+                    <PremierLogo style={{ width: "150px" }} />
                   </Clickable>
                 </Grid>
               </Grid>
@@ -64,7 +65,7 @@ export const NavbarComponent: FC = () => {
                     <AccountBalanceWalletIcon
                       style={{
                         fontSize: "40px",
-                        color: "black",
+                        color: theme.colors.black,
                       }}
                     />
                   </Clickable>
@@ -138,21 +139,13 @@ export const NavbarComponent: FC = () => {
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
-                                                <img
-                                                  style={{ width: "15px" }}
-                                                  src={OpenseaIcon}
-                                                  alt=""
-                                                />
+                                                <IconOpenSea style={{ width: "15px" }} />
                                               </CenterItem>
                                               <CenterItem
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
-                                                <img
-                                                  style={{ width: "15px" }}
-                                                  src={EtherscanIcon}
-                                                  alt=""
-                                                />
+                                                <IconEtherscan style={{ width: "15px" }} />
                                               </CenterItem>
                                             </Grid>
                                           </Grid>
@@ -264,7 +257,7 @@ export const NavbarComponent: FC = () => {
                     </Clickable>
                   )}
                 </Grid>
-                <Grid item style={{ color: "black" }}>
+                <Grid item>
                   <Style.NetworkSupported>
                     {!auth && authError && (
                       <>

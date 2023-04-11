@@ -10,10 +10,10 @@ import RefundsPolicy from "@static/routes/policy/Refunds";
 import PrivacyPolicy from "@static/routes/policy/Privacy";
 
 const App: FC = ({ children }) => {
-  const location = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+  // const location = useLocation();
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location]);
 
   return (
     <>

@@ -1,16 +1,36 @@
 import React, { FC, useEffect } from "react";
 
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 
 import { ListMockTokens } from "@premier-mock";
 
 import SceneLoader, { sceneRef } from "@common/3d/scenes/skate_0";
+import SceneLoader2 from "@common/3d/scenes/airforce_0";
 import Clickable from "@common/components/clickable";
 import Typos from "@common/components/typography";
 import { useTheme } from "@common/theme";
 
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import Style from "./style";
 import Marquee from "@common/components/marquee";
+import {
+  DeckImg,
+  IconDiscord,
+  IconEth,
+  IconEtherscan,
+  IconGithub,
+  IconInstagram,
+  IconOpenSea,
+  PremierLogo,
+  PremierMagazineLogo,
+  PremierStudioLogo,
+} from "@common/assets/images";
+import { DISCORD_URL, ETHERSCAN_URL, GITHUB_URL, OPENSEA_URL } from "@common/constants";
+import { Box } from "@mui/system";
 
 const DemoPlaceholderList: {
   collectionName: string;
@@ -24,53 +44,29 @@ const DemoPlaceholderList: {
     collectionName: "Bored Ape Yatch Club",
     collectionSymbol: "BAYC",
     contract: "0xbc4c...f13d",
-    item: "BAYC #7693",
+    item: "#7693",
     img: "https://i.seadn.io/gae/awlHMs7ZVRLxuiJJ84CylogTTmTYRUTt_pPdWI6oED_60LOGSnH5pnQxpceQcQvUQL7uM4BQlPaBJuvn-pq7xkatOuqj2_nc3SCkeKk?auto=format&w=1920",
     color: "#ED2424",
-  },
-  {
-    collectionName: "Doodles",
-    collectionSymbol: "Doodles",
-    contract: "0x8a90...992e",
-    item: "Doodles #3686",
-    img: "https://i.seadn.io/gcs/files/a5c0e8e7603a1db5ad1ab6d0380a2c22.png?auto=format&w=1920",
-    color: "#98E2FF",
-  },
-  {
-    collectionName: "Bored Ape Yatch Club",
-    collectionSymbol: "BAYC",
-    contract: "0xbc4c...f13d",
-    item: "BAYC #6268",
-    img: "models/placeholder.png",
-    color: "#EDDE10",
   },
   {
     collectionName: "Cool Cats",
     collectionSymbol: "COOL",
     contract: "0x1a92...050c",
-    item: "COOL #8019",
+    item: "#8019",
     img: "https://i.seadn.io/gcs/files/0ad7b770889648e0a6f0e208979fb24a.png?auto=format&w=1920",
     color: "#4862DD",
   },
   {
-    collectionName: "Bored Ape Yatch Club",
-    collectionSymbol: "BAYC",
-    contract: "0xbc4c...f13d",
-    item: "BAYC #8663",
-    img: ListMockTokens.BoredApe.tokens[8663],
-    color: "#6DB3CF",
-  },
-  {
-    collectionName: "Moonbirds",
-    collectionSymbol: "MOONBIRD",
-    contract: "0x2358...a68b",
-    item: "MOONB #2165",
-    img: "https://i.seadn.io/gcs/files/a2015c72807bea9147d81be6150ed310.png?auto=format&w=1920",
-    color: "#BA8CFA",
+    collectionName: "Doodles",
+    collectionSymbol: "Doodles",
+    contract: "0x8a90...992e",
+    item: "#7504",
+    img: "https://i.seadn.io/gcs/files/ac109284965cd2514bceb2874996830b.png?auto=format&w=1920",
+    color: "#FDE467",
   },
 ];
 
-const DemoTextures = ["models/0.texture.png", "models/2.texture.png", "models/1.texture.png"];
+const DemoTextures = ["models/0.texture.png", "models/1.texture.png", "models/2.texture.png"];
 
 const HomeComponent: FC = ({}) => {
   const theme = useTheme();
@@ -116,7 +112,9 @@ const HomeComponent: FC = ({}) => {
   const [color, setColor] = React.useState(placeholderItem.color);
   const [hover, setHover] = React.useState(0);
 
-  const colored = (str: any) => <span style={{ color, fontWeight: 700 }}>{str}</span>;
+  const colored = (str: any, fontWeight = 700) => (
+    <span style={{ color, fontWeight: fontWeight }}>{str}</span>
+  );
 
   const versions = DemoTextures.map((elem) => {
     return { name: "", texture: elem };
@@ -124,35 +122,54 @@ const HomeComponent: FC = ({}) => {
 
   return (
     <Style.Root>
-      <Grid container style={{ height: "100%" }}>
-        <Grid item xs={12} style={{ paddingTop: "7.5vh", paddingBottom: "10vh" }}>
-          <Typos.Big style={{ textAlign: "center", fontFamily: "wide" }}>
+      <Grid container>
+        <Grid item xs={12} style={{ paddingTop: "75px", paddingBottom: "5vh" }}>
+          <Typos.Huge style={{ textAlign: "center", fontFamily: "wide" }}>
             Get Your
-            <br /> <b style={{ fontWeight: 700, color: color }}>${placeholderItem.item}</b> <br />
+            <br />
+            {colored(placeholderItem.collectionSymbol)}
+            <span
+              style={{
+                marginLeft: "10px",
+                fontSize: "12.5px",
+                color,
+                fontWeight: 600,
+                fontFamily: theme.fontFamily.primary,
+                letterSpacing: "0.1px",
+              }}
+            >
+              {colored(placeholderItem.item)}
+            </span>
+            <br />
             On The Wall !
-          </Typos.Big>
+          </Typos.Huge>
+
           <div style={{ height: "25px" }} />
           <Typos.Normal
-            style={{ textAlign: "center", fontFamily: "wide", fontSize: "1.15em", fontWeight: 900 }}
+            style={{
+              textAlign: "center",
+              fontFamily: theme.fontFamily.primary,
+              fontWeight: 700,
+              letterSpacing: "-0.5px",
+              color: theme.colors.tertiary,
+            }}
           >
             A Brand For The New World.
           </Typos.Normal>
         </Grid>
       </Grid>
 
-      <Grid container>
-        <Grid item xs={12} md={9} lg={8} xl={7}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            spacing={10}
-            style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
-          >
-            <Grid item>
+      <Grid
+        container
+        sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
+        style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
+      >
+        <Grid item xs={12} md={9} lg={8} xl={7} style={{ paddingTop: "10vh" }}>
+          <Grid container alignItems="center" spacing={6}>
+            <Grid item xs={12}>
               <Style.ContainerExempleDrip>
                 <Grid container columnSpacing={2} rowSpacing={2} direction="row-reverse">
-                  <Grid item xs={12} md={7} flexGrow={1}>
+                  <Grid item xs={12} md={6} lg={7} flexGrow={1}>
                     <Grid container direction="column" style={{ height: "100%" }}>
                       <Grid item flexGrow={1} style={{ paddingTop: "5px", paddingBottom: "25px" }}>
                         <Grid container justifyContent="space-between">
@@ -199,7 +216,13 @@ const HomeComponent: FC = ({}) => {
 
                             <Style.ContainerContract>
                               <span style={{ fontWeight: 500 }}>Item: </span>
-                              {placeholderItem.item}
+                              {placeholderItem.collectionSymbol} {placeholderItem.item}
+                            </Style.ContainerContract>
+                            <div style={{ height: "5px" }} />
+
+                            <Style.ContainerContract>
+                              <span style={{ fontWeight: 500 }}>Owner: </span>
+                              {" You "}
                             </Style.ContainerContract>
                           </Style.ContainerInfoDiv>
                         </Style.ContainerExempleDripContainer>
@@ -209,34 +232,60 @@ const HomeComponent: FC = ({}) => {
                         <Style.ContainerExempleDripContainer>
                           <Style.InfoDivItemName>DECK</Style.InfoDivItemName>
                           <Style.GalleryWrap2>
-                            <Style.GalleryItem
-                              $onHover={false}
-                              color={versions[currentVersion].texture}
-                              style={{
-                                height: "50px",
-                                borderRadius: "5px",
-                              }}
-                            />
+                            {DemoTextures.map((item, index) => (
+                              <Style.GalleryItem
+                                key={index}
+                                onMouseEnter={() => setHover(index)}
+                                onMouseLeave={() => setHover(currentVersion)}
+                                onClick={() => updateVersion(index)}
+                                $onHover={hover === index}
+                                color={item}
+                                style={{
+                                  height: "50px",
+                                  borderRadius: "5px",
+                                }}
+                              ></Style.GalleryItem>
+                            ))}
                           </Style.GalleryWrap2>
                         </Style.ContainerExempleDripContainer>
                       </Grid>
 
                       <Grid item>
-                        <Grid container spacing={2}>
-                          <Grid item flexGrow={1}>
+                        <Grid container columnSpacing={2} style={{ height: "100%" }}>
+                          <Grid
+                            item
+                            flexGrow={1}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
                             <Clickable address="/app/drop/0">
                               <Style.ButtonDiscover>Mint Now !</Style.ButtonDiscover>
                             </Clickable>
                           </Grid>
 
-                          <Grid item style={{ display: "flex", alignItems: "center" }}>
-                            <Style.Price>0.5 ETH</Style.Price>
+                          <Grid item>
+                            <Grid
+                              container
+                              justifyContent="space-evenly"
+                              alignItems="center"
+                              style={{ height: "100%" }}
+                            >
+                              <Grid item>
+                                <Style.Price>0.5</Style.Price>
+                              </Grid>
+                              <Grid item>
+                                <IconEth style={{ height: "20px" }} />
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={12} md={5}>
+                  <Grid item xs={12} md={6} lg={5}>
                     <img
                       src={placeholderItem.img}
                       style={{ width: "100%", height: "100%", borderRadius: "25px" }}
@@ -246,110 +295,218 @@ const HomeComponent: FC = ({}) => {
                 </Grid>
               </Style.ContainerExempleDrip>
             </Grid>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+
+            <Grid item xs={12}>
               <Typos.NormalBig
                 style={{
                   textAlign: "center",
-                  fontFamily: "wide",
                 }}
               >
                 We collaborate hand to hand with artists and luxury companies to create{" "}
-                <span style={{ color: color }}>custom-made</span>,{" "}
-                <span style={{ color: color }}>unique</span>,{" "}
-                <span style={{ color: color }}>high end</span> and{" "}
-                <span style={{ color: color }}>exclusive</span> usable assets from your digital
-                possessions.
+                {colored("unique")}, {colored("high-end")} and {colored("exclusive")} usable assets
+                from your digital possessions.
               </Typos.NormalBig>
+            </Grid>
+
+            <Grid item xs={12} />
+
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" spacing={1.5}>
+                <Grid item xs={12}>
+                  <Grid container justifyContent="center" spacing={1}>
+                    <Grid item>
+                      <Typos.Normal style={{ color: theme.colors.tertiary, fontSize: "0.95em" }}>
+                        Discover More
+                      </Typos.Normal>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                  <Grid container justifyContent="center" spacing={1}>
+                    <Grid item>
+                      <Clickable address={ETHERSCAN_URL}>
+                        <IconEtherscan
+                          style={{
+                            color: theme.colors.tertiary,
+                            width: "35px",
+                            height: "35px",
+                          }}
+                        />
+                      </Clickable>
+                    </Grid>
+                    <Grid item>
+                      <Clickable address={ETHERSCAN_URL}>
+                        <IconInstagram
+                          style={{
+                            color: theme.colors.tertiary,
+                            width: "35px",
+                            height: "35px",
+                          }}
+                        />
+                      </Clickable>
+                    </Grid>
+                    <Grid item>
+                      <Clickable address={GITHUB_URL}>
+                        <IconGithub
+                          style={{
+                            color: theme.colors.tertiary,
+                            width: "35px",
+                            height: "35px",
+                          }}
+                        />
+                      </Clickable>
+                    </Grid>
+                    <Grid item>
+                      <Clickable address={OPENSEA_URL}>
+                        <IconOpenSea
+                          style={{
+                            color: theme.colors.tertiary,
+                            width: "35px",
+                            height: "35px",
+                          }}
+                        />
+                      </Clickable>
+                    </Grid>
+                    <Grid item>
+                      <Clickable address={DISCORD_URL}>
+                        <IconDiscord
+                          style={{ color: theme.colors.tertiary, width: "35px", height: "35px" }}
+                        />
+                      </Clickable>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
+
+        <Grid item lg={0} xl={1} />
 
         <Grid
           item
           xs={12}
           md={3}
           lg={4}
-          xl={5}
-          style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
+          xl={4}
+          style={{
+            position: "relative",
+          }}
+          sx={{ paddingTop: { xs: "5vh", md: "0px" } }}
         >
-          <SceneLoader
-            sceneRef={sceneRef}
-            model="models/model.glb"
-            initialVersion={0}
-            initialId={0}
-            initialPlaceholderTexture={DemoPlaceholderList[0].img}
-            versions={versions}
-            initialDropSymbol="random"
-            initialTokenNameId="random"
-          />
+          <div
+            style={{
+              position: "absolute",
+              WebkitMaskImage: `-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.25)), to(rgba(0,0,0,0.001)))`,
+              borderRadius: "200px",
+              overflow: "hidden",
+              height: "100%",
+            }}
+          >
+            <Typos.NormalBold
+              style={{
+                fontFamily: "wide",
+              }}
+            >
+              Premier is a brand that specialize itself into the creation of Drip. A Drip is a new
+              form of NFT that combines both an NFT and a usable asset. This usable asset takes a
+              physical form in the real world and a digital form in the metaverse. Premier is a
+              brand that specialize itself into the creation of Drip. A Drip is a new form of NFT
+              that combines both an NFT and a usable asset. This usable asset takes a physical form
+              in the real world and a digital form in the metaverse. Premier is a brand that
+              specialize itself into the creation of Drip. A Drip is a new form of NFT that combines
+              both an NFT and a usable asset. This usable asset takes a physical form in the real
+              world and a digital form in the metaverse. Premier is a brand that specialize itself
+              into the creation of Drip. A Drip is a new form of NFT that combines both an NFT and a
+              usable asset. This usable asset takes a physical form in the real world and a digital
+              form in the metaverse. Premier is a brand that specialize itself into the creation of
+              Drip. A Drip is a new form of NFT that combines both an NFT and a usable asset. This
+              usable asset takes a physical form in the real world and a digital form in the
+              metaverse. Premier is a brand that specialize itself into the creation of Drip. A Drip
+              is a new form of NFT that combines both an NFT and a usable asset. This usable asset
+              takes a physical form in the real world and a digital form in the metaverse. Premier
+              is a brand that specialize itself into the creation of Drip. A Drip is a new form of
+              NFT that combines both an NFT and a usable asset. This usable asset takes a physical
+              form in the real world and a digital form in the metaverse. Premier is a brand that
+              specialize itself into the creation of Drip. A Drip is a new form of NFT that combines
+              both an NFT and a usable asset. This usable asset takes a physical form in the real
+              world and a digital form in the metaverse. Premier is a brand that specialize itself
+              into the creation of Drip. A Drip is a new form of NFT that combines both an NFT and a
+              usable asset. This usable asset takes a physical form in the real world and a digital
+              form in the metaverse. Premier is a brand that specialize itself into the creation of
+              Drip. A Drip is a new form of NFT that combines both an NFT and a usable asset. This
+              usable asset takes a physical form in the real world and a digital form in the
+              metaverse. Premier is a brand that specialize itself into the creation of Drip. A Drip
+              is a new form of NFT that combines both an NFT and a usable asset. This usable asset
+              takes a physical form in the real world and a digital form in the metaverse. Premier
+              is a brand that specialize itself into the creation of Drip. A Drip is a new form of
+              NFT that combines both an NFT and a usable asset. This usable asset takes a physical
+              form in the real world and a digital form in the metaverse.
+            </Typos.NormalBold>
+          </div>
+
+          <div
+            style={{
+              height: `calc(100vh)`,
+            }}
+          >
+            <SceneLoader
+              sceneRef={sceneRef}
+              model="models/model.glb"
+              initialVersion={0}
+              initialId={0}
+              initialPlaceholderTexture={DemoPlaceholderList[0].img}
+              versions={versions}
+              initialDropSymbol="random"
+              initialTokenNameId="random"
+            />
+          </div>
         </Grid>
       </Grid>
 
-      <Style.test>
-        <Marquee word="EXCLUSIVE" fontSize="1.1em" />
-      </Style.test>
+      <div
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
 
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          style={{
-            backgroundColor: theme.colors.secondary,
-            marginTop: "5vh",
-            borderRadius: "5px",
-          }}
-        >
+      <Grid container spacing={10}>
+        <Grid item xs={12}>
           <Typos.Big
             style={{
-              textAlign: "center",
               fontFamily: "wide",
             }}
           >
-            Discover <span style={{ color }}>Drip</span>
+            DISCOVER <span style={{ color }}>DRIP</span>
           </Typos.Big>
 
-          <div style={{ height: "25px" }} />
+          <div style={{ height: "15px" }} />
           <Typos.Normal
             style={{
-              textAlign: "center",
-              fontFamily: "wide",
-              fontSize: "1.15em",
-              fontWeight: 900,
-              marginBottom: "7.6vh",
+              fontFamily: theme.fontFamily.primary,
+              fontWeight: 700,
+              marginBottom: "5vh",
+              color: theme.colors.tertiary,
             }}
           >
-            <span style={{ color }}>Between</span> Real World & Metaverse.
+            Between Real-World & Metaverse.
           </Typos.Normal>
 
           <Grid container direction="row" spacing={0}>
-            <Grid xs={12} style={{ marginBottom: "7.5vh" }}>
-              <Grid container justifyContent="center">
-                <Grid xs={12} md={9}>
-                  <Typos.NormalBig
-                    style={{
-                      textAlign: "center",
-                      borderRadius: "5px",
-                      fontWeight: 600,
-                      fontFamily: "wide",
-                    }}
-                  >
-                    A Drip is a new form of NFT that combines your NFT with a{" "}
-                    <span style={{ color: color }}>customizable</span>,{" "}
-                    <span style={{ color: color }}>high end</span> and{" "}
-                    <span style={{ color: color }}>exclusive</span> usable asset. This asset takes a
-                    physical form in the real world and a digital form in the metaverse.
-                  </Typos.NormalBig>
-                </Grid>
+            <Grid item xs={12} style={{ marginBottom: "7.5vh" }}>
+              <Grid item xs={12}>
+                <Typos.NormalBig>
+                  A Drip is a new form of NFT that combines an NFT with a {colored("unique")},{" "}
+                  {colored("high-end")} and {colored("exclusive")} usable asset. This asset takes a
+                  physical form in the real world and a digital form in the metaverse.
+                </Typos.NormalBig>
               </Grid>
             </Grid>
 
-            <Grid xs={12} lg={7.5} style={{}}>
+            <Grid item xs={12} lg={8} style={{}}>
               <Grid
                 container
                 style={{
@@ -358,29 +515,9 @@ const HomeComponent: FC = ({}) => {
                   borderRadius: "25px",
                 }}
               >
-                <Grid item xs={12} sm={6}>
-                  <Typos.NormalBig style={{ fontFamily: "wide" }}>Mint</Typos.NormalBig>
-                  <Typos.Normal
-                    style={{
-                      paddingTop: "25px",
-                    }}
-                  >
-                    The first step is to {colored("mint")} your {colored("drip")}.
-                    <br />
-                    <br />
-                    While doing so you will be able to pre-customize your {colored("Drip")}{" "}
-                    accordingly to the amount of different changeable {colored("parameters")} it
-                    will have.
-                    <br />
-                    <br />
-                    Drips has two states: {colored("Default")} and {colored("Mutated")}. Right after
-                    minting, a {colored("Drip")} is in a {colored("Default")} state.
-                  </Typos.Normal>
-                </Grid>
-                <Grid item xs={1} sx={{ display: { xs: "none", sm: "block" } }} />
-                <Grid item xs={5} sx={{ display: { xs: "none", sm: "block" } }}>
-                  <Grid container direction="row" spacing={1} style={{ height: "100%" }}>
-                    <Grid item xs={9}>
+                <Grid item xs={4} sx={{ display: { xs: "none", sm: "block" } }}>
+                  <Grid container direction="row" style={{ height: "100%" }}>
+                    <Grid item xs={12}>
                       <div
                         style={{
                           width: "100%",
@@ -390,25 +527,38 @@ const HomeComponent: FC = ({}) => {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={3}>
-                      <Style.GalleryWrap>
-                        {DemoTextures.map((item, index) => (
-                          <Style.GalleryItem
-                            key={index}
-                            onMouseEnter={() => setHover(index)}
-                            onMouseLeave={() => setHover(currentVersion)}
-                            onClick={() => updateVersion(index)}
-                            $onHover={hover === index}
-                            color={item}
-                            style={{
-                              height: "50px",
-                              borderRadius: "25px",
-                            }}
-                          />
-                        ))}
-                      </Style.GalleryWrap>
+                  </Grid>
+                </Grid>
+                <Grid item xs={0.5} sx={{ display: { xs: "none", sm: "block" } }} />
+                <Grid item xs={12} sm={7.5}>
+                  <Grid container justifyContent="space-between" alignItems="center">
+                    <Grid>
+                      <Typos.NormalBold style={{ fontFamily: theme.fontFamily.wide }}>
+                        MINT
+                      </Typos.NormalBold>
+                    </Grid>
+                    <Grid>
+                      <Typos.Normal
+                        style={{ color: theme.colors.tertiary, fontWeight: 700, fontSize: "0.9em" }}
+                      >
+                        STEP 1
+                      </Typos.Normal>
                     </Grid>
                   </Grid>
+                  <Typos.Normal
+                    style={{
+                      paddingTop: "25px",
+                    }}
+                  >
+                    The first step is to {colored("mint")} a Drip.
+                    <br />
+                    <br />
+                    While doing so one might be able to pre-customize it accordingly to the{" "}
+                    {colored("parameters")} it may have.
+                    <br />
+                    <br />
+                    Drips have two states: {colored("Default")} and {colored("Mutated")}.
+                  </Typos.Normal>
                 </Grid>
               </Grid>
               <div style={{ height: "25px" }} />
@@ -421,23 +571,39 @@ const HomeComponent: FC = ({}) => {
                   borderRadius: "25px",
                 }}
               >
-                <Grid item xs={5} sx={{ display: { xs: "none", sm: "block" } }}>
+                <Grid item xs={4} sx={{ display: { xs: "none", sm: "block" } }}>
                   <img
                     src={placeholderItem.img}
                     alt=""
                     style={{ width: "100%", borderRadius: "25px" }}
                   />
                 </Grid>
-                <Grid item xs={1} />
-                <Grid item xs={12} sm={6} style={{}}>
-                  <Typos.NormalBig style={{ fontFamily: "wide" }}>Mutate</Typos.NormalBig>
+                <Grid item xs={0.5} />
+                <Grid item xs={12} sm={7.5} style={{}}>
+                  <Grid container justifyContent="space-between">
+                    <Grid>
+                      <Typos.NormalBold style={{ fontFamily: theme.fontFamily.wide }}>
+                        MUTATE
+                      </Typos.NormalBold>
+                    </Grid>
+                    <Grid>
+                      <Typos.Normal
+                        style={{
+                          color: theme.colors.tertiary,
+                          fontWeight: 700,
+                          fontSize: "0.9em",
+                        }}
+                      >
+                        STEP 2
+                      </Typos.Normal>
+                    </Grid>
+                  </Grid>
                   <Typos.Normal style={{ paddingTop: "25px" }}>
-                    Mutating is the fact of {colored("stamping")} your Drip with an NFT you own.
+                    Mutating is the fact of {colored("combining")} a Drip with an NFT.
                     <br />
                     <br />
-                    The {colored("mutation")} process is straightforward and the only thing you have
-                    to do is to have in your {colored("wallet")} the {colored("NFT")} with which you
-                    want to customize your Drip.
+                    The {colored("mutation")} process is straightforward and the only thing one has
+                    to do is to have in their {colored("wallet")} the NFT mutating their Drip.
                     <br />
                     <br />
                     Once a Drip has been mutated, its state become {colored("Mutated")} and it is{" "}
@@ -445,49 +611,9 @@ const HomeComponent: FC = ({}) => {
                   </Typos.Normal>
                 </Grid>
               </Grid>
-              <div style={{ height: "25px" }} />
-
-              <Grid
-                container
-                style={{
-                  backgroundColor: theme.colors.primary,
-                  padding: "25px",
-                  borderRadius: "25px",
-                }}
-              >
-                <Grid item xs={12} sm={6}>
-                  <Typos.NormalBig style={{ fontFamily: "wide" }}>Redeem</Typos.NormalBig>
-                  <Typos.Normal style={{ paddingTop: "25px" }}>
-                    Being in a {colored("Mutated")} state is mandatory for a {colored("Drip")} to be{" "}
-                    {colored("redeemed")}.
-                    <br />
-                    <br />
-                    There is a {colored("cooldown period")} from the opening of a mint to the
-                    opening of redeem requests.
-                    <br />
-                    <br />
-                    On top of that, the time it will take to arrive will depends on both the{" "}
-                    {colored("object")} and your {colored("location")}.
-                    <br />
-                    <br />
-                    Note that the {colored("smart-contracts")} that will handle redeem requests will
-                    come in a second {colored("phase")} that will begin right after the{" "}
-                    {colored("mainnet")} deployment of the first drop.
-                  </Typos.Normal>
-                </Grid>
-                <Grid item xs={1} />
-                <Grid item xs={5} sx={{ display: { xs: "none", sm: "block" } }}>
-                  <img
-                    src="./delivery.png"
-                    alt=""
-                    style={{ width: "100%", borderRadius: "25px", transform: "" }}
-                  />
-                </Grid>
-              </Grid>
-              <div style={{ height: "25px" }} />
             </Grid>
 
-            <Grid xs={4} sx={{ display: { xs: "none", lg: "block" } }}>
+            <Grid item xs={4} sx={{ display: { xs: "none", lg: "block" } }}>
               <SceneLoader
                 sceneRef={sceneRef}
                 model="models/model.glb"
@@ -503,101 +629,494 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      <Style.test>
-        <Marquee word="UNIQUE" fontSize="1.1em" />
-      </Style.test>
+      <Box
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
+
+      <Grid item xs={12}>
+        <Typos.Huge
+          style={{ fontFamily: "wide", lineHeight: "1.25em", textTransform: "uppercase" }}
+        >
+          Drips are {colored("redeemable")} in the real-world as {colored("physical assets")} & and{" "}
+          {colored("usable")} in the metaverse as {colored("3D assets")}.
+        </Typos.Huge>
+      </Grid>
+
+      <Box
+        sx={{ display: { xs: "none", sm: "block" } }}
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
+
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+        <Grid
+          container
+          style={{
+            backgroundImage:
+              "url(https://cdn.discordapp.com/attachments/976997370132848640/1095363156538294382/nobody0000_living_room_with_a_window_overlooking_the_beach_and__600968ba-dd08-494f-a197-52eb65f1ee2e.png)",
+            filter: "grayscale(40%)",
+            fontFamily: "wide",
+            fontWeight: 900,
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          <Grid sm={5} xl={4}>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+            <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
+          </Grid>
+          <Grid
+            item
+            sm={7}
+            xl={8}
+            style={{
+              borderRadius: "5px",
+              backgroundPosition: "60%",
+              backgroundImage:
+                "url(https://cdn.discordapp.com/attachments/976997370132848640/1095363156538294382/nobody0000_living_room_with_a_window_overlooking_the_beach_and__600968ba-dd08-494f-a197-52eb65f1ee2e.png)",
+            }}
+          ></Grid>
+        </Grid>
+      </Box>
+
+      <div
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
 
       <Grid container>
+        <Grid item xs={12}>
+          <Typos.Big
+            style={{
+              fontFamily: "wide",
+              marginBottom: "5vh",
+            }}
+          >
+            ROADMAP
+          </Typos.Big>
+        </Grid>
         <Grid
           item
           xs={12}
+          sx={{ padding: { xs: "25px", md: "35px" } }}
           style={{
-            backgroundColor: theme.colors.secondary,
-            marginTop: "5vh",
+            backgroundColor: theme.colors.black,
+            borderRadius: "25px",
+            color: theme.colors.secondary,
+            paddingTop: "5vh",
+            paddingBottom: "5vh",
           }}
         >
-          <Typos.Big
-            style={{
-              textAlign: "center",
-              fontFamily: "wide",
-              marginBottom: "7.6vh",
-            }}
-          >
-            Community
-          </Typos.Big>
-          <Grid container justifyContent="center">
-            <Grid item xs={12} md={10} xl={8}>
-              <Typos.Normal>
-                The first 10% holders of a Drop will share 5% of the total revenue of its mint sale.
-              </Typos.Normal>
+          <Grid container spacing={2.5}>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      <Typos.NormalBig style={{ fontFamily: "wide" }}>
+                        🚀 Mainnet {colored("Launch")}
+                      </Typos.NormalBig>
+                    </Grid>
+                    <Grid item>
+                      <Grid container>
+                        <Grid
+                          item
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                            }}
+                          >
+                            Q2 2023 -
+                          </Typos.Normal>
+                        </Grid>
+                        <Grid item>
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                              backgroundColor: theme.colors.primary,
+                              color: theme.colors.black,
+                              padding: "5px",
+                              borderRadius: "2.5px",
+                              fontSize: "0.75em",
+                            }}
+                          >
+                            DROP #0
+                          </Typos.Normal>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      <Typos.NormalBig style={{ fontFamily: "wide" }}>
+                        📦 Assets {colored("Delivery")}
+                      </Typos.NormalBig>
+                    </Grid>
+                    <Grid item>
+                      <Grid container>
+                        <Grid
+                          item
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                            }}
+                          >
+                            TBA -
+                          </Typos.Normal>
+                        </Grid>
+                        <Grid item>
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                              backgroundColor: theme.colors.primary,
+                              color: theme.colors.black,
+                              padding: "5px",
+                              borderRadius: "2.5px",
+                              fontSize: "0.75em",
+                            }}
+                          >
+                            DROP #0
+                          </Typos.Normal>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      <Typos.NormalBig style={{ fontFamily: "wide" }}>
+                        🌐 3D Assets {colored("Delivery")}
+                      </Typos.NormalBig>
+                    </Grid>
+                    <Grid item>
+                      <Grid container>
+                        <Grid
+                          item
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                            }}
+                          >
+                            TBA -
+                          </Typos.Normal>
+                        </Grid>
+                        <Grid item>
+                          <Typos.Normal
+                            style={{
+                              fontFamily: theme.fontFamily.wide,
+                              fontWeight: 600,
+                              backgroundColor: theme.colors.primary,
+                              color: theme.colors.black,
+                              padding: "5px",
+                              borderRadius: "2.5px",
+                              fontSize: "0.75em",
+                            }}
+                          >
+                            DROP #0
+                          </Typos.Normal>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
 
-      <Style.test>
-        <Marquee word="CUSTOM" fontSize="1.1em" />
-      </Style.test>
+      <div
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
 
       <Grid container>
-        <Grid
-          item
-          xs={12}
-          style={{
-            backgroundColor: theme.colors.secondary,
-            marginTop: "5vh",
-          }}
-        >
+        <Grid item xs={12}>
           <Typos.Big
             style={{
-              textAlign: "center",
               fontFamily: "wide",
-              marginBottom: "7.6vh",
+              marginBottom: "5vh",
             }}
           >
-            Contact
+            FAQ
           </Typos.Big>
+        </Grid>
+        <Grid item xs={12}>
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                How can one buy a DRIP ?
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          {/*  */}
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                Where is the DRIP I just bought ?
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          {/*  */}
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                When will I receive my DRIP at home ?
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          {/*  */}
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                Can I use my DRIP in video games ?
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          {/*  */}
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                I want to sell my DRIP what can I do ?
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          {/*  */}
+          <Style.Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.wide,
+                  fontWeight: 600,
+                  letterSpacing: "-1px",
+                  opacity: "0.85",
+                }}
+              >
+                I'm a brand and I want to be featured on your items
+              </Typos.Normal>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typos.Normal>-</Typos.Normal>
+            </AccordionDetails>
+          </Style.Accordion>
+        </Grid>
+      </Grid>
+
+      <div
+        style={{
+          height: "1px",
+          marginTop: "10vh",
+          marginBottom: "10vh",
+          backgroundColor: "rgba(0,0,0,0.12)",
+        }}
+      />
+
+      <Grid container>
+        <Grid item xs={12}>
+          <Typos.Big
+            style={{
+              fontFamily: "wide",
+              marginBottom: "5vh",
+            }}
+          >
+            EXPLORE
+          </Typos.Big>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid
+            container
+            justifyContent="center"
+            style={{
+              marginBottom: "5vh",
+            }}
+          >
+            <Grid item xs={12}>
+              <Typos.Normal
+                style={{
+                  fontFamily: theme.fontFamily.primary,
+                  color: "grey",
+                  lineHeight: "1.5em",
+                  fontWeight: 500,
+                }}
+              >
+                We are all about creating a world that is not only technologically advanced, but
+                also socially conscious. We are firm believers that by integrating cutting-edge
+                technology with the world's resources, we can not only improve the lives of
+                individuals but also contribute to the greater good. We are committed to working
+                tirelessly to ensure that we leave a positive impact on the world.
+              </Typos.Normal>
+            </Grid>
+          </Grid>
+
           <Grid container justifyContent="center">
             <Grid item xs={12} md={10} xl={8}>
-              <Typos.Normal>
-                The first 10% holders of a Drop will share 5% of the total revenue of its mint sale.
-              </Typos.Normal>
+              <Grid container columnSpacing={8} justifyContent="center">
+                <Grid item xs={6} md={4}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <PremierMagazineLogo />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typos.Normal
+                        style={{ color: "grey", fontSize: "0.75em", textAlign: "center" }}
+                      >
+                        Our magazine about fashion, streetwear and technology.
+                      </Typos.Normal>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Grid container justifyContent="center">
+                        <Grid item xs={6}>
+                          <Grid container justifyContent="center">
+                            <Grid>
+                              <IconInstagram
+                                style={{ width: "25px", height: "25px", color: "black" }}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
 
-      {/* <Style.test>
-        <Marquee word="UNIQUE" fontSize="1.1em" />
-      </Style.test>
-
-      <Grid container style={{ paddingBottom: "5vh" }}>
-        <Grid
-          item
-          xs={12}
-          style={{
-            backgroundColor: theme.colors.secondary,
-          }}
-        >
-          <Typos.Huge
-            style={{
-              marginBottom: "10vh",
-              textAlign: "center",
-            }}
-          >
-            Governance
-          </Typos.Huge>
-          <Grid container justifyContent="center">
-            <Grid item xs={12} md={10} xl={8}>
-              <Typos.Normal>
-                At terms, PREMIER will be community driven. It will take some time but there will be
-                a governance system allowing each and every Drip owners to take part in PREMIER's
-                ecosystem.
-              </Typos.Normal>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid> */}
+      <div
+        style={{
+          height: "1px",
+          paddingTop: "5vh",
+          paddingBottom: "5vh",
+        }}
+      />
     </Style.Root>
   );
 };

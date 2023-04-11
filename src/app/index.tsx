@@ -11,6 +11,7 @@ import { useDispatch } from "./store/hooks";
 import { Route, Routes } from "react-router-dom";
 
 import DropRoutes from "./routes/drop";
+import Style from "./style";
 
 const AppWrapper: FC = ({ children }) => {
   return (
@@ -35,13 +36,13 @@ const App: FC = ({ children }) => {
   }, []);
 
   return (
-    <>
+    <Style.RootApp>
       <Navbar />
 
       <Routes>
         <Route path="/drop/*" element={<DropRoutes />} />
       </Routes>
-    </>
+    </Style.RootApp>
   );
 };
 

@@ -31,7 +31,7 @@ const style = {
       borderRadius: "50%",
       backgroundColor: bgcolor,
       opacity: $selected ? "100%" : "75%",
-      border: `2px solid ${$selected ? "black" : theme.colors.tertiary}`,
+      border: `2px solid ${$selected ? theme.colors.black : theme.colors.tertiary}`,
       transition: "all 0.5s",
     })
   ),
@@ -138,7 +138,7 @@ const style = {
   LeftSideRightSideInner: styled("div")(({ theme }) => ({
     backgroundColor: theme.colors.primary,
     borderRadius: "5px",
-    color: "black",
+    color: theme.colors.black,
     padding: "7.5px",
     display: "inline-block",
     fontFamily: theme.fontFamily.primary,
@@ -325,7 +325,7 @@ const style = {
     marginTop: "35px",
   })),
   ModalTitle: styled("div")(({ theme }) => ({
-    color: "black",
+    color: theme.colors.black,
     textShadow: `${theme.colors.tertiary} 2.5px 2.5px 0.5px`,
     fontFamily: theme.fontFamily.primary,
     fontSize: "2.75em",
@@ -358,7 +358,7 @@ const style = {
   FinalStep2: styled("div")<{ $display: boolean }>(({ theme, $display }) => ({
     visibility: $display ? "visible" : "hidden",
     transition: "all 0.5s",
-    backgroundColor: "black",
+    backgroundColor: theme.colors.black,
     color: "white",
     fontFamily: theme.fontFamily.primary,
     padding: "7.5px",
@@ -391,7 +391,7 @@ const style = {
 
   ContainerTitle2: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
-    backgroundColor: "black",
+    backgroundColor: theme.colors.black,
     color: "white",
     padding: "5px",
     borderRadius: "5px",
@@ -411,7 +411,7 @@ const style = {
     borderRadius: "5px",
   })),
   MintButton: styled("div")(({ theme }) => ({
-    backgroundColor: "black",
+    backgroundColor: theme.colors.black,
     fontFamily: theme.fontFamily.primary,
     textAlign: "center",
     fontWeight: 900,
@@ -430,7 +430,7 @@ const style = {
     // backgroundColor: theme.backgroundColor.primary,
     opacity: "85%",
     borderRadius: "5px",
-    color: "black",
+    color: theme.colors.black,
     transition: "all 0.5s",
     ":hover": {
       opacity: "100%",
@@ -533,7 +533,7 @@ const style = {
     paddingLeft: "5px",
     paddingRight: "5px",
     marginBottom: "10px",
-    color: "black",
+    color: theme.colors.black,
     backgroundColor: theme.colors.secondary,
     borderRadius: "5px",
   })),

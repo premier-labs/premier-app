@@ -1,13 +1,25 @@
 import { styled } from "@mui/material/styles";
 
 import { Grid, Typography } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
 
 const style = {
   Root: styled("div")(({ theme }) => ({
     ...theme.myBreakpoints.static,
+    position: "relative",
     backgroundColor: theme.colors.secondary,
-    paddingTop: theme.header.height,
-    minHeight: `calc(100vh - ${theme.header.height})`,
+    width: "100%",
+    boxSizing: "border-box",
+  })),
+  Accordion: styled(Accordion)(({ theme }) => ({
+    boxShadow: "none",
+    backgroundColor: "transparent",
+    "&:before": {
+      display: "none",
+    },
+    "&:after": {
+      display: "none",
+    },
   })),
   HomeScreenContainer: styled("div")(({ theme }) => ({
     paddingTop: theme.header.height,
@@ -31,7 +43,7 @@ const style = {
   })),
   ButtonDiscover: styled(Grid)(({ theme }) => ({
     ...theme.button.normal,
-    borderRadius: "25px",
+    borderRadius: "10px",
   })),
   ScreenContainer: styled("div")(({ theme }) => ({
     width: `100%`,
@@ -48,12 +60,12 @@ const style = {
   })),
   test: styled("div")(({ theme }) => ({
     ...theme.myBreakpoints.antiStatic,
-    backgroundColor: "black",
-    color: "white",
-    marginTop: "5vh",
-    marginBottom: "5vh",
+    paddingTop: "5vh",
+    paddingBottom: "5vh",
   })),
-
+  test2: styled("div")(({ theme }) => ({
+    ...theme.myBreakpoints.static,
+  })),
   Title: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.tertiary,
     fontWeight: 800,
@@ -120,7 +132,6 @@ const style = {
     backgroundColor: theme.colors.primary,
     padding: "15px",
     borderRadius: "25px",
-    boxShadow: `2.5px 2.5px 2.5px ${theme.colors.secondary}, -.1px -.1px 1.5px ${theme.colors.secondary}`,
   })),
   ContainerExempleDripContainer: styled("div")(({ theme }) => ({
     borderRadius: "5px",
@@ -143,7 +154,7 @@ const style = {
     fontFamily: theme.fontFamily.primary,
     fontWeight: 800,
     fontSize: "0.8em",
-    lineHeight: "1.1em",
+    lineHeight: "1em",
   })),
   GalleryWrap: styled("div")(({ theme }) => ({
     display: "flex",
@@ -161,6 +172,7 @@ const style = {
   })),
   GalleryItem: styled("div")<{ color: string; $onHover: boolean }>(
     ({ theme, color, $onHover }) => ({
+      position: "relative",
       flex: $onHover ? 7 : 1,
       backgroundPosition: "30% 10%",
       imageRendering: "pixelated",

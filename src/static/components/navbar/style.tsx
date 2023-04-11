@@ -10,8 +10,8 @@ const style = {
     backgroundColor: theme.colors.secondary,
     boxShadow: "none",
     display: "flex",
-    justifyContent: "center",
-    color: "black",
+    justifyContent: "end",
+    color: theme.colors.black,
   })),
   OpenApp: styled("div")(({ theme }) => ({
     ...theme.button.normal,

@@ -25,7 +25,7 @@ const themeBasics = {
     primary: "montserrat",
     secondary: "Source Code Pro",
     tertiary: "futura",
-    wide: "wide",
+    wide: "phonk",
   },
 };
 
@@ -33,7 +33,7 @@ const themeOpts = {
   ...themeBasics,
 
   header: {
-    height: "60px",
+    height: "80px",
   },
 
   components: {
@@ -74,38 +74,41 @@ const themeOpts = {
     huge: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
-      fontWeight: 800,
-      fontSize: "7em",
-      [breakpoints.down("md")]: {
-        fontSize: "5em",
+      fontWeight: 600,
+      fontSize: "3.5em",
+      letterSpacing: "-0.04em",
+      [breakpoints.down("lg")]: {
+        fontSize: "3em",
       },
       [breakpoints.only("xs")]: {
-        fontSize: "2.5em",
+        fontSize: "2em",
       },
     },
     big: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
-      fontSize: "4.5em",
+      fontSize: "2.75em",
       letterSpacing: "-0.04em",
       [breakpoints.down("lg")]: {
-        fontSize: "3em",
+        fontSize: "2.25em",
       },
       [breakpoints.only("xs")]: {
-        fontSize: "2.25em",
+        fontSize: "1.9em",
       },
     },
     normalBig: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
-      fontSize: "2.35em",
+      fontSize: "1.5em",
+      lineHeight: "1.2em",
+      letterSpacing: "-0.5px",
       [breakpoints.down("md")]: {
-        fontSize: "2em",
+        fontSize: "1.25em",
       },
       [breakpoints.only("xs")]: {
-        fontSize: "1.5em",
+        fontSize: "1.1em",
       },
     },
     normalBold: {
@@ -117,9 +120,12 @@ const themeOpts = {
     normalTitle: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
-      fontWeight: 500,
-      fontSize: "0.9em",
-      [breakpoints.up("xl")]: {},
+      fontWeight: 900,
+      fontSize: "1.1em",
+      lineHeight: "1.1em",
+      [breakpoints.up("xl")]: {
+        fontSize: "1.25em",
+      },
       [breakpoints.only("xs")]: {},
     },
     normal: {
@@ -128,10 +134,23 @@ const themeOpts = {
       fontWeight: 500,
       fontSize: "1em",
       lineHeight: "1.1em",
-      [breakpoints.up("xl")]: {
-        fontSize: "1.1em",
-      },
+      [breakpoints.up("xl")]: {},
       [breakpoints.only("xs")]: {},
+    },
+    navbarLink: {
+      fontFamily: themeBasics.fontFamily.primary,
+      border: `1px solid ${themeBasics.colors.tertiary}`,
+      fontColor: themeBasics.colors.black,
+      fontWeight: 600,
+      fontSize: "0.9em",
+      borderRadius: "10px",
+      height: "37.5px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+      paddingLeft: "10px",
+      paddingRight: "10px",
+      boxSizing: "border-box",
     },
   },
 
@@ -170,16 +189,16 @@ const themeOpts = {
   myBreakpoints: {
     static: {
       [breakpoints.up("lg")]: {
-        paddingLeft: "10vw",
-        paddingRight: "10vw",
+        paddingLeft: "15vw",
+        paddingRight: "15vw",
       },
       [breakpoints.down("lg")]: {
-        paddingLeft: "7vw",
-        paddingRight: "7vw",
+        paddingLeft: "8vw",
+        paddingRight: "8vw",
       },
       [breakpoints.down("md")]: {
-        paddingLeft: "5vw",
-        paddingRight: "5vw",
+        paddingLeft: "6vw",
+        paddingRight: "6vw",
       },
       [breakpoints.down("sm")]: {
         paddingLeft: "2vw",
@@ -192,16 +211,16 @@ const themeOpts = {
     },
     antiStatic: {
       [breakpoints.up("lg")]: {
-        marginLeft: "-10vw",
-        marginRight: "-10vw",
+        marginLeft: "-15vw",
+        marginRight: "-15vw",
       },
       [breakpoints.down("lg")]: {
-        marginLeft: "-7vw",
-        marginRight: "-7vw",
+        marginLeft: "-8vw",
+        marginRight: "-8vw",
       },
       [breakpoints.down("md")]: {
-        marginLeft: "-5vw",
-        marginRight: "-5vw",
+        marginLeft: "-6vw",
+        marginRight: "-6vw",
       },
       [breakpoints.down("sm")]: {
         marginLeft: "-2vw",

@@ -23,7 +23,7 @@ const NotFound: FC = () => {
                     <Style.MoreLink>HOME</Style.MoreLink>
                   </Grid>
                   <Grid item alignSelf={"center"}>
-                    <ArrowRightAltIcon style={{ color: "black", fontSize: "1.8em" }} />
+                    <ArrowRightAltIcon style={{ fontSize: "1.8em" }} />
                   </Grid>
                 </Grid>
               </Clickable>

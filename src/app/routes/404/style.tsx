@@ -47,7 +47,6 @@ const style = {
     backgroundColor: theme.colors.primary,
     opacity: "75%",
     borderRadius: "5px",
-    color: "black",
     transition: "all 0.5s",
     ":hover": {
       opacity: "100%",
@@ -60,7 +59,7 @@ const style = {
       borderRadius: "50%",
       backgroundColor: bgcolor,
       opacity: $selected ? "100%" : "75%",
-      border: `2px solid ${$selected ? "black" : theme.colors.tertiary}`,
+      border: `2px solid ${$selected ? theme.colors.black : theme.colors.tertiary}`,
       transition: "all 0.5s",
     })
   ),
@@ -99,7 +98,6 @@ const style = {
   LeftSideRightSideInner: styled("div")(({ theme }) => ({
     backgroundColor: theme.colors.primary,
     borderRadius: "5px",
-    color: "black",
     padding: "7.5px",
     display: "inline-block",
     fontFamily: theme.fontFamily.primary,
@@ -305,7 +303,7 @@ const style = {
     borderRadius: "5px",
   })),
   MintButton: styled("div")(({ theme }) => ({
-    backgroundColor: "black",
+    backgroundColor: theme.colors.black,
     fontFamily: theme.fontFamily.primary,
     textAlign: "center",
     fontWeight: 900,
@@ -403,7 +401,6 @@ const style = {
     paddingLeft: "5px",
     paddingRight: "5px",
     marginBottom: "2.5px",
-    color: "black",
     backgroundColor: theme.colors.secondary,
     borderRadius: "5px",
   })),

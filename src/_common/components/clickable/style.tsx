@@ -6,10 +6,10 @@ const style = {
     ({ theme, $activated, $hoverAnimation }) => ({
       width: "100%",
       transition: "all .2s ease-in-out",
-      opacity: $activated ? "" : "10%",
+      opacity: $activated ? "" : "30%",
       ":hover": {
         transform: $activated && $hoverAnimation ? "scale(1.02)" : "",
-        cursor: $activated ? "pointer" : "not-allowed",
+        cursor: "pointer",
       },
     })
   ),
@@ -17,10 +17,10 @@ const style = {
     ({ theme, $activated, $hoverAnimation }) => ({
       width: "100%",
       transition: "all .2s ease-in-out",
-      opacity: $activated ? "" : "10%",
+      opacity: $activated ? "" : "30%",
       ":hover": {
         transform: $activated && $hoverAnimation ? "scale(1.02)" : "",
-        cursor: $activated ? "pointer" : "not-allowed",
+        cursor: "pointer",
       },
     })
   ),
