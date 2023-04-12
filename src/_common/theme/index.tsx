@@ -33,7 +33,7 @@ const themeOpts = {
   ...themeBasics,
 
   header: {
-    height: "80px",
+    height: "75px",
   },
 
   components: {

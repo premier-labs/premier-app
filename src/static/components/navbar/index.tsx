@@ -59,7 +59,7 @@ export const Navbar: FC = ({}) => {
             <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
               <Grid item>
                 <Clickable address="/">
-                  <PremierLogo style={{ width: "125px" }} />
+                  <PremierLogo style={{ width: "150px" }} />
                 </Clickable>
               </Grid>
             </Grid>
@@ -133,7 +133,20 @@ export const Navbar: FC = ({}) => {
                 style={{ alignItems: "center" }}
               >
                 <Clickable onClick={() => toggleDrawer()}>
-                  <MenuIcon />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "10px",
+                      border: `1px solid ${theme.colors.tertiary}`,
+                      padding: "5px",
+                    }}
+                  >
+                    <MenuIcon
+                      style={{ color: theme.colors.tertiary, width: "25px", height: "25px" }}
+                    />
+                  </div>
                 </Clickable>
               </Grid>
             </Grid>

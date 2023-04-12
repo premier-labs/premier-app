@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import { ListMockTokens } from "@premier-mock";
 
@@ -9,13 +9,9 @@ import Clickable from "@common/components/clickable";
 import Typos from "@common/components/typography";
 import { useTheme } from "@common/theme";
 
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import Style from "./style";
 import Marquee from "@common/components/marquee";
+import Divider from "@common/components/divider";
 import {
   IconDiscord,
   IconEth,
@@ -29,6 +25,7 @@ import {
 } from "@common/assets/images";
 import { DISCORD_URL, ETHERSCAN_URL, GITHUB_URL, OPENSEA_URL } from "@common/constants";
 import { Box } from "@mui/system";
+import Faq from "@common/components/faq";
 
 const DemoPlaceholderList: {
   collectionName: string;
@@ -462,14 +459,7 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      <div
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider />
 
       <Grid container spacing={10}>
         <Grid item xs={12}>
@@ -627,15 +617,7 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      <Box
-        component="div"
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider />
 
       <Grid item xs={12}>
         <Typos.Huge
@@ -646,16 +628,7 @@ const HomeComponent: FC = ({}) => {
         </Typos.Huge>
       </Grid>
 
-      <Box
-        component="div"
-        sx={{ display: { xs: "none", sm: "block" } }}
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider sx={{ display: { xs: "none", sm: "block" } }} />
 
       <Box component="div" sx={{ display: { xs: "none", sm: "block" } }}>
         <Grid
@@ -699,14 +672,7 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Box>
 
-      <div
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider />
 
       <Grid container>
         <Grid item xs={12}>
@@ -722,11 +688,11 @@ const HomeComponent: FC = ({}) => {
         <Grid
           item
           xs={12}
-          sx={{ padding: { xs: "25px", md: "35px" } }}
           style={{
-            backgroundColor: theme.colors.black,
+            // backgroundColor: theme.colors.primary,
             borderRadius: "25px",
-            color: theme.colors.secondary,
+            // color: theme.colors.secondary,
+            // border: `1px solid ${theme.colors.primary}`,
             paddingTop: "5vh",
             paddingBottom: "5vh",
           }}
@@ -892,14 +858,7 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      <div
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider />
 
       <Grid container>
         <Grid item xs={12}>
@@ -913,129 +872,20 @@ const HomeComponent: FC = ({}) => {
           </Typos.Big>
         </Grid>
         <Grid item xs={12}>
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                How can I buy a DRIP ?
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
-          {/*  */}
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                Where is the DRIP I just bought ?
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
-          {/*  */}
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                When will I receive my DRIP at home ?
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
-          {/*  */}
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                Can I use my DRIP in video games ?
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
-          {/*  */}
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                I want to sell my DRIP what can I do ?
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
-          {/*  */}
-          <Style.Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typos.Normal
-                style={{
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.85",
-                }}
-              >
-                I'm a brand and I want to be featured on your items
-              </Typos.Normal>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typos.Normal>-</Typos.Normal>
-            </AccordionDetails>
-          </Style.Accordion>
+          <Faq
+            content={[
+              { question: "How can I buy a DRIP ?", answer: "" },
+              { question: "Where is the DRIP I just bought ?", answer: "" },
+              { question: "When will I receive my DRIP at home ?", answer: "" },
+              { question: "Can I use my DRIP in video games ?", answer: "" },
+              { question: "I want to sell my DRIP what can I do ?", answer: "" },
+              { question: "I'm a brand and I want to be featured on your items", answer: "" },
+            ]}
+          />
         </Grid>
       </Grid>
 
-      <div
-        style={{
-          height: "1px",
-          marginTop: "10vh",
-          marginBottom: "10vh",
-          backgroundColor: "rgba(0,0,0,0.12)",
-        }}
-      />
+      <Divider />
 
       <Grid container>
         <Grid item xs={12}>
@@ -1077,7 +927,7 @@ const HomeComponent: FC = ({}) => {
           <Grid container justifyContent="center">
             <Grid item xs={12} md={10} xl={8}>
               <Grid container columnSpacing={8} justifyContent="center">
-                <Grid item xs={6} md={4}>
+                <Grid item xs={8} md={4}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <PremierMagazineLogo />

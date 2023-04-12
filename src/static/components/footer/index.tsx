@@ -21,10 +21,10 @@ export const Footer: FC = () => {
     <Style.RootFooter>
       <Grid container rowSpacing={4}>
         <Grid item xs={12} md={4}>
-          <Grid container spacing={1}>
+          <Grid container>
             <Grid item xs={12}>
               <Clickable address="/">
-                <PremierLogo style={{ width: "125px" }} />
+                <PremierLogo style={{ width: "150px" }} />
               </Clickable>
             </Grid>
           </Grid>
