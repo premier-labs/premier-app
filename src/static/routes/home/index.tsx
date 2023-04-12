@@ -5,7 +5,6 @@ import { Divider, Grid } from "@mui/material";
 import { ListMockTokens } from "@premier-mock";
 
 import SceneLoader, { sceneRef } from "@common/3d/scenes/skate_0";
-import SceneLoader2 from "@common/3d/scenes/airforce_0";
 import Clickable from "@common/components/clickable";
 import Typos from "@common/components/typography";
 import { useTheme } from "@common/theme";
