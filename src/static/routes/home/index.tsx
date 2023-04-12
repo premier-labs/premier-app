@@ -922,7 +922,7 @@ const HomeComponent: FC = ({}) => {
                   opacity: "0.85",
                 }}
               >
-                How can one buy a DRIP ?
+                How can I buy a DRIP ?
               </Typos.Normal>
             </AccordionSummary>
             <AccordionDetails>

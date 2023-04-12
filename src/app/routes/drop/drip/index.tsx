@@ -22,7 +22,7 @@ import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
 import { shortenAddress } from "@app/utils";
 import { CONFIG } from "@common/config";
-import { IconEth } from "@common/assets/images";
+import { IconEth, IconEtherscan, IconOpenSea } from "@common/assets/images";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
@@ -255,7 +255,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                         </CenterItem>
                         <CenterItem item>
                           <Clickable address={`${CONFIG.blockExplorerUrl}/tx/${step.tx}`}>
-                            <img src={EtherscanIcon} style={{ width: "16.5px" }} alt="" />
+                            <IconEtherscan style={{ width: "16.5px" }} />
                           </Clickable>
                         </CenterItem>
                       </Grid>
@@ -494,7 +494,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
                         >
-                          <OpenSeaIcon style={{ width: "16.5px" }} />
+                          <IconOpenSea style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                       <Grid item>
@@ -502,7 +502,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
                         >
-                          <EtherscanIcon style={{ width: "16.5px" }} />
+                          <IconEtherscan style={{ width: "16.5px" }} />
                         </Clickable>
                       </Grid>
                     </Grid>
