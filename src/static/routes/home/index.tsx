@@ -629,6 +629,7 @@ const HomeComponent: FC = ({}) => {
       </Grid>
 
       <Box
+        component="div"
         style={{
           height: "1px",
           marginTop: "10vh",
@@ -647,6 +648,7 @@ const HomeComponent: FC = ({}) => {
       </Grid>
 
       <Box
+        component="div"
         sx={{ display: { xs: "none", sm: "block" } }}
         style={{
           height: "1px",
@@ -656,7 +658,7 @@ const HomeComponent: FC = ({}) => {
         }}
       />
 
-      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box component="div" sx={{ display: { xs: "none", sm: "block" } }}>
         <Grid
           container
           style={{
