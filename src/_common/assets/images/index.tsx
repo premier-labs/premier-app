@@ -15,7 +15,3 @@ export { ReactComponent as IconInstagram } from "@common/assets/images/resources
 export { ReactComponent as IconEth } from "@common/assets/images/resources/iconEth.svg";
 export { ReactComponent as IconEtherscan } from "@common/assets/images/resources/iconEtherscan.svg";
 export { ReactComponent as IconOpenSea } from "@common/assets/images/resources/iconOpensea.svg";
-
-// Images
-import Deck_ from "@common/assets/images/resources/deck.png";
-export { Deck_ as DeckImg };

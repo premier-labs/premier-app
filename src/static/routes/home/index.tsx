@@ -17,7 +17,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Style from "./style";
 import Marquee from "@common/components/marquee";
 import {
-  DeckImg,
   IconDiscord,
   IconEth,
   IconEtherscan,
