@@ -5,15 +5,7 @@ import { Grid } from "@mui/material";
 import Clickable from "@common/components/clickable";
 import Style from "./style";
 
-import {
-  IconDiscord,
-  PremierLogo,
-  IconTwitter,
-  IconGithub,
-  PremierMagazineLogo,
-  PremierStudioLogo,
-} from "@common/assets/images";
-
+import { IconDiscord, PremierLogo, IconTwitter, IconGithub } from "@common/assets/images";
 import { CREDENTIALS, DISCORD_URL, GITHUB_URL, TWITTER_URL } from "@common/constants";
 
 export const Footer: FC = () => {
@@ -24,7 +16,7 @@ export const Footer: FC = () => {
           <Grid container>
             <Grid item xs={12}>
               <Clickable address="/">
-                <PremierLogo style={{ width: "150px" }} />
+                <PremierLogo style={{ width: "175px" }} />
               </Clickable>
             </Grid>
           </Grid>

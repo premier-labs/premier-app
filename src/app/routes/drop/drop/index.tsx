@@ -469,14 +469,14 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                     </Grid>
                   </Grid>
 
-                  <Grid item xs={12} style={{ marginTop: "5px", height: "20px" }}>
+                  <Grid item xs={12} style={{ marginTop: "5px" }}>
                     <Grid container spacing={0.5}>
                       <Grid item>
                         <Clickable
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
                         >
-                          <IconOpenSea style={{ width: "16.5px" }} />
+                          <IconOpenSea style={{ width: "16.5px", height: "16.5px" }} />
                         </Clickable>
                       </Grid>
                       <Grid item>
@@ -484,7 +484,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                           activated={!isPlaceholderItem}
                           address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
                         >
-                          <IconEtherscan style={{ width: "16.5px" }} />
+                          <IconEtherscan style={{ width: "16.5px", height: "16.5px" }} />
                         </Clickable>
                       </Grid>
                     </Grid>

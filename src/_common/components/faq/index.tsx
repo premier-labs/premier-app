@@ -28,6 +28,7 @@ const Faq: FC<{
             <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ paddingLeft: "0px" }}>
               <Typos.Normal
                 style={{
+                  fontSize: "1.05em",
                   fontFamily: theme.fontFamily.wide,
                   fontWeight: 600,
                   letterSpacing: "-1px",
@@ -38,7 +39,7 @@ const Faq: FC<{
               </Typos.Normal>
             </AccordionSummary>
             <AccordionDetails>
-              <Typos.Normal>{item.answer}</Typos.Normal>
+              <Typos.Normal style={{ fontSize: "0.95em" }}>{item.answer}</Typos.Normal>
             </AccordionDetails>
           </Style.Accordion>
           <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>

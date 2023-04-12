@@ -22,12 +22,6 @@ const AppWrapper: FC = ({ children }) => {
 };
 
 const App: FC = ({ children }) => {
-  if (window.innerWidth < 1000) {
-    return (
-      <>This website isn't yet fully working on mobile. Please come back on your computer :)</>
-    );
-  }
-
   const dispatch = useDispatch();
 
   useEffect(() => {

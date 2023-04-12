@@ -18,12 +18,13 @@ const themeBasics = {
     primary: "#f9f9fb",
     secondary: "#f1f1f5",
     tertiary: "#cbcbdc",
+    light: "rgba(0,0,0,0.02)",
     black: "#09090c",
   },
 
   fontFamily: {
     primary: "montserrat",
-    secondary: "Source Code Pro",
+    secondary: "",
     tertiary: "futura",
     wide: "phonk",
   },
@@ -76,9 +77,8 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
       fontSize: "3.5em",
-      letterSpacing: "-0.04em",
       [breakpoints.down("lg")]: {
-        fontSize: "3em",
+        fontSize: "2.5em",
       },
       [breakpoints.only("xs")]: {
         fontSize: "2em",
@@ -89,7 +89,6 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
       fontSize: "2.75em",
-      letterSpacing: "-0.04em",
       [breakpoints.down("lg")]: {
         fontSize: "2.25em",
       },
@@ -102,8 +101,6 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 600,
       fontSize: "1.5em",
-      lineHeight: "1.2em",
-      letterSpacing: "-0.5px",
       [breakpoints.down("md")]: {
         fontSize: "1.25em",
       },
@@ -122,7 +119,6 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 900,
       fontSize: "1.1em",
-      lineHeight: "1.1em",
       [breakpoints.up("xl")]: {
         fontSize: "1.25em",
       },
@@ -133,7 +129,6 @@ const themeOpts = {
       fontColor: themeBasics.colors.black,
       fontWeight: 500,
       fontSize: "1em",
-      lineHeight: "1.1em",
       [breakpoints.up("xl")]: {},
       [breakpoints.only("xs")]: {},
     },
@@ -188,8 +183,8 @@ const themeOpts = {
   myBreakpoints: {
     static: {
       [breakpoints.up("lg")]: {
-        paddingLeft: "15vw",
-        paddingRight: "15vw",
+        paddingLeft: "16vw",
+        paddingRight: "16vw",
       },
       [breakpoints.down("lg")]: {
         paddingLeft: "8vw",
@@ -210,8 +205,8 @@ const themeOpts = {
     },
     antiStatic: {
       [breakpoints.up("lg")]: {
-        marginLeft: "-15vw",
-        marginRight: "-15vw",
+        marginLeft: "-16vw",
+        marginRight: "-16vw",
       },
       [breakpoints.down("lg")]: {
         marginLeft: "-8vw",

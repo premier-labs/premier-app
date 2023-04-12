@@ -59,7 +59,7 @@ export const Navbar: FC = ({}) => {
             <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
               <Grid item>
                 <Clickable address="/">
-                  <PremierLogo style={{ width: "150px" }} />
+                  <PremierLogo style={{ width: "175px" }} />
                 </Clickable>
               </Grid>
             </Grid>

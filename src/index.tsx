@@ -20,7 +20,7 @@ const Index: FC = () => {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/*" element={<Static />} />
-            {/* <Route path="/app/*" element={<App />} /> */}
+            <Route path="/app/*" element={<App />} />
           </Routes>
         </ThemeProvider>
       </React.StrictMode>

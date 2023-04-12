@@ -10,8 +10,8 @@ const LoaderScene: FC = ({ children }) => {
   return (
     <div style={{ height: "100%", width: "100%", position: "relative" }}>
       <Canvas
-        gl={{ antialias: false }}
         camera={{ position: [0, 0, 1] }}
+        gl={{ antialias: false }}
         dpr={Math.max(window.devicePixelRatio, 2)}
         flat={true}
         linear={true}

@@ -10,3 +10,6 @@ export const GITHUB_URL = "https://github.com/premier-studio";
 export const OPENSEA_URL = "https://opensea.io";
 export const TWITTER_URL = "https://twitter.com/PremierLabs_";
 export const ETHERSCAN_URL = "https://etherscan.io";
+export const EMAIL = "contact@premierstudio.app";
+
+// Pages

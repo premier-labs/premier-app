@@ -23,7 +23,7 @@ import {
   PremierMagazineLogo,
   PremierStudioLogo,
 } from "@common/assets/images";
-import { DISCORD_URL, ETHERSCAN_URL, GITHUB_URL, OPENSEA_URL } from "@common/constants";
+import { DISCORD_URL, ETHERSCAN_URL, GITHUB_URL, OPENSEA_URL, EMAIL } from "@common/constants";
 import { Box } from "@mui/system";
 import Faq from "@common/components/faq";
 
@@ -125,7 +125,7 @@ const HomeComponent: FC = ({}) => {
             {colored(placeholderItem.collectionSymbol)}
             <span
               style={{
-                marginLeft: "10px",
+                marginLeft: "5px",
                 fontSize: "12.5px",
                 color,
                 fontWeight: 600,
@@ -310,7 +310,7 @@ const HomeComponent: FC = ({}) => {
                 <Grid item xs={12}>
                   <Grid container justifyContent="center" spacing={1}>
                     <Grid item>
-                      <Typos.Normal style={{ color: theme.colors.tertiary, fontSize: "0.95em" }}>
+                      <Typos.Normal style={{ color: theme.colors.tertiary, fontSize: "0.975em" }}>
                         Discover More
                       </Typos.Normal>
                     </Grid>
@@ -498,7 +498,7 @@ const HomeComponent: FC = ({}) => {
               <Grid
                 container
                 style={{
-                  backgroundColor: theme.colors.primary,
+                  backgroundColor: theme.colors.light,
                   padding: "25px",
                   borderRadius: "25px",
                 }}
@@ -511,6 +511,7 @@ const HomeComponent: FC = ({}) => {
                           width: "100%",
                           height: "100%",
                           borderRadius: "25px",
+                          backgroundPosition: "10% 10%",
                           backgroundImage: `url(${DemoTextures[currentVersion]})`,
                         }}
                       />
@@ -521,7 +522,13 @@ const HomeComponent: FC = ({}) => {
                 <Grid item xs={12} sm={7.5}>
                   <Grid container justifyContent="space-between" alignItems="center">
                     <Grid>
-                      <Typos.NormalBold style={{ fontFamily: theme.fontFamily.wide }}>
+                      <Typos.NormalBold
+                        style={{
+                          fontFamily: theme.fontFamily.wide,
+                          color: theme.colors.black,
+                          textShadow: `1px 1px 1px ${theme.colors.secondary}`,
+                        }}
+                      >
                         MINT
                       </Typos.NormalBold>
                     </Grid>
@@ -554,7 +561,7 @@ const HomeComponent: FC = ({}) => {
               <Grid
                 container
                 style={{
-                  backgroundColor: theme.colors.primary,
+                  backgroundColor: theme.colors.light,
                   padding: "25px",
                   borderRadius: "25px",
                 }}
@@ -570,7 +577,13 @@ const HomeComponent: FC = ({}) => {
                 <Grid item xs={12} sm={7.5} style={{}}>
                   <Grid container justifyContent="space-between">
                     <Grid>
-                      <Typos.NormalBold style={{ fontFamily: theme.fontFamily.wide }}>
+                      <Typos.NormalBold
+                        style={{
+                          fontFamily: theme.fontFamily.wide,
+                          color: theme.colors.black,
+                          textShadow: `1px 1px 1px ${theme.colors.primary}`,
+                        }}
+                      >
                         MUTATE
                       </Typos.NormalBold>
                     </Grid>
@@ -617,7 +630,7 @@ const HomeComponent: FC = ({}) => {
         </Grid>
       </Grid>
 
-      <Divider />
+      {/* <Divider />
 
       <Grid item xs={12}>
         <Typos.Huge
@@ -626,11 +639,11 @@ const HomeComponent: FC = ({}) => {
           Drips are {colored("redeemable")} in the real-world as {colored("physical assets")} & and{" "}
           {colored("usable")} in the metaverse as {colored("3D assets")}.
         </Typos.Huge>
-      </Grid>
+      </Grid> */}
 
-      <Divider sx={{ display: { xs: "none", sm: "block" } }} />
+      {/* <Divider sx={{ display: { xs: "none", sm: "block" } }} /> */}
 
-      <Box component="div" sx={{ display: { xs: "none", sm: "block" } }}>
+      {/* <Box component="div" sx={{ display: { xs: "none", sm: "block" } }}>
         <Grid
           container
           style={{
@@ -670,7 +683,7 @@ const HomeComponent: FC = ({}) => {
             }}
           ></Grid>
         </Grid>
-      </Box>
+      </Box> */}
 
       <Divider />
 
@@ -689,22 +702,21 @@ const HomeComponent: FC = ({}) => {
           item
           xs={12}
           style={{
-            // backgroundColor: theme.colors.primary,
+            backgroundColor: theme.colors.light,
             borderRadius: "25px",
-            // color: theme.colors.secondary,
-            // border: `1px solid ${theme.colors.primary}`,
-            paddingTop: "5vh",
-            paddingBottom: "5vh",
+            padding: "35px",
+            paddingTop: "7.5vh",
+            paddingBottom: "7.5vh",
           }}
         >
-          <Grid container spacing={2.5}>
+          <Grid container spacing={4}>
             <Grid item xs={12}>
               <Grid container>
                 <Grid item xs={12}>
                   <Grid container justifyContent="space-between">
                     <Grid item>
                       <Typos.NormalBig style={{ fontFamily: "wide" }}>
-                        🚀 Mainnet {colored("Launch")}
+                        Mainnet {colored("Launch")} 🚀
                       </Typos.NormalBig>
                     </Grid>
                     <Grid item>
@@ -746,7 +758,7 @@ const HomeComponent: FC = ({}) => {
                   </Grid>
                 </Grid>
                 <Grid item xs={10}>
-                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                  {/* <Typos.Normal style={{ padding: "25px", paddingTop: "20px" }}>-</Typos.Normal> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -756,7 +768,7 @@ const HomeComponent: FC = ({}) => {
                   <Grid container justifyContent="space-between">
                     <Grid item>
                       <Typos.NormalBig style={{ fontFamily: "wide" }}>
-                        📦 Assets {colored("Delivery")}
+                        Assets {colored("Delivery")} 📦
                       </Typos.NormalBig>
                     </Grid>
                     <Grid item>
@@ -798,7 +810,7 @@ const HomeComponent: FC = ({}) => {
                   </Grid>
                 </Grid>
                 <Grid item xs={10}>
-                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                  {/* <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -808,7 +820,7 @@ const HomeComponent: FC = ({}) => {
                   <Grid container justifyContent="space-between">
                     <Grid item>
                       <Typos.NormalBig style={{ fontFamily: "wide" }}>
-                        🌐 3D Assets {colored("Delivery")}
+                        3D Assets {colored("Delivery")} 🌐
                       </Typos.NormalBig>
                     </Grid>
                     <Grid item>
@@ -850,7 +862,7 @@ const HomeComponent: FC = ({}) => {
                   </Grid>
                 </Grid>
                 <Grid item xs={10}>
-                  <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal>
+                  {/* <Typos.Normal style={{ padding: "5px", paddingTop: "20px" }}>-</Typos.Normal> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -874,12 +886,84 @@ const HomeComponent: FC = ({}) => {
         <Grid item xs={12}>
           <Faq
             content={[
-              { question: "How can I buy a DRIP ?", answer: "" },
-              { question: "Where is the DRIP I just bought ?", answer: "" },
-              { question: "When will I receive my DRIP at home ?", answer: "" },
-              { question: "Can I use my DRIP in video games ?", answer: "" },
-              { question: "I want to sell my DRIP what can I do ?", answer: "" },
-              { question: "I'm a brand and I want to be featured on your items", answer: "" },
+              {
+                question: "Is a DRIP digital or real ?",
+                answer: (
+                  <>
+                    A DRIP is per say an NFT in itself and therefore it is a digital asset. However,
+                    thanks to our technology it takes form both in the real world and the metaverse.
+                  </>
+                ),
+              },
+              {
+                question: "How can I mint or buy a DRIP ?",
+                answer: (
+                  <>
+                    In order to <b>mint</b> a DRIP you need to go on our <b>minting page</b>. If the
+                    minting period is over and/or you are looking to buy a DRIP on a secondary
+                    marketplace such as <b>OpenSea</b> or <b>SuperRare</b>.
+                  </>
+                ),
+              },
+              {
+                question: "Where is the DRIP I just minted ?",
+                answer: (
+                  <>
+                    If you minted a DRIP with your ethereum wallet though our <b>app</b> then your
+                    DRIP is in your ethereum wallet and you can interact with it like any other
+                    assets you own in your wallet. If you need more help you can check this out{" "}
+                    <Clickable isSpan address="https://ethereum.org/fr/learn/">
+                      <b>https://ethereum.org/fr/learn/</b>
+                    </Clickable>
+                    .
+                  </>
+                ),
+              },
+              {
+                question: "When will I receive my DRIP at home ?",
+                answer: (
+                  <>
+                    Receiving your DRIP at home can take a few weeks. As you most likely understood
+                    our items are customized and unique, therefore they need extra care and time
+                    from us. That being said, rest assured that we will do our best to deliever it
+                    as fast as possible.
+                  </>
+                ),
+              },
+              {
+                question: "Can I use my DRIP in video games ?",
+                answer: (
+                  <>
+                    DRIP are at heart 3D ready, therefore a DRIP is technically usable in any 3D
+                    video game. However, we cannot control or decide wether or not game makers will
+                    allow their users to use them. That being said, the way we are seeing it, in the
+                    near future, video games will allow people to connect themselves through their
+                    Ethereum wallet. Once done, this will be a game changer for gaming and will
+                    allow games to have access to a user's digital assets.
+                  </>
+                ),
+              },
+              {
+                question: "I want to sell my DRIP what can I do ?",
+                answer: (
+                  <>
+                    In order to sell your DRIP you can go on any supported marketplace such as
+                    <Clickable isSpan address={OPENSEA_URL}>
+                      {" "}
+                      <b>OpenSea</b>
+                    </Clickable>
+                    .
+                  </>
+                ),
+              },
+              {
+                question: "I'm a brand and I want to be featured on your items",
+                answer: (
+                  <>
+                    Send us a mail at: <b>{EMAIL}</b>
+                  </>
+                ),
+              },
             ]}
           />
         </Grid>
@@ -924,7 +1008,7 @@ const HomeComponent: FC = ({}) => {
             </Grid>
           </Grid>
 
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="center" style={{ paddingTop: "2.5vh" }}>
             <Grid item xs={12} md={10} xl={8}>
               <Grid container columnSpacing={8} justifyContent="center">
                 <Grid item xs={8} md={4}>
