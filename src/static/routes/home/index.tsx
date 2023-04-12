@@ -671,7 +671,7 @@ const HomeComponent: FC = ({}) => {
             color: "transparent",
           }}
         >
-          <Grid sm={5} xl={4}>
+          <Grid item sm={5} xl={4}>
             <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
             <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
             <Typos.Big style={{ fontFamily: "wide" }}>PREMIER</Typos.Big>
