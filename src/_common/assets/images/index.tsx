@@ -1,5 +1,6 @@
 // Logo Premier
 export { ReactComponent as PremierLogo } from "@common/assets/images/resources/premier.svg";
+export { ReactComponent as PremierMiniLogo } from "@common/assets/images/resources/premier-mini.svg";
 export { ReactComponent as PremierStudioLogo } from "@common/assets/images/resources/premier-studio.svg";
 export { ReactComponent as PremierMagazineLogo } from "@common/assets/images/resources/premier-magazine.svg";
 

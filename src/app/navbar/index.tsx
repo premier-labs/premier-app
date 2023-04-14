@@ -1,6 +1,7 @@
 import React, { FC, useRef } from "react";
 
 import { Grid, Toolbar } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import Clickable from "@common/components/clickable";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -14,7 +15,7 @@ import { useTheme } from "@mui/material/styles";
 
 import CenterItem from "@common/components/grid/centerItem";
 import { DripStatus } from "@premier-types";
-import { IconEtherscan, IconOpenSea, PremierLogo } from "@common/assets/images";
+import { IconEtherscan, IconOpenSea, PremierLogo, PremierMiniLogo } from "@common/assets/images";
 import Box from "@common/components/box";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
@@ -46,36 +47,48 @@ export const NavbarComponent: FC = () => {
       <Style.PointOpenWallet ref={f as any} />
       <Style.AppBar position="absolute">
         <Toolbar style={{ padding: "0px" }}>
-          <Grid container columnSpacing={0} rowSpacing={0}>
-            <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
+          <Grid container columnSpacing={0} rowSpacing={0} justifyContent="space-between">
+            <Grid item style={{ display: "flex", alignItems: "center" }}>
               <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
                 <Grid item>
                   <Clickable address="/">
-                    <Box sx={{ width: { xs: "125px", md: "150px" } }}>
+                    <Box style={{ width: "150px" }} sx={{ display: { xs: "none", md: "block" } }}>
                       <PremierLogo style={{ width: "100%" }} />
+                    </Box>
+                    <Box style={{ width: "50px" }} sx={{ display: { xs: "block", md: "none" } }}>
+                      <PremierMiniLogo style={{ width: "100%" }} />
                     </Box>
                   </Clickable>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item flexGrow={1} />
             <Grid item style={{ display: "flex", alignItems: "center" }}>
               <Grid
                 container
-                columnSpacing={2}
+                columnSpacing={0}
                 rowSpacing={0}
                 flexDirection="row-reverse"
                 alignItems="center"
               >
                 <Grid item>
-                  <Clickable activated={isConnected} onClick={handlePopoverOpen}>
-                    <AccountBalanceWalletIcon
-                      style={{
-                        fontSize: "40px",
-                        color: theme.colors.black,
-                      }}
-                    />
-                  </Clickable>
+                  <Box>
+                    <Clickable activated={isConnected} onClick={handlePopoverOpen}>
+                      <div
+                        style={{
+                          marginLeft: "10px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <AccountBalanceWalletIcon
+                          style={{ color: theme.colors.black, width: "40px", height: "40px" }}
+                        />
+                      </div>
+                    </Clickable>
+                  </Box>
+
                   <Popover
                     open={open}
                     anchorEl={f.current}
@@ -229,17 +242,7 @@ export const NavbarComponent: FC = () => {
                 </Grid>
 
                 <Grid item>
-                  <ConnectButton />
-                </Grid>
-
-                <Grid item>
-                  <Style.NetworkSupported>
-                    {isDisconnected && (
-                      <>
-                        Network unsupported. Please switch to: <b>[Goerli]</b>
-                      </>
-                    )}
-                  </Style.NetworkSupported>
+                  <ConnectButton chainStatus={{ smallScreen: "none", largeScreen: "full" }} />
                 </Grid>
               </Grid>
             </Grid>

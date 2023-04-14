@@ -142,7 +142,7 @@ const themeOpts = {
       height: "35px",
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-evenly",
+      justifyContent: "center",
       paddingLeft: "10px",
       paddingRight: "10px",
     },

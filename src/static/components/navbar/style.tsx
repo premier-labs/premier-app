@@ -18,6 +18,7 @@ const style = {
   })),
   DrawerNav: styled("div")(({ theme }) => ({
     width: "100vw",
+    backgroundColor: theme.colors.secondary,
     height: "100vh",
     display: "flex",
     alignItems: "center",

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import LogoIcon from "@common/assets/images/logo-typo.svg";
 import Clickable from "@common/components/clickable";
-import { Divider, Drawer, Grid, Toolbar } from "@mui/material";
+import { Drawer, Grid, Toolbar } from "@mui/material";
 import Typos from "@common/components/typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles";
 import { IconBook, IconDao, PremierLogo } from "@common/assets/images";
 
 import Style from "./style";
-import { DOCS_URL } from "@common/constants";
+import Divider from "@common/components/divider";
 
 export const Navbar: FC = ({}) => {
   const theme = useTheme();
@@ -30,25 +30,51 @@ export const Navbar: FC = ({}) => {
               <Close />
             </Clickable>
           </Style.DrawerClose>
-          <Grid container alignItems="space-between" direction="column" spacing={2}>
-            <Grid item style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ display: "inline-block" }}>
-                <Clickable newPage address={DOCS_URL}>
-                  <Typos.NavbarLink>Docs</Typos.NavbarLink>
-                </Clickable>
-              </div>
+
+          <Grid
+            container
+            alignItems="space-between"
+            direction="column"
+            spacing={1}
+            style={{ padding: "15px" }}
+          >
+            <Grid item style={{ alignItems: "center" }}>
+              <Clickable
+                newPage
+                address="https://github.com/premier-labs/premier-contracts"
+                hoverAnimation={false}
+                activated={false}
+              >
+                <Typos.NavbarLink>
+                  <IconDao style={{ width: "15px", paddingRight: "7.5px" }} />
+                  DAO
+                </Typos.NavbarLink>
+              </Clickable>
+            </Grid>
+
+            <Grid item style={{ alignItems: "center" }}>
+              <Clickable
+                newPage
+                address="https://github.com/premier-labs/premier-contracts"
+                hoverAnimation={false}
+              >
+                <Typos.NavbarLink>
+                  <IconBook style={{ width: "15px", paddingRight: "7.5px" }} />
+                  Docs
+                </Typos.NavbarLink>
+              </Clickable>
             </Grid>
 
             <Grid item style={{ display: "flex", justifyContent: "center" }}>
-              <Divider style={{ width: "100px" }} />
+              <Divider style={{ marginTop: "5px", marginBottom: "5px", width: "100px" }} />
             </Grid>
 
-            <Grid item style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ display: "inline-block" }}>
-                <Clickable address="/app/drop/0">
-                  <Style.OpenApp>Enter app</Style.OpenApp>
-                </Clickable>
-              </div>
+            <Grid item style={{ alignItems: "center" }}>
+              <Clickable newPage address="/app/drop/0" hoverAnimation={false}>
+                <Typos.NavbarLink style={{ backgroundColor: theme.colors.primary }}>
+                  Enter App
+                </Typos.NavbarLink>
+              </Clickable>
             </Grid>
           </Grid>
         </Style.DrawerNav>
@@ -122,7 +148,7 @@ export const Navbar: FC = ({}) => {
                 style={{ alignItems: "center" }}
               >
                 <Clickable newPage address="/app/drop/0" hoverAnimation={false}>
-                  <Typos.NavbarLink style={{ backgroundColor: "white" }}>
+                  <Typos.NavbarLink style={{ backgroundColor: theme.colors.primary }}>
                     Enter App
                   </Typos.NavbarLink>
                 </Clickable>
