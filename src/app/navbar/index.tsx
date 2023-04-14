@@ -8,7 +8,6 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Popover from "@mui/material/Popover";
 import { useDispatch, useSelector } from "../store/hooks";
 import { useGetDripsQuery } from "../store/services";
-import { login } from "../store/services/web3";
 import { shortenAddress } from "../utils";
 import Style from "./style";
 import { useTheme } from "@mui/material/styles";

@@ -3,7 +3,6 @@ import React, { FC, useEffect } from "react";
 import Navbar from "./navbar";
 
 import { store } from "./store";
-import { init, login } from "./store/services/web3";
 
 import { Provider } from "react-redux";
 import { useDispatch } from "./store/hooks";
