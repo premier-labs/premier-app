@@ -55,7 +55,7 @@ export const NavbarComponent: FC = () => {
                     <Box style={{ width: "150px" }} sx={{ display: { xs: "none", md: "block" } }}>
                       <PremierLogo style={{ width: "100%" }} />
                     </Box>
-                    <Box style={{ width: "50px" }} sx={{ display: { xs: "block", md: "none" } }}>
+                    <Box style={{ width: "42.5px" }} sx={{ display: { xs: "block", md: "none" } }}>
                       <PremierMiniLogo style={{ width: "100%" }} />
                     </Box>
                   </Clickable>

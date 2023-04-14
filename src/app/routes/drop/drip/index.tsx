@@ -729,18 +729,6 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                             <Style.StepTitle
                               style={{
                                 fontSize: "0.8em",
-                                padding: "1px",
-                              }}
-                            >
-                              DRIP #{drip.id}
-                            </Style.StepTitle>
-                          </Typos.Normal>
-                        </Grid>
-                        <Grid item>
-                          <Typos.Normal style={{ paddingTop: "1px" }}>
-                            <Style.StepTitle
-                              style={{
-                                fontSize: "0.8em",
                                 backgroundColor: theme.colors.secondary,
                                 padding: "1px",
                                 paddingLeft: "5px",
@@ -818,7 +806,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                       </Grid>
 
                       <Grid item xs={12}>
-                        <Style.InfoContainerLeft>Id : </Style.InfoContainerLeft>
+                        <Style.InfoContainerLeft>Drip Id : </Style.InfoContainerLeft>
                         <Style.InfoContainerRight>{drip.id}</Style.InfoContainerRight>
                       </Grid>
                     </Grid>

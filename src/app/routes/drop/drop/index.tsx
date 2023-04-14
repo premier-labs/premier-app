@@ -666,27 +666,42 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
               >
                 <Grid item flexGrow={1}>
                   <Grid container justifyContent="space-between">
-                    <Grid item>
-                      <Typos.Normal style={{ paddingTop: "1px" }}>
-                        <Style.StepTitle>
-                          {currentItem.address === AddressZero ? "SELECT YOUR NFT" : "YOUR DRIP"}
-                        </Style.StepTitle>
-                      </Typos.Normal>
-                    </Grid>
+                    {currentItem.address === AddressZero ? (
+                      <Grid item>
+                        <Typos.Normal style={{ paddingTop: "1px" }}>
+                          <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
+                        </Typos.Normal>
+                      </Grid>
+                    ) : (
+                      <Grid item>
+                        <Style.MoreInfoSymbol
+                          style={{
+                            backgroundColor: theme.colors.light,
+                            color: theme.colors.black,
+                            padding: "5px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          DROP #{drop.id}
+                        </Style.MoreInfoSymbol>
+                      </Grid>
+                    )}
                     <Grid item>
                       <Grid container alignItems="center" spacing={0.5}>
-                        <Grid item>
-                          <Style.MoreInfoSymbol
-                            style={{
-                              backgroundColor: theme.colors.light,
-                              color: theme.colors.black,
-                              padding: "5px",
-                              borderRadius: "5px",
-                            }}
-                          >
-                            DROP #{drop.id}
-                          </Style.MoreInfoSymbol>
-                        </Grid>
+                        {currentItem.address === AddressZero && (
+                          <Grid item>
+                            <Style.MoreInfoSymbol
+                              style={{
+                                backgroundColor: theme.colors.light,
+                                color: theme.colors.black,
+                                padding: "5px",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              DROP #{drop.id}
+                            </Style.MoreInfoSymbol>
+                          </Grid>
+                        )}
                         <Grid item>
                           <Style.MoreInfoSymbol
                             style={{
