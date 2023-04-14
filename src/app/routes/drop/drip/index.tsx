@@ -6,6 +6,9 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Grid, ImageList, ImageListItem, Modal } from "@mui/material";
 import { Drip, DripStatus, dripStatus, Drop, NFT } from "@premier-types";
 import { ethers } from "ethers";
+import { useTheme } from "@mui/material/styles";
+import Box from "@common/components/box";
+import Typos from "@common/components/typography";
 
 import { useCState } from "@common/3d/utils/hooks";
 import CenterItem from "@common/components/grid/centerItem";
@@ -22,7 +25,12 @@ import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
 import { shortenAddress } from "@app/utils";
 import { CONFIG } from "@common/config";
-import { IconEth, IconEtherscan, IconOpenSea } from "@common/assets/images";
+import { IconEth, IconEtherscan, IconOpenSea, IconTrash } from "@common/assets/images";
+
+import { Global } from "@emotion/react";
+import { styled } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
@@ -62,8 +70,16 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
 }) => {
   const { auth, address, name, txProcess } = useSelector((state) => state.web3);
   const dispatch = useDispatch();
+  const theme = useTheme();
+
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpenDrawer(newOpen);
+  };
 
   const isDripMutated = drip.status === DripStatus.MUTATED;
+  const isOwner = address === drip.owner;
 
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
@@ -250,12 +266,12 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           <Clickable
                             onClick={() => navigator.clipboard.writeText(step.tx as string)}
                           >
-                            <ContentCopyIcon style={{ width: "14.5px" }} />
+                            <ContentCopyIcon style={{ width: "14.5px", height: "14.5px" }} />
                           </Clickable>
                         </CenterItem>
                         <CenterItem item>
                           <Clickable address={`${CONFIG.blockExplorerUrl}/tx/${step.tx}`}>
-                            <IconEtherscan style={{ width: "16.5px" }} />
+                            <IconEtherscan style={{ width: "16.5px", height: "16.5px" }} />
                           </Clickable>
                         </CenterItem>
                       </Grid>
@@ -278,7 +294,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                           <Grid item xs={12}>
                             <Grid container columnSpacing={1}>
                               <Grid item>
-                                <IconEth style={{ width: "12.5px" }} />
+                                <IconEth style={{ width: "12.5px", height: "20px" }} />
                               </Grid>
                               <Grid item>
                                 <Style.MintPrice>{item.price}</Style.MintPrice>
@@ -344,218 +360,443 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
         </Style.ModelBox>
       </Modal>
 
-      <Style.Root container justifyContent="space-between" columns={50}>
-        <Grid
-          item
-          xs={12}
-          style={{
-            zIndex: 10,
-            height: "100%",
-            visibility: isDripMutated || drip.owner !== address ? "hidden" : "visible",
-          }}
-        >
-          <Style.LeftSide>
-            <Grid container direction="column" style={{ height: "100%" }}>
-              <Grid item>
-                <Style.HeaderLeftSide container alignItems="center">
-                  <Grid item flexGrow={1}>
-                    <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
-                  </Grid>
-                </Style.HeaderLeftSide>
-              </Grid>
-
-              <Grid item flexGrow={1}>
-                <Style.BodyLeftSide $connected={auth}>
-                  <Style.InnerLeftSide>
-                    {assets && assets.length ? (
-                      assets.map((collection, index1) => (
-                        <div key={index1} style={{ marginBottom: "20px" }}>
-                          <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
-                          <ImageList cols={4} gap={4}>
-                            {collection.assets.map((item, index) => (
-                              <ImageListItem
-                                key={index}
-                                style={{
-                                  border:
-                                    currentItem &&
-                                    currentItem.name === collection.collectionName &&
-                                    currentItem.id === item.id
-                                      ? "3px solid #2AFE00"
-                                      : "3px solid white",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => {
-                                  updateItem(item);
-                                }}
-                              >
-                                <img src={item.img} alt={"item.id"} loading="lazy" />
-                              </ImageListItem>
-                            ))}
-                          </ImageList>
-                        </div>
-                      ))
-                    ) : auth ? (
-                      <Style.InnerLeftSideNoNfts>
-                        {isLoading ? "Loading ..." : "You do not own any NFTs :("}
-                      </Style.InnerLeftSideNoNfts>
-                    ) : (
-                      <Style.InnerLeftSideNoNfts>
-                        You are not connected :'(
-                      </Style.InnerLeftSideNoNfts>
-                    )}
-                  </Style.InnerLeftSide>
-                </Style.BodyLeftSide>
-              </Grid>
-            </Grid>
-          </Style.LeftSide>
-        </Grid>
-        <Grid item xs={12} xl={9} style={{ zIndex: 10 }}>
+      <Box sx={{ display: { xs: "none", md: "block" } }} style={{ height: "100%" }}>
+        <Style.Root container justifyContent="space-between" columns={50}>
           <Grid
-            container
-            direction="column"
-            style={{ height: "100%" }}
-            justifyContent="space-between"
+            item
+            xs={12}
+            style={{
+              zIndex: 10,
+              height: "100%",
+              visibility: isDripMutated || drip.owner !== address ? "hidden" : "visible",
+            }}
           >
-            <Grid item flexGrow={1}>
-              <Style.InfoDiv>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Style.InfoDivItemName>PLACEHOLDER</Style.InfoDivItemName>
-                  </Grid>
-                  {isDripMutated ? (
-                    <Grid item xs={6} xl={12}>
-                      <img
-                        style={{
-                          width: "100%",
-                          borderRadius: "15px",
-                        }}
-                        src={drip.nft?.img}
-                        alt=""
-                      />
+            <Style.LeftSide>
+              <Grid container direction="column" style={{ height: "100%" }}>
+                <Grid item>
+                  <Style.HeaderLeftSide container alignItems="center">
+                    <Grid item flexGrow={1}>
+                      <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
                     </Grid>
-                  ) : (
-                    <Grid item xs={6} xl={12}>
-                      {imagesPreloaded && (
+                  </Style.HeaderLeftSide>
+                </Grid>
+
+                <Grid item flexGrow={1}>
+                  <Style.BodyLeftSide $connected={auth}>
+                    <Style.InnerLeftSide>
+                      {assets && assets.length ? (
+                        assets.map((collection, index1) => (
+                          <div key={index1} style={{ marginBottom: "20px" }}>
+                            <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
+                            <ImageList cols={4} gap={4}>
+                              {collection.assets.map((item, index) => (
+                                <ImageListItem
+                                  key={index}
+                                  style={{
+                                    border:
+                                      currentItem &&
+                                      currentItem.name === collection.collectionName &&
+                                      currentItem.id === item.id
+                                        ? "3px solid #2AFE00"
+                                        : "3px solid white",
+                                    cursor: "pointer",
+                                  }}
+                                  onClick={() => {
+                                    updateItem(item);
+                                  }}
+                                >
+                                  <img src={item.img} alt={"item.id"} loading="lazy" />
+                                </ImageListItem>
+                              ))}
+                            </ImageList>
+                          </div>
+                        ))
+                      ) : auth ? (
+                        <Style.InnerLeftSideNoNfts>
+                          {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+                        </Style.InnerLeftSideNoNfts>
+                      ) : (
+                        <Style.InnerLeftSideNoNfts>
+                          You are not connected :'(
+                        </Style.InnerLeftSideNoNfts>
+                      )}
+                    </Style.InnerLeftSide>
+                  </Style.BodyLeftSide>
+                </Grid>
+              </Grid>
+            </Style.LeftSide>
+          </Grid>
+          <Grid item xs={12} xl={9} style={{ zIndex: 10 }}>
+            <Grid
+              container
+              direction="column"
+              style={{ height: "100%" }}
+              justifyContent="space-between"
+            >
+              <Grid item flexGrow={1}>
+                <Style.InfoDiv>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Style.InfoDivItemName>PLACEHOLDER</Style.InfoDivItemName>
+                    </Grid>
+                    {isDripMutated ? (
+                      <Grid item xs={6} xl={12}>
                         <img
                           style={{
                             width: "100%",
                             borderRadius: "15px",
                           }}
-                          src={currentItem?.img}
+                          src={drip.nft?.img}
                           alt=""
                         />
-                      )}
-                    </Grid>
-                  )}
-
-                  <Grid item xs={12}>
-                    <Grid
-                      container
-                      alignItems="center"
-                      style={{
-                        marginTop: "5px",
-                        height: "20px",
-                      }}
-                    >
-                      <Grid item>
-                        <Style.MoreInfoSymbol>
-                          {currentItem.symbol} #{currentItem.id}
-                        </Style.MoreInfoSymbol>
                       </Grid>
-
-                      <Grid item>
-                        {isPlaceholderItem ? (
-                          <Style.ItemDescriptionMode>PLACEHOLDER</Style.ItemDescriptionMode>
-                        ) : null}
+                    ) : (
+                      <Grid item xs={6} xl={12}>
+                        {imagesPreloaded && (
+                          <img
+                            style={{
+                              width: "100%",
+                              borderRadius: "15px",
+                            }}
+                            src={currentItem?.img}
+                            alt=""
+                          />
+                        )}
                       </Grid>
+                    )}
 
-                      {!isDripMutated && (
-                        <Grid item flexGrow={1}>
-                          <Grid container direction="row-reverse">
-                            {!isPlaceholderItem ? (
-                              <Grid item>
-                                <Style.MutatorRemove>
-                                  <Clickable onClick={() => resetItem()}>
-                                    BACK TO PLACEHOLDER
-                                  </Clickable>
-                                </Style.MutatorRemove>
-                              </Grid>
-                            ) : null}
+                    <Grid item xs={12}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        style={{
+                          marginTop: "5px",
+                          height: "20px",
+                        }}
+                      >
+                        <Grid item>
+                          <Style.MoreInfoSymbol>
+                            {currentItem.symbol} #{currentItem.id}
+                          </Style.MoreInfoSymbol>
+                        </Grid>
+
+                        <Grid item>
+                          {isPlaceholderItem ? (
+                            <Style.ItemDescriptionMode>PLACEHOLDER</Style.ItemDescriptionMode>
+                          ) : null}
+                        </Grid>
+
+                        {!isDripMutated && (
+                          <Grid item flexGrow={1}>
+                            <Grid container direction="row-reverse">
+                              {!isPlaceholderItem ? (
+                                <Grid item>
+                                  <Style.MutatorRemove>
+                                    <Clickable onClick={() => resetItem()}>
+                                      BACK TO PLACEHOLDER
+                                    </Clickable>
+                                  </Style.MutatorRemove>
+                                </Grid>
+                              ) : null}
+                            </Grid>
                           </Grid>
+                        )}
+                      </Grid>
+                    </Grid>
+
+                    <Grid item xs={12} style={{ marginTop: "5px", height: "20px" }}>
+                      <Grid container spacing={0.5}>
+                        <Grid item>
+                          <Clickable
+                            activated={!isPlaceholderItem}
+                            address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
+                          >
+                            <IconOpenSea style={{ width: "16.5px", height: "16.5px" }} />
+                          </Clickable>
+                        </Grid>
+                        <Grid item>
+                          <Clickable
+                            activated={!isPlaceholderItem}
+                            address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
+                          >
+                            <IconEtherscan style={{ width: "16.5px", height: "16.5px" }} />
+                          </Clickable>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      marginTop: "15px",
+                      paddingTop: "15px",
+                      borderTop: "1.5px solid lightgrey",
+                    }}
+                  >
+                    <Style.InfoDivItemName>DECK</Style.InfoDivItemName>
+                  </Grid>
+
+                  <Grid item>
+                    <Style.BottomBar>
+                      <Style.BottomBarContainer
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Grid item xs={12}>
+                          <Style.GalleryWrap>
+                            <Style.GalleryItem
+                              $onHover={false}
+                              color={drop.metadata.versions[drip.version].texture}
+                              style={{
+                                height: "50px",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          </Style.GalleryWrap>
+                        </Grid>
+                      </Style.BottomBarContainer>
+                    </Style.BottomBar>
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      marginTop: "15px",
+                      paddingTop: "15px",
+                      borderTop: "1.5px solid lightgrey",
+                    }}
+                  >
+                    <Grid container justifyContent="space-between">
+                      <Grid item>
+                        <Style.InfoDivItemName>INFO</Style.InfoDivItemName>
+                      </Grid>
+
+                      <Grid item>
+                        <Style.InfoDivItemStatus>{dripStatus(drip.status)}</Style.InfoDivItemStatus>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item>
+                    <Style.OwnerContainer>
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <Style.InfoContainerLeft>Owner : </Style.InfoContainerLeft>
+                          <Style.InfoContainerRight>
+                            {shortenAddress(drip.owner)}
+                            {drip.owner === address ? (
+                              <b style={{ fontWeight: 700 }}> (you)</b>
+                            ) : (
+                              ""
+                            )}
+                          </Style.InfoContainerRight>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Style.InfoContainerLeft>Mint Price : </Style.InfoContainerLeft>
+                          <Style.InfoContainerRight>
+                            {formatEther(drop.price)} ETH
+                          </Style.InfoContainerRight>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Style.InfoContainerLeft>Id : </Style.InfoContainerLeft>
+                          <Style.InfoContainerRight>{drip.id}</Style.InfoContainerRight>
+                        </Grid>
+                      </Grid>
+                    </Style.OwnerContainer>
+                  </Grid>
+                </Style.InfoDiv>
+              </Grid>
+
+              <div
+                style={{
+                  marginTop: "15px",
+                  paddingTop: "15px",
+                  borderTop: "1.5px solid lightgrey",
+                }}
+              />
+
+              <Grid
+                item
+                style={{
+                  alignItems: "end",
+                  display: "flex",
+                }}
+              >
+                <Style.ContainerInfo>
+                  <Grid container justifyContent="space-between">
+                    <Style.ContainerTitle>DRIP #{drip.id}</Style.ContainerTitle>
+                    <div>
+                      <Style.ContainerTitle2>DROP #{drop.id}</Style.ContainerTitle2>
+                    </div>
+                  </Grid>
+
+                  <Style.ContainerPayment>
+                    <Grid container columnSpacing={1}>
+                      {isDripMutated ? (
+                        <Grid item xs={7}>
+                          <Clickable activated={false}>
+                            <Style.MintButton>REDEEM</Style.MintButton>
+                          </Clickable>
+                        </Grid>
+                      ) : (
+                        <Grid item xs={7}>
+                          <Clickable
+                            activated={!isPlaceholderItem && isOwner}
+                            onClick={() => {
+                              setOpen(true);
+                              dispatch(resetMintingProcess());
+                            }}
+                          >
+                            <Style.MintButton>MUTATE</Style.MintButton>
+                          </Clickable>
                         </Grid>
                       )}
-                    </Grid>
-                  </Grid>
 
-                  <Grid item xs={12} style={{ marginTop: "5px", height: "20px" }}>
-                    <Grid container spacing={0.5}>
-                      <Grid item>
-                        <Clickable
-                          activated={!isPlaceholderItem}
-                          address={`${CONFIG.openseaUrl}/${currentItem.address}/${currentItem.id}`}
-                        >
-                          <IconOpenSea style={{ width: "16.5px" }} />
-                        </Clickable>
-                      </Grid>
-                      <Grid item>
-                        <Clickable
-                          activated={!isPlaceholderItem}
-                          address={`${CONFIG.blockExplorerUrl}/address/${currentItem.address}`}
-                        >
-                          <IconEtherscan style={{ width: "16.5px" }} />
+                      <Grid item xs={5}>
+                        <Clickable address={`/app/drop/${drop.id}`}>
+                          <Style.MintButton>VIEW DROP</Style.MintButton>
                         </Clickable>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Grid>
+                  </Style.ContainerPayment>
+                </Style.ContainerInfo>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Style.Root>
+      </Box>
 
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    marginTop: "15px",
-                    paddingTop: "15px",
-                    borderTop: "1.5px solid lightgrey",
-                  }}
-                >
-                  <Style.InfoDivItemName>DECK</Style.InfoDivItemName>
-                </Grid>
+      <Box sx={{ display: { xs: "display", md: "none" } }}>
+        <Root>
+          <Global
+            styles={{
+              ".MuiDrawer-root > .MuiPaper-root": {
+                height: `calc(90% - ${drawerBleeding}px)`,
+                overflow: "visible",
+              },
+            }}
+          />
+          <SwipeableDrawer
+            anchor="bottom"
+            open={openDrawer}
+            onClose={toggleDrawer(false)}
+            onOpen={toggleDrawer(true)}
+            swipeAreaWidth={drawerBleeding}
+            disableSwipeToOpen={isOwner && !isDripMutated ? false : true}
+            allowSwipeInChildren={true}
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            <StyledBox
+              sx={{
+                backgroundColor: theme.colors.primary, // drop.metadata.versions[currentVersion].color
+                position: "absolute",
+                top: -drawerBleeding,
+                borderTopLeftRadius: 25,
+                borderTopRightRadius: 25,
+                visibility: "visible",
+                right: 0,
+                left: 0,
+                display: { sm: "block", md: "none" },
+              }}
+            >
+              {isOwner && !isDripMutated && <Puller />}
 
+              <Grid
+                container
+                style={{
+                  height: `${drawerBleeding}px`,
+                  boxSizing: "border-box",
+                  paddingTop: "20px",
+                  paddingBottom: "15px",
+                  paddingLeft: "15px",
+                  paddingRight: "15px",
+                }}
+                direction="column"
+                justifyContent={"space-between"}
+              >
                 <Grid item>
-                  <Style.BottomBar>
-                    <Style.BottomBarContainer container justifyContent="center" alignItems="center">
-                      <Grid item xs={12}>
-                        <Style.GalleryWrap>
-                          <Style.GalleryItem
-                            $onHover={false}
-                            color={drop.metadata.versions[drip.version].texture}
-                            style={{
-                              height: "50px",
-                              borderRadius: "5px",
-                            }}
-                          />
-                        </Style.GalleryWrap>
-                      </Grid>
-                    </Style.BottomBarContainer>
-                  </Style.BottomBar>
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    marginTop: "15px",
-                    paddingTop: "15px",
-                    borderTop: "1.5px solid lightgrey",
-                  }}
-                >
                   <Grid container justifyContent="space-between">
                     <Grid item>
-                      <Style.InfoDivItemName>INFO</Style.InfoDivItemName>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <Typos.Normal style={{ paddingTop: "1px" }}>
+                            <Style.StepTitle
+                              style={{
+                                fontSize: "0.8em",
+                                padding: "1px",
+                              }}
+                            >
+                              DRIP #{drip.id}
+                            </Style.StepTitle>
+                          </Typos.Normal>
+                        </Grid>
+                        <Grid item>
+                          <Typos.Normal style={{ paddingTop: "1px" }}>
+                            <Style.StepTitle
+                              style={{
+                                fontSize: "0.8em",
+                                backgroundColor: theme.colors.secondary,
+                                padding: "1px",
+                                paddingLeft: "5px",
+                                paddingRight: "5px",
+                                borderRadius: "5px",
+                              }}
+                            >
+                              DROP #{drop.id}
+                            </Style.StepTitle>
+                          </Typos.Normal>
+                        </Grid>
+                      </Grid>
                     </Grid>
-
                     <Grid item>
-                      <Style.InfoDivItemStatus>{dripStatus(drip.status)}</Style.InfoDivItemStatus>
+                      <Grid container alignItems="center" spacing={0.5}>
+                        <Grid item>
+                          <Style.MoreInfoSymbol
+                            style={{
+                              backgroundColor: drop.metadata.versions[currentVersion].color,
+                              color: theme.colors.black,
+                              padding: "5px",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            {drop.metadata.versions[currentVersion].name}
+                          </Style.MoreInfoSymbol>
+                        </Grid>
+                        <Grid
+                          item
+                          style={{
+                            display: isPlaceholderItem ? "none" : "block",
+                          }}
+                        >
+                          <Style.MoreInfoSymbol
+                            style={{
+                              backgroundColor: theme.colors.secondary,
+                              padding: "5px",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            {currentItem.symbol} #{currentItem.id}
+                          </Style.MoreInfoSymbol>
+                        </Grid>
+                        <Grid
+                          item
+                          style={{
+                            display: isPlaceholderItem || isDripMutated ? "none" : "block",
+                          }}
+                        >
+                          <Clickable onClick={() => resetItem()}>
+                            <IconTrash style={{ width: "16.5px", height: "16.5px" }} />
+                          </Clickable>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -566,7 +807,8 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                       <Grid item xs={12}>
                         <Style.InfoContainerLeft>Owner : </Style.InfoContainerLeft>
                         <Style.InfoContainerRight>
-                          {shortenAddress(drip.owner) + (drip.owner === address ? " (you)" : "")}
+                          {shortenAddress(drip.owner)}
+                          {drip.owner === address ? <b style={{ fontWeight: 700 }}> (you)</b> : ""}
                         </Style.InfoContainerRight>
                       </Grid>
 
@@ -582,70 +824,103 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                         <Style.InfoContainerRight>{drip.id}</Style.InfoContainerRight>
                       </Grid>
                     </Grid>
-                  </Style.OwnerContainer>
-                </Grid>
-              </Style.InfoDiv>
-            </Grid>
-
-            <div
-              style={{
-                marginTop: "15px",
-                paddingTop: "15px",
-                borderTop: "1.5px solid lightgrey",
-              }}
-            />
-
-            <Grid
-              item
-              style={{
-                alignItems: "end",
-                display: "flex",
-              }}
-            >
-              <Style.ContainerInfo>
-                <Grid container justifyContent="space-between">
-                  <Style.ContainerTitle>DRIP #{drip.id}</Style.ContainerTitle>
-                  <div>
-                    <Style.ContainerTitle2>DROP #{drop.id}</Style.ContainerTitle2>
-                  </div>
+                  </Style.OwnerContainer>{" "}
                 </Grid>
 
-                <Style.ContainerPayment>
-                  <Grid container columnSpacing={1}>
-                    {isDripMutated ? (
-                      <Grid item xs={7}>
-                        <Clickable activated={false}>
-                          <Style.MintButton>REDEEM</Style.MintButton>
-                        </Clickable>
-                      </Grid>
-                    ) : (
-                      <Grid item xs={7}>
-                        <Clickable
-                          activated={!isPlaceholderItem && address === drip.owner}
-                          onClick={() => {
-                            setOpen(true);
-                            dispatch(resetMintingProcess());
-                          }}
-                        >
-                          <Style.MintButton>MUTATE</Style.MintButton>
-                        </Clickable>
-                      </Grid>
-                    )}
-
-                    <Grid item xs={5}>
+                <Grid item>
+                  <Grid container columnSpacing={0.5} style={{ height: "100%", alignItems: "end" }}>
+                    <Grid item xs={7.75}>
+                      <Clickable
+                        activated={!isDripMutated && !isPlaceholderItem && isOwner}
+                        onClick={() => {
+                          setOpen(true);
+                          dispatch(resetMintingProcess());
+                        }}
+                      >
+                        <Style.MintButton>
+                          {isDripMutated
+                            ? "MUTATED"
+                            : isPlaceholderItem
+                            ? "SELECT AN NFT"
+                            : "MUTATE"}
+                        </Style.MintButton>
+                      </Clickable>
+                    </Grid>
+                    <Grid item xs={4.25}>
                       <Clickable address={`/app/drop/${drop.id}`}>
                         <Style.MintButton>VIEW DROP</Style.MintButton>
                       </Clickable>
                     </Grid>
                   </Grid>
-                </Style.ContainerPayment>
-              </Style.ContainerInfo>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Style.Root>
+                </Grid>
+              </Grid>
+            </StyledBox>
+
+            <Box height={"100%"} overflow="scroll">
+              <Style.InnerLeftSide>
+                {assets && assets.length ? (
+                  assets.map((collection, index1) => (
+                    <div key={index1} style={{ marginBottom: "20px" }}>
+                      <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
+                      <ImageList cols={4} gap={4}>
+                        {collection.assets.map((item, index) => (
+                          <ImageListItem
+                            key={index}
+                            style={{
+                              border:
+                                currentItem &&
+                                currentItem.name === collection.collectionName &&
+                                currentItem.id === item.id
+                                  ? "3px solid #2AFE00"
+                                  : "3px solid white",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              updateItem(item);
+                              toggleDrawer(false)();
+                            }}
+                          >
+                            <img src={item.img} alt={"item.id"} loading="lazy" />
+                          </ImageListItem>
+                        ))}
+                      </ImageList>
+                    </div>
+                  ))
+                ) : auth ? (
+                  <Style.InnerLeftSideNoNfts>
+                    {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+                  </Style.InnerLeftSideNoNfts>
+                ) : (
+                  <Style.InnerLeftSideNoNfts>You are not connected :'(</Style.InnerLeftSideNoNfts>
+                )}
+              </Style.InnerLeftSide>
+            </Box>
+          </SwipeableDrawer>
+        </Root>
+      </Box>
     </>
   );
 };
+
+const drawerBleeding = 175;
+
+const Root = styled("div")(({ theme }) => ({
+  height: "100%",
+  backgroundColor: theme.palette.mode === "light" ? grey[100] : theme.palette.background.default,
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
+}));
+
+const Puller = styled(Box)(({ theme }) => ({
+  width: 30,
+  height: 6,
+  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
+  borderRadius: 3,
+  position: "absolute",
+  top: 8,
+  left: "calc(50% - 15px)",
+}));
 
 export default DripRouteProxy;

@@ -307,7 +307,6 @@ const style = {
   Step: styled("div")(({ theme }) => ({
     padding: "12.5px",
     borderRadius: "15px",
-    marginRight: "25px",
     marginBottom: "10px",
     lineHeight: "20px",
     backgroundColor: theme.colors.primary,
@@ -350,7 +349,7 @@ const style = {
 
   ContainerTitle: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
-    fontSize: "2.5em",
+    fontSize: "2em",
     fontWeight: 900,
     marginBottom: "15px",
     display: "inline-block",
@@ -381,7 +380,6 @@ const style = {
   })),
   BottomBarContainer: styled(Grid)(({ theme }) => ({
     height: "100%",
-    minWidth: "250px",
     // backgroundColor: theme.backgroundColor.primary,
     opacity: "85%",
     borderRadius: "5px",

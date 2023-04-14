@@ -6,7 +6,7 @@ import Style from "./style";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { useTheme } from "@common/theme";
+import { useTheme } from "@mui/material/styles";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 

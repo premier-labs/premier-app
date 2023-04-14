@@ -71,6 +71,7 @@ const style = {
   WalletView: styled("div")(({ theme }) => ({
     padding: "15px",
     width: "325px",
+    boxSizing: "border-box",
     maxHeight: "calc(70vh)",
   })),
   //

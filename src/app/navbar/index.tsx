@@ -11,11 +11,12 @@ import { useGetDripsQuery } from "../store/services";
 import { login } from "../store/services/web3";
 import { shortenAddress } from "../utils";
 import Style from "./style";
-import { useTheme } from "@common/theme";
+import { useTheme } from "@mui/material/styles";
 
 import CenterItem from "@common/components/grid/centerItem";
 import { DripStatus } from "@premier-types";
 import { IconEtherscan, IconOpenSea, PremierLogo } from "@common/assets/images";
+import Box from "@common/components/box";
 
 export const NavbarComponent: FC = () => {
   const { auth, authError, address, name } = useSelector((state) => state.web3);
@@ -42,11 +43,13 @@ export const NavbarComponent: FC = () => {
       <Style.AppBar position="absolute">
         <Toolbar style={{ padding: "0px" }}>
           <Grid container columnSpacing={0} rowSpacing={0}>
-            <Grid item xs={2.25} style={{ display: "flex", alignItems: "center" }}>
+            <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
               <Grid container columnSpacing={0} rowSpacing={0} alignItems="center">
                 <Grid item>
                   <Clickable address="/">
-                    <PremierLogo style={{ width: "150px" }} />
+                    <Box sx={{ width: { xs: "125px", md: "150px" } }}>
+                      <PremierLogo style={{ width: "100%" }} />
+                    </Box>
                   </Clickable>
                 </Grid>
               </Grid>
@@ -139,13 +142,17 @@ export const NavbarComponent: FC = () => {
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
-                                                <IconOpenSea style={{ width: "15px" }} />
+                                                <IconOpenSea
+                                                  style={{ width: "15px", height: "15px" }}
+                                                />
                                               </CenterItem>
                                               <CenterItem
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
-                                                <IconEtherscan style={{ width: "15px" }} />
+                                                <IconEtherscan
+                                                  style={{ width: "15px", height: "15px" }}
+                                                />
                                               </CenterItem>
                                             </Grid>
                                           </Grid>
@@ -222,7 +229,6 @@ export const NavbarComponent: FC = () => {
                       <Grid
                         item
                         style={{
-                          display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
                           marginRight: "10px",

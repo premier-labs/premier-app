@@ -6,7 +6,14 @@ import Clickable from "@common/components/clickable";
 import Style from "./style";
 
 import { IconDiscord, PremierLogo, IconTwitter, IconGithub } from "@common/assets/images";
-import { CREDENTIALS, DISCORD_URL, GITHUB_URL, TWITTER_URL } from "@common/constants";
+import {
+  CREDENTIALS,
+  DISCORD_URL,
+  DOCS_URL,
+  GITHUB_URL,
+  INSTAGRAM_URL,
+  TWITTER_URL,
+} from "@common/constants";
 
 export const Footer: FC = () => {
   return (
@@ -29,7 +36,7 @@ export const Footer: FC = () => {
                 <ul>
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="">Docs</Clickable>
+                      <Clickable address={DOCS_URL}>Docs</Clickable>
                     </div>
                   </li>
                 </ul>
@@ -51,7 +58,7 @@ export const Footer: FC = () => {
                   </li>
                   <li>
                     <div style={{ display: "inline-block" }}>
-                      <Clickable address="">Instagram</Clickable>
+                      <Clickable address={INSTAGRAM_URL}>Instagram</Clickable>
                     </div>
                   </li>
                 </ul>

@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import Style from "./style";
 
-import { useTheme } from "@common/theme";
+import { useTheme } from "@mui/material/styles";
 import Typos from "@common/components/typography";
 import { Grid } from "@mui/material";
 

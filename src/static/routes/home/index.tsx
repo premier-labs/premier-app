@@ -7,7 +7,7 @@ import { ListMockTokens } from "@premier-mock";
 import SceneLoader, { sceneRef } from "@common/3d/scenes/skate_0";
 import Clickable from "@common/components/clickable";
 import Typos from "@common/components/typography";
-import { useTheme } from "@common/theme";
+import { useTheme } from "@mui/material/styles";
 
 import Style from "./style";
 import Marquee from "@common/components/marquee";
@@ -159,7 +159,7 @@ const HomeComponent: FC = ({}) => {
         sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
         style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
       >
-        <Grid item xs={12} md={9} lg={8} xl={7} style={{ paddingTop: "10vh" }}>
+        <Grid item xs={12} md={9} lg={8} xl={8} style={{ paddingTop: "10vh" }}>
           <Grid container alignItems="center" spacing={6}>
             <Grid item xs={12}>
               <Style.ContainerExempleDrip>
@@ -239,7 +239,7 @@ const HomeComponent: FC = ({}) => {
                                   height: "50px",
                                   borderRadius: "5px",
                                 }}
-                              ></Style.GalleryItem>
+                              />
                             ))}
                           </Style.GalleryWrap2>
                         </Style.ContainerExempleDripContainer>
@@ -376,14 +376,14 @@ const HomeComponent: FC = ({}) => {
           </Grid>
         </Grid>
 
-        <Grid item lg={0} xl={1} />
+        <Grid item lg={0} xl={0.5} />
 
         <Grid
           item
           xs={12}
           md={3}
           lg={4}
-          xl={4}
+          xl={3.5}
           style={{
             position: "relative",
           }}
@@ -701,12 +701,12 @@ const HomeComponent: FC = ({}) => {
         <Grid
           item
           xs={12}
+          sx={{ padding: { xs: "15px", md: "35px" } }}
           style={{
             backgroundColor: theme.colors.light,
             borderRadius: "25px",
-            padding: "35px",
-            paddingTop: "7.5vh",
-            paddingBottom: "7.5vh",
+            paddingTop: "5vh",
+            paddingBottom: "5vh",
           }}
         >
           <Grid container spacing={4}>

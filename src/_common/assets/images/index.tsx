@@ -6,6 +6,7 @@ export { ReactComponent as PremierMagazineLogo } from "@common/assets/images/res
 // General Icons
 export { ReactComponent as IconBook } from "@common/assets/images/resources/iconBook.svg";
 export { ReactComponent as IconDao } from "@common/assets/images/resources/iconDao.svg";
+export { ReactComponent as IconTrash } from "@common/assets/images/resources/iconTrash.svg";
 export { ReactComponent as IconDiscord } from "@common/assets/images/resources/iconDiscord.svg";
 export { ReactComponent as IconGithub } from "@common/assets/images/resources/iconGithub.svg";
 export { ReactComponent as IconTwitter } from "@common/assets/images/resources/iconTwitter.svg";

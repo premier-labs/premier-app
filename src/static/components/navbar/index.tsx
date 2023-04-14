@@ -6,7 +6,7 @@ import { Divider, Drawer, Grid, Toolbar } from "@mui/material";
 import Typos from "@common/components/typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Close from "@mui/icons-material/Close";
-import { useTheme } from "@common/theme";
+import { useTheme } from "@mui/material/styles";
 
 import { IconBook, IconDao, PremierLogo } from "@common/assets/images";
 

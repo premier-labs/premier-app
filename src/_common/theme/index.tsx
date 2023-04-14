@@ -226,8 +226,8 @@ const themeOpts = {
       },
     },
     app: {
-      paddingLeft: "25px",
-      paddingRight: "25px",
+      paddingLeft: "15px",
+      paddingRight: "15px",
     },
   },
 };

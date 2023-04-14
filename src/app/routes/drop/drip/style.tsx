@@ -78,7 +78,7 @@ const style = {
     fontWeight: 900,
     fontSize: "1em",
     letterSpacing: "1.25px",
-    marginBottom: "7.5px",
+    marginBottom: "10px",
   })),
   InfoDivItemStatus: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
@@ -262,7 +262,6 @@ const style = {
 
   OwnerContainer: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
-    marginTop: "10px",
     lineHeight: "1.15em",
   })),
   InfoContainerLeft: styled("div")(({ theme }) => ({
