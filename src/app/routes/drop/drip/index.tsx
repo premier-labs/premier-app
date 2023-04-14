@@ -19,7 +19,6 @@ import Tooltip from "@common/components/tooltip";
 
 import { useDispatch, useSelector } from "@app/store/hooks";
 import { useGetAssetsQuery, useGetDripQuery } from "@app/store/services";
-import { mint, mintDefault, mutate, resetMintingProcess } from "@app/store/services/web3";
 import Style from "./style";
 import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
@@ -31,6 +30,9 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+
+import { useAccount } from "wagmi";
+import { useMutate } from "@app/hooks/useMutate";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
@@ -68,7 +70,8 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
   drip,
   sceneRef,
 }) => {
-  const { auth, address, name, txProcess } = useSelector((state) => state.web3);
+  const { address, isConnected, isDisconnected } = useAccount();
+
   const dispatch = useDispatch();
   const theme = useTheme();
 
@@ -78,13 +81,16 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
     setOpenDrawer(newOpen);
   };
 
+  const { mutate, mutateReset, isMutateLoading, isMutateDone, isMutateError, mutateData } =
+    useMutate();
+
   const isDripMutated = drip.status === DripStatus.MUTATED;
   const isOwner = address === drip.owner;
 
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
-    { address: address },
-    { skip: !auth || isDripMutated }
+    { address: address as string },
+    { skip: isDisconnected || isDripMutated }
   );
 
   const placeholderItem: NFT = {
@@ -159,10 +165,11 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
   };
   const handleClose = () => {
     setOpen(false);
+    mutateReset();
   };
 
   // Mutation
-  const isMutated = txProcess.mutating.done;
+  const isMutated = isMutateDone;
 
   const modalActions = [
     {
@@ -178,22 +185,13 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
           !
         </Style.TextModal>
       ),
-      isLoading: txProcess.mutating.loading,
-      isDone: txProcess.mutating.done,
-      tx: txProcess.mutating.tx,
+      isLoading: isMutateLoading,
+      isDone: isMutateDone,
+      tx: mutateData.hash,
       price: "0.0",
       action: {
         name: "MUTATE",
-        fct: () => {
-          dispatch(
-            mutate({
-              address: drop.address,
-              tokenId: drip.id,
-              contractMutator: currentItem.address,
-              tokenIdMutator: currentItem.id,
-            })
-          );
-        },
+        fct: () => mutate(drop.address, drip.id, currentItem.address, currentItem.id),
       },
     },
   ];
@@ -382,7 +380,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                 </Grid>
 
                 <Grid item flexGrow={1}>
-                  <Style.BodyLeftSide $connected={auth}>
+                  <Style.BodyLeftSide $connected={isConnected}>
                     <Style.InnerLeftSide>
                       {assets && assets.length ? (
                         assets.map((collection, index1) => (
@@ -411,7 +409,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                             </ImageList>
                           </div>
                         ))
-                      ) : auth ? (
+                      ) : isConnected ? (
                         <Style.InnerLeftSideNoNfts>
                           {isLoading ? "Loading ..." : "You do not own any NFTs :("}
                         </Style.InnerLeftSideNoNfts>
@@ -426,6 +424,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
               </Grid>
             </Style.LeftSide>
           </Grid>
+
           <Grid item xs={12} xl={9} style={{ zIndex: 10 }}>
             <Grid
               container
@@ -650,7 +649,6 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                             activated={!isPlaceholderItem && isOwner}
                             onClick={() => {
                               setOpen(true);
-                              dispatch(resetMintingProcess());
                             }}
                           >
                             <Style.MintButton>MUTATE</Style.MintButton>
@@ -834,7 +832,6 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                         activated={!isDripMutated && !isPlaceholderItem && isOwner}
                         onClick={() => {
                           setOpen(true);
-                          dispatch(resetMintingProcess());
                         }}
                       >
                         <Style.MintButton>
@@ -886,7 +883,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
                       </ImageList>
                     </div>
                   ))
-                ) : auth ? (
+                ) : isConnected ? (
                   <Style.InnerLeftSideNoNfts>
                     {isLoading ? "Loading ..." : "You do not own any NFTs :("}
                   </Style.InnerLeftSideNoNfts>

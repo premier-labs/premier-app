@@ -24,6 +24,7 @@ export const CONFIG = {
   network: {
     server_url: import.meta.env.VITE__SERVER_URL!,
     websocket_server_url: import.meta.env.VITE__WEBSOCKET_SERVER_URL!,
+    web3_provider_url: import.meta.env.VITE__WEB3_PROVIDER_URL!,
   },
   blockExplorerUrl: import.meta.env.VITE__BLOCKEXPLORER!,
   openseaUrl: import.meta.env.VITE__OPENSEA_URL!,

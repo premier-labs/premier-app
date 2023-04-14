@@ -3,12 +3,9 @@ import { reducers } from "./reducers/index";
 import { combineReducers } from "redux";
 import { dropApi } from "./services";
 import thunkMiddleware from "redux-thunk";
-import web3Reducer from "./services/web3";
 
 const reducer = combineReducers({
   [dropApi.reducerPath]: dropApi.reducer,
-  // [socketApi.reducerPath]: socketApi.reducer,
-  web3: web3Reducer,
 
   ...reducers,
 });

@@ -17,12 +17,17 @@ import CenterItem from "@common/components/grid/centerItem";
 import { DripStatus } from "@premier-types";
 import { IconEtherscan, IconOpenSea, PremierLogo } from "@common/assets/images";
 import Box from "@common/components/box";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 export const NavbarComponent: FC = () => {
-  const { auth, authError, address, name } = useSelector((state) => state.web3);
+  const { address, isConnected, isDisconnected } = useAccount();
   const dispatch = useDispatch();
 
-  const { data: drips, isLoading } = useGetDripsQuery({ address }, { skip: !auth });
+  const { data: drips, isLoading } = useGetDripsQuery(
+    { address: address as string },
+    { skip: isDisconnected }
+  );
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -64,7 +69,7 @@ export const NavbarComponent: FC = () => {
                 alignItems="center"
               >
                 <Grid item>
-                  <Clickable activated={auth} onClick={handlePopoverOpen}>
+                  <Clickable activated={isConnected} onClick={handlePopoverOpen}>
                     <AccountBalanceWalletIcon
                       style={{
                         fontSize: "40px",
@@ -223,49 +228,14 @@ export const NavbarComponent: FC = () => {
                     </ClickAwayListener>
                   </Popover>
                 </Grid>
+
                 <Grid item>
-                  {auth ? (
-                    <Style.Wallet container>
-                      <Grid
-                        item
-                        style={{
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginRight: "10px",
-                        }}
-                      >
-                        <img
-                          src="https://avatars.githubusercontent.com/u/5032"
-                          alt=""
-                          style={{ width: "32.5px", height: "32.5px", borderRadius: "1500px" }}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Grid
-                          container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          style={{ height: "100%" }}
-                        >
-                          <Grid item>
-                            <Style.WalletENS>{name}</Style.WalletENS>
-                          </Grid>
-                          <Grid item>
-                            <Style.WalletAddy>{shortenAddress(address)}</Style.WalletAddy>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Style.Wallet>
-                  ) : (
-                    <Clickable onClick={() => dispatch(login())}>
-                      <Style.GoToAppButton>Connect Wallet</Style.GoToAppButton>
-                    </Clickable>
-                  )}
+                  <ConnectButton />
                 </Grid>
+
                 <Grid item>
                   <Style.NetworkSupported>
-                    {!auth && authError && (
+                    {isDisconnected && (
                       <>
                         Network unsupported. Please switch to: <b>[Goerli]</b>
                       </>

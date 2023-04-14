@@ -20,7 +20,6 @@ import { useTheme } from "@mui/material/styles";
 
 import { useDispatch, useSelector } from "@app/store/hooks";
 import { useGetAssetsQuery, useGetDripQuery } from "@app/store/services";
-import { mint, mintDefault, mutate, resetMintingProcess } from "@app/store/services/web3";
 import Style from "./style";
 import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
@@ -30,23 +29,34 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { useAccount } from "wagmi";
+import { useMint } from "@app/hooks/useMint";
+import { useMutate } from "@app/hooks/useMutate";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
 
 const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, sceneRef }) => {
-  const { auth, address, name, txProcess } = useSelector((state) => state.web3);
+  const { address, isConnected, isDisconnected } = useAccount();
+
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const { mint, mintReset, isMintLoading, isMintDone, isMintError, mintData } = useMint();
+  const { mutate, mutateReset, isMutateLoading, isMutateDone, isMutateError, mutateData } =
+    useMutate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
   };
 
   // fetch data
-  const { data: assets, isLoading } = useGetAssetsQuery({ address: address }, { skip: !auth });
+  const { data: assets, isLoading } = useGetAssetsQuery(
+    { address: address as string },
+    { skip: isDisconnected }
+  );
 
   const placeholderItem: NFT = {
     address: AddressZero,
@@ -117,13 +127,14 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   };
   const handleClose = () => {
     setOpen(false);
+    mintReset();
   };
 
   // Drip
-  const isDripMinted = txProcess.mintingDrip.id !== undefined;
+  const isDripMinted = isMintDone && mintData.tokenId !== undefined;
 
   // Mutation
-  const isMutated = txProcess.mutating.done;
+  const isMutated = isMutateDone;
 
   const modalActions = [
     {
@@ -135,31 +146,20 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
           Let's mint your <b>Drip</b>.
         </Style.TextModal>
       ),
-      isLoading: txProcess.mintingDrip.loading,
-      isDone: txProcess.mintingDrip.done,
-      tx: txProcess.mintingDrip.tx,
+      isLoading: isMintLoading,
+      isDone: isDripMinted,
+      tx: mintData.hash,
       price: formatEther(drop.price),
       action: {
         name: "MINT",
-        fct: () => {
-          dispatch(
-            mint({
-              address: drop.address,
-              versionId: currentVersion,
-              value: drop.price,
-              nft: currentItem,
-            })
-          );
-        },
+        fct: () => mint(drop.address, currentVersion, drop.price, currentItem),
       },
     },
 
     ...(!isPlaceholderItem
       ? [
           {
-            isDisplay: isPlaceholderItem
-              ? txProcess.mintingDefault.done
-              : txProcess.mintingDrip.done,
+            isDisplay: isDripMinted,
             isMyTurn: isDripMinted && !isMutated,
             stepName: "MUTATE",
             text: (
@@ -171,22 +171,19 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 !
               </Style.TextModal>
             ),
-            isLoading: txProcess.mutating.loading,
-            isDone: txProcess.mutating.done,
-            tx: txProcess.mutating.tx,
+            isLoading: isMutateLoading,
+            isDone: isMutateDone,
+            tx: mutateData.hash,
             price: "0.0",
             action: {
               name: "MUTATE",
-              fct: () => {
-                dispatch(
-                  mutate({
-                    address: drop.address,
-                    tokenId: txProcess.mintingDrip?.id as number,
-                    contractMutator: currentItem.address,
-                    tokenIdMutator: currentItem.id,
-                  })
-                );
-              },
+              fct: () =>
+                mutate(
+                  drop.address,
+                  mintData?.tokenId as number,
+                  currentItem.address,
+                  currentItem.id
+                ),
             },
           },
         ]
@@ -333,7 +330,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 <Grid item xs={12}>
                   <Grid container direction="row-reverse">
                     <Grid item>
-                      <Clickable address={`/app/drop/${drop.id}/${txProcess.mintingDrip.id}`}>
+                      <Clickable address={`/app/drop/${drop.id}/${mintData.tokenId}`}>
                         <Style.FinalStep2 $display={modalActions[modalActions.length - 1].isDone}>
                           View
                         </Style.FinalStep2>
@@ -376,7 +373,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 </Grid>
 
                 <Grid item flexGrow={1}>
-                  <Style.BodyLeftSide $connected={auth}>
+                  <Style.BodyLeftSide $connected={isConnected}>
                     <Style.InnerLeftSide>
                       {assets && assets.length ? (
                         assets.map((collection, index1) => (
@@ -405,7 +402,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                             </ImageList>
                           </div>
                         ))
-                      ) : auth ? (
+                      ) : isConnected ? (
                         <Style.InnerLeftSideNoNfts>
                           {isLoading ? "Loading ..." : "You do not own any NFTs :("}
                         </Style.InnerLeftSideNoNfts>
@@ -602,7 +599,6 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                             activated={isMintable}
                             onClick={() => {
                               setOpen(true);
-                              dispatch(resetMintingProcess());
                             }}
                           >
                             <Style.MintButton>
@@ -739,7 +735,6 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                     activated={isMintable}
                     onClick={() => {
                       setOpen(true);
-                      dispatch(resetMintingProcess());
                     }}
                   >
                     <Style.MintButton>
@@ -795,7 +790,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                       </ImageList>
                     </div>
                   ))
-                ) : auth ? (
+                ) : isConnected ? (
                   <Style.InnerLeftSideNoNfts>
                     {isLoading ? "Loading ..." : "You do not own any NFTs :("}
                   </Style.InnerLeftSideNoNfts>
