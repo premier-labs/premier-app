@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 
 import { ListMockTokens } from "@premier-mock";
 
@@ -159,7 +159,7 @@ const HomeComponent: FC = ({}) => {
         sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
         style={{ minHeight: `calc(100vh - ${theme.header.height}` }}
       >
-        <Grid item xs={12} md={9} lg={8} xl={8} style={{ paddingTop: "10vh" }}>
+        <Grid item xs={12} md={8} lg={8} xl={8} style={{ paddingTop: "10vh" }}>
           <Grid container alignItems="center" spacing={6}>
             <Grid item xs={12}>
               <Style.ContainerExempleDrip>
@@ -376,13 +376,12 @@ const HomeComponent: FC = ({}) => {
           </Grid>
         </Grid>
 
-        <Grid item lg={0} xl={0.5} />
+        <Grid item xs={0} md={0.5} />
 
         <Grid
           item
           xs={12}
-          md={3}
-          lg={4}
+          md={3.5}
           xl={3.5}
           style={{
             position: "relative",

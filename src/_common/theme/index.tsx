@@ -182,45 +182,45 @@ const themeOpts = {
 
   myBreakpoints: {
     static: {
-      [breakpoints.up("lg")]: {
+      [breakpoints.only("xl")]: {
         paddingLeft: "16vw",
         paddingRight: "16vw",
       },
-      [breakpoints.down("lg")]: {
+      [breakpoints.only("lg")]: {
         paddingLeft: "8vw",
         paddingRight: "8vw",
       },
-      [breakpoints.down("md")]: {
+      [breakpoints.only("md")]: {
         paddingLeft: "6vw",
         paddingRight: "6vw",
       },
-      [breakpoints.down("sm")]: {
+      [breakpoints.only("sm")]: {
         paddingLeft: "2vw",
         paddingRight: "2vw",
       },
-      [breakpoints.down("sm")]: {
+      [breakpoints.only("xs")]: {
         paddingLeft: "20px",
         paddingRight: "20px",
       },
     },
     antiStatic: {
-      [breakpoints.up("lg")]: {
+      [breakpoints.only("xl")]: {
         marginLeft: "-16vw",
         marginRight: "-16vw",
       },
-      [breakpoints.down("lg")]: {
+      [breakpoints.only("lg")]: {
         marginLeft: "-8vw",
         marginRight: "-8vw",
       },
-      [breakpoints.down("md")]: {
+      [breakpoints.only("md")]: {
         marginLeft: "-6vw",
         marginRight: "-6vw",
       },
-      [breakpoints.down("sm")]: {
+      [breakpoints.only("sm")]: {
         marginLeft: "-2vw",
         marginRight: "-2vw",
       },
-      [breakpoints.down("sm")]: {
+      [breakpoints.only("xs")]: {
         marginLeft: "-20px",
         marginRight: "-20px",
       },
