@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import { sceneRefType } from "@common/3d/scenes/skate_1";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Grid, ImageList, ImageListItem, Modal } from "@mui/material";
+import { CssBaseline, Grid, ImageList, ImageListItem, Modal } from "@mui/material";
 import { Drip, Drop, NFT, NFTs, NFTsByCollection } from "@premier-types";
 import { ethers } from "ethers";
 import Typos from "@common/components/typography";
@@ -618,6 +618,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
 
       <Box sx={{ display: { xs: "display", md: "none" } }}>
         <Root>
+          {/* <CssBaseline /> */}
           <Global
             styles={{
               ".MuiDrawer-root > .MuiPaper-root": {
