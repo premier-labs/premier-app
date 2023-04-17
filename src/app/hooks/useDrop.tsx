@@ -20,6 +20,9 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
   const { chain } = useNetwork();
   const chainId = chain?.id as number;
 
+  console.log(chainId);
+  console.log(ChainIdToStoreContract[chainId]);
+
   const [isDropLoading, setLoading] = useState(true);
   const [isDropError, setError] = useState(false);
   const [isDropDone, setDone] = useState(false);
@@ -30,6 +33,7 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
     isError: isStoreDropError,
     isLoading: isStoreDropLoading,
     isSuccess: isStoreDropSucess,
+    error: storeDropError,
   } = useContractRead({
     address: ChainIdToStoreContract[chainId] as Address,
     abi: Store__factory.abi,
@@ -42,6 +46,7 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
     isError: isDropDataError,
     isLoading: isDropDataLoading,
     isSuccess: isDropDataSucess,
+    error: dropDataError,
   } = useContractRead({
     address: dropContract,
     abi: Drop__factory.abi,
@@ -49,7 +54,8 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
   });
 
   const isDropLoaded = isStoreDropSucess && isDropDataSucess && _dropData != undefined;
-
+  console.log(storeDropError);
+  console.log(dropDataError);
   useEffect(() => {
     (async function () {
       if (isDropLoaded) {
