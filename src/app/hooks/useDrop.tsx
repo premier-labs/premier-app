@@ -75,7 +75,9 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
           .then((data) => {
             return data;
           })
-          .catch((e) => {})
+          .catch((e) => {
+            console.log(e);
+          })
       ),
     { enabled: isDropLoaded }
   );
