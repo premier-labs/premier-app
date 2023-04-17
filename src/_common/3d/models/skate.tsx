@@ -137,8 +137,8 @@ const Skate: FC<ModelProps> = React.memo(
     materials.Deck.map = deckInitialTexture;
 
     return (
-      <group ref={group} rotation={[0, Math.PI, 0]}>
-        <Center position={[0, 0, 0]}>
+      <group ref={group} rotation={[0, Math.PI, 0]} {...props.three?.group}>
+        <Center>
           <group rotation={[Math.PI, -Math.PI / 2, Math.PI / 2]} dispose={null}>
             <mesh
               ref={deckRef}

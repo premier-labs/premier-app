@@ -13,6 +13,8 @@ import { Loader } from "../utils/loader";
 import { OrbitControls } from "@react-three/drei";
 import { useSceneStore } from "@common/3d/hooks/hook";
 import { CameraControls } from "@react-three/drei";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 
 export type sceneRef = ReturnType<typeof sceneFunctions>;
 export type sceneRefType = React.MutableRefObject<sceneRef>;
@@ -43,6 +45,10 @@ const SceneLoader: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.m
 const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((props) => {
   const { setLoaded } = useSceneStore();
 
+  const theme = useTheme();
+
+  const mq_md = useMediaQuery(theme.breakpoints.down("md"));
+
   useEffect(() => {
     setLoaded(true);
   }, []);
@@ -57,7 +63,11 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((p
       <CameraControls ref={cameraControls} distance={65} />
 
       <ambientLight intensity={0.975} />
-      <ModelSkate refs={refs} {...props} />
+      <ModelSkate
+        refs={refs}
+        {...props}
+        three={{ group: { position: mq_md ? [0, -5, 0] : [0, 0, 0] } }}
+      />
     </>
   );
 });
