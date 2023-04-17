@@ -1741,10 +1741,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.7.tgz#ccab5c8f7dc557a52ca3288c10075c9ccd37fff7"
   integrity sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==
 
-"@premier-labs/contracts@^0.0.72":
-  version "0.0.72"
-  resolved "https://registry.yarnpkg.com/@premier-labs/contracts/-/contracts-0.0.72.tgz#b6e7bce0ea6d4e39de4c7aa506f59eafdcea3135"
-  integrity sha512-CWd2iBvHrSPg/nt262ZgyzCsFn4PbfC/78ERwFwgTSuSqy6CSZHizQQkA0MnW/xX0A2+D/ZJW3oGzSvZoC123g==
+"@premier-labs/contracts@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@premier-labs/contracts/-/contracts-0.0.73.tgz#053e2dbc5b5a900b3d266ccef36441bde2b564a3"
+  integrity sha512-WruDamec3feSimvMMIH77WF6EBrA/8yvdIEzJq6c9v/whQDV2sDubIOtbVHYqIsm9y4Wb5/ZUQ9Mfs6KpIZM7Q==
   dependencies:
     "@typechain/ethers-v5" "^10.2.0"
     "@typechain/hardhat" "^6.1.5"

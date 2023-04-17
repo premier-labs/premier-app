@@ -16,6 +16,17 @@ export default function useDrip(dropContract: string, dripId: number, options: {
   const [isDripDone, setDone] = useState(false);
   const [dripData, setData] = useState<Drip>();
 
+  if (options.skip) {
+    setLoading(false);
+
+    return {
+      isDripLoading,
+      isDripDone,
+      isDripError,
+      dripData,
+    };
+  }
+
   const {
     data: _dripData,
     isError: isDripDataError,

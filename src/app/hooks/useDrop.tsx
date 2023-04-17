@@ -25,6 +25,17 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
   const [isDropDone, setDone] = useState(false);
   const [dropData, setData] = useState<Drop>();
 
+  if (options.skip) {
+    setLoading(false);
+
+    return {
+      isDropLoading,
+      isDropDone,
+      isDropError,
+      dropData,
+    };
+  }
+
   const {
     data: dropContract,
     isError: isStoreDropError,

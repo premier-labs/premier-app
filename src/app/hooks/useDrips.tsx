@@ -68,6 +68,17 @@ export default function useDrips(address: string, options: { skip?: boolean }) {
   const [isDripsDone, setDone] = useState(false);
   const [dripsData, setData] = useState<Drips>();
 
+  if (options.skip) {
+    setLoading(false);
+
+    return {
+      isDripsLoading,
+      isDripsDone,
+      isDripsError,
+      dripsData,
+    };
+  }
+
   const {
     data: _dripsData,
     isError: isStoreDropError,
