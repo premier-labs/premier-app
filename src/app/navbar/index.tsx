@@ -8,7 +8,6 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Popover from "@mui/material/Popover";
 import { useDispatch, useSelector } from "../store/hooks";
-import { useGetDripsQuery } from "../store/services";
 import { shortenAddress } from "../utils";
 import Style from "./style";
 import { useTheme } from "@mui/material/styles";
@@ -19,15 +18,19 @@ import { IconEtherscan, IconOpenSea, PremierLogo, PremierMiniLogo } from "@commo
 import Box from "@common/components/box";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import useDrips from "@app/hooks/useDrips";
+import { CONFIG } from "@common/config";
 
 export const NavbarComponent: FC = () => {
-  const { address, isConnected, isDisconnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const dispatch = useDispatch();
 
-  const { data: drips, isLoading } = useGetDripsQuery(
-    { address: address as string },
-    { skip: isDisconnected }
-  );
+  const {
+    dripsData: drips,
+    isDripsLoading: isLoading,
+    isDripsDone,
+    isDripsError,
+  } = useDrips(address as string, { skip: !isConnected });
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -136,10 +139,10 @@ export const NavbarComponent: FC = () => {
                                                 <Style.WalletTypoCollectionDrop
                                                   style={{
                                                     borderBottom: `5px solid black`,
-                                                    borderImage: `linear-gradient(to right, ${
-                                                      drip.drop.metadata.versions[drip.version]
-                                                        .color
-                                                    } 50%, transparent 50%) 100% 1`,
+                                                    // borderImage: `linear-gradient(to right, ${
+                                                    //   drip.drop.metadata.versions[drip.version]
+                                                    //     .color
+                                                    // } 50%, transparent 50%) 100% 1`,
                                                   }}
                                                 >
                                                   {drip.drop.symbol}
@@ -155,21 +158,27 @@ export const NavbarComponent: FC = () => {
 
                                           <Grid item>
                                             <Grid container columnSpacing={0.5}>
+                                              {/* <CenterItem
+                                                item
+                                                style={{ display: "flex", alignContent: "center" }}
+                                              >
+                                                <Clickable address="">
+                                                  <IconOpenSea
+                                                    style={{ width: "15px", height: "15px" }}
+                                                  />
+                                                </Clickable>
+                                              </CenterItem> */}
                                               <CenterItem
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
-                                                <IconOpenSea
-                                                  style={{ width: "15px", height: "15px" }}
-                                                />
-                                              </CenterItem>
-                                              <CenterItem
-                                                item
-                                                style={{ display: "flex", alignContent: "center" }}
-                                              >
-                                                <IconEtherscan
-                                                  style={{ width: "15px", height: "15px" }}
-                                                />
+                                                <Clickable
+                                                  address={`${CONFIG.blockExplorerUrl}/address/${drip.drop.address}`}
+                                                >
+                                                  <IconEtherscan
+                                                    style={{ width: "15px", height: "15px" }}
+                                                  />
+                                                </Clickable>
                                               </CenterItem>
                                             </Grid>
                                           </Grid>

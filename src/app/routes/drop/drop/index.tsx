@@ -19,7 +19,7 @@ import Tooltip from "@common/components/tooltip";
 import { useTheme } from "@mui/material/styles";
 
 import { useDispatch, useSelector } from "@app/store/hooks";
-import { useGetAssetsQuery, useGetDripQuery } from "@app/store/services";
+import { useGetAssetsQuery } from "@app/store/services";
 import Style from "./style";
 import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
@@ -37,7 +37,7 @@ const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
 
 const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, sceneRef }) => {
-  const { address, isConnected, isDisconnected } = useAccount();
+  const { address, isConnected } = useAccount();
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -55,7 +55,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
     { address: address as string },
-    { skip: isDisconnected }
+    { skip: !isConnected }
   );
 
   const placeholderItem: NFT = {
@@ -131,7 +131,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   };
 
   // Drip
-  const isDripMinted = isMintDone && mintData.tokenId !== undefined;
+  const isDripMinted = isMintDone && mintData?.tokenId !== undefined;
 
   // Mutation
   const isMutated = isMutateDone;
@@ -148,7 +148,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
       ),
       isLoading: isMintLoading,
       isDone: isDripMinted,
-      tx: mintData.hash,
+      tx: mintData?.hash,
       price: formatEther(drop.price),
       action: {
         name: "MINT",
@@ -173,7 +173,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
             ),
             isLoading: isMutateLoading,
             isDone: isMutateDone,
-            tx: mutateData.hash,
+            tx: mutateData?.hash,
             price: "0.0",
             action: {
               name: "MUTATE",
@@ -330,7 +330,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 <Grid item xs={12}>
                   <Grid container direction="row-reverse">
                     <Grid item>
-                      <Clickable address={`/app/drop/${drop.id}/${mintData.tokenId}`}>
+                      <Clickable address={`/app/drop/${drop.id}/${mintData?.tokenId}`}>
                         <Style.FinalStep2 $display={modalActions[modalActions.length - 1].isDone}>
                           View
                         </Style.FinalStep2>

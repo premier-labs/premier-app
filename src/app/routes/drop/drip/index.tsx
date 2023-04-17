@@ -18,7 +18,7 @@ import Pastille from "@common/components/pastille";
 import Tooltip from "@common/components/tooltip";
 
 import { useDispatch, useSelector } from "@app/store/hooks";
-import { useGetAssetsQuery, useGetDripQuery } from "@app/store/services";
+import { useGetAssetsQuery } from "@app/store/services";
 import Style from "./style";
 import { useParams } from "react-router-dom";
 import { useSceneStore } from "../../../../_common/3d/hooks/hook";
@@ -33,6 +33,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 import { useAccount } from "wagmi";
 import { useMutate } from "@app/hooks/useMutate";
+import useDrip from "@app/hooks/useDrip";
 
 const { parseEther: toEth, formatEther, formatBytes32String } = ethers.utils;
 const { AddressZero } = ethers.constants;
@@ -42,15 +43,14 @@ const DripRouteProxy: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scen
   const dripId = Number(useParams().dripId);
 
   const isDripParamError = isNaN(dripId);
-  const {
-    data: drip,
-    isLoading: isLoadingDrip,
-    isError: isErrorDrip,
-    isSuccess: isSuccessDrip,
-  } = useGetDripQuery({ dropId, dripId }, { skip: isDripParamError });
-  const isDripQueryError = !isSuccessDrip || isErrorDrip || !drip;
 
-  if (isLoadingDrip) {
+  const { dripData, isDripLoading, isDripError, isDripDone } = useDrip(drop.address, dripId, {
+    skip: isDripParamError,
+  });
+
+  const isDripQueryError = isDripParamError || isDripError || dripData === undefined;
+
+  if (isDripLoading) {
     return <>Loading</>; // TODO
   }
 
@@ -58,11 +58,7 @@ const DripRouteProxy: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scen
     return <>Not Found</>; // TODO
   }
 
-  if (isDripQueryError) {
-    return <>Not Found</>; // TODO
-  }
-
-  return <DripComponent drop={drop} drip={drip} sceneRef={sceneRef} />;
+  return <DripComponent drop={drop} drip={dripData} sceneRef={sceneRef} />;
 };
 
 const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
@@ -70,7 +66,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
   drip,
   sceneRef,
 }) => {
-  const { address, isConnected, isDisconnected } = useAccount();
+  const { address, isConnected } = useAccount();
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -90,7 +86,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
     { address: address as string },
-    { skip: isDisconnected || isDripMutated }
+    { skip: !isConnected || isDripMutated }
   );
 
   const placeholderItem: NFT = {
@@ -187,7 +183,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; sceneRef: sceneRefType }> = ({
       ),
       isLoading: isMutateLoading,
       isDone: isMutateDone,
-      tx: mutateData.hash,
+      tx: mutateData?.hash,
       price: "0.0",
       action: {
         name: "MUTATE",

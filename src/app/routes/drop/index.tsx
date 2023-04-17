@@ -6,11 +6,11 @@ import { Drop } from "@premier-types";
 import { Route, Routes, useParams } from "react-router-dom";
 
 import { CREDENTIALS } from "@common/constants";
-import { useGetDropQuery } from "../../store/services";
 import NotFound from "../404";
 import Style from "./style";
 import DropComponent from "./drop";
 import DripComponent from "./drip";
+import useDrop from "@app/hooks/useDrop";
 
 const DropRoutes: FC = ({}) => {
   return (
@@ -26,15 +26,14 @@ const DropAppRoutesProxy: FC = () => {
   const dropId = Number(useParams().dropId);
 
   const isDropParamError = isNaN(dropId);
-  const {
-    data: drop,
-    isLoading: isLoadingDrops,
-    isError: isErrorDrops,
-    isSuccess: isSuccessDrops,
-  } = useGetDropQuery({ dropId }, { skip: isDropParamError });
-  const isDropQueryError = !isSuccessDrops || isErrorDrops || !drop;
 
-  if (isLoadingDrops) {
+  const { dropData, isDropLoading, isDropError, isDropDone } = useDrop(dropId, {
+    skip: isDropParamError,
+  });
+
+  const isDropQueryError = isDropParamError || isDropError || dropData === undefined;
+
+  if (isDropLoading) {
     return <>Loading</>;
   }
 
@@ -42,7 +41,7 @@ const DropAppRoutesProxy: FC = () => {
     return <NotFound />;
   }
 
-  return <DropApp drop={drop} />;
+  return <DropApp drop={dropData} />;
 };
 
 const DropApp: FC<{ drop: Drop }> = ({ drop }) => {

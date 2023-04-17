@@ -1,0 +1,116 @@
+import { CONFIG } from "@common/config";
+import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
+import { Drop__factory, Store__factory } from "@premier-typechain";
+import { Drop, DropMetadata } from "@premier-types";
+import { BigNumber } from "ethers";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { Address, useContractEvent, useNetwork } from "wagmi";
+import { useContractRead } from "wagmi";
+
+export const IPFS_GATEWAY = CONFIG.ipfs_provider_url + "/ipfs/";
+const IPFS_EXP = "ipfs://";
+
+export const normalizeIPFSUrl = (address: string) => {
+  address = address.replace(IPFS_EXP, IPFS_GATEWAY);
+  return address;
+};
+
+export default function useDrop(dropId: number, options: { skip?: boolean }) {
+  const { chain } = useNetwork();
+  const chainId = chain?.id as number;
+
+  const [isDropLoading, setLoading] = useState(true);
+  const [isDropError, setError] = useState(false);
+  const [isDropDone, setDone] = useState(false);
+  const [dropData, setData] = useState<Drop>();
+
+  const {
+    data: dropContract,
+    isError: isStoreDropError,
+    isLoading: isStoreDropLoading,
+    isSuccess: isStoreDropSucess,
+  } = useContractRead({
+    address: ChainIdToStoreContract[chainId] as Address,
+    abi: Store__factory.abi,
+    functionName: "drop",
+    args: [BigNumber.from(dropId)],
+  });
+
+  const {
+    data: _dropData,
+    isError: isDropDataError,
+    isLoading: isDropDataLoading,
+    isSuccess: isDropDataSucess,
+  } = useContractRead({
+    address: dropContract,
+    abi: Drop__factory.abi,
+    functionName: "drop",
+  });
+
+  const isDropLoaded = isStoreDropSucess && isDropDataSucess;
+
+  let ipfsUrl: string;
+  if (isDropLoaded) {
+    ipfsUrl = normalizeIPFSUrl(_dropData?.dropURI as string);
+  }
+
+  const { data, error, isLoading } = useQuery(
+    "repoData",
+    () =>
+      fetch(ipfsUrl).then((res) =>
+        res
+          .json()
+          .then((data) => {
+            return data;
+          })
+          .catch((e) => {})
+      ),
+    { enabled: isDropLoaded }
+  );
+
+  useContractEvent({
+    address: dropContract as Address,
+    abi: Drop__factory.abi,
+    eventName: "Minted",
+
+    listener(dripId) {
+      if (dropData) {
+        if (dripId >= BigNumber.from(dropData.currentSupply)) {
+          setData({ ...dropData, currentSupply: dropData.currentSupply + 1 });
+        }
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      const metadata = data as DropMetadata;
+
+      for (const version of metadata.versions) {
+        version.texture = normalizeIPFSUrl(version.texture);
+      }
+      metadata.model = normalizeIPFSUrl(metadata.model);
+
+      setData({
+        address: _dropData?._contract as string,
+        symbol: _dropData?.symbol as string,
+        id: _dropData?.id.toNumber() as number,
+        maxSupply: _dropData?.maxSupply.toNumber() as number,
+        price: _dropData?.price.toString() as string,
+        currentSupply: _dropData?.currentSupply.toNumber() as number,
+        metadata: metadata,
+      });
+
+      setLoading(false);
+      setDone(true);
+    }
+  }, [data]);
+
+  return {
+    isDropLoading,
+    isDropDone,
+    isDropError,
+    dropData,
+  };
+}

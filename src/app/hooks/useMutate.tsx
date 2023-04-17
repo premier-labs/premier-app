@@ -16,7 +16,7 @@ export function useMutate() {
   const [isMutateLoading, setLoading] = useState(false);
   const [isMutateError, setError] = useState(false);
   const [isMutateDone, setDone] = useState(false);
-  const [mutateData, setData] = useState<{ tokenId?: number; hash?: string }>({});
+  const [mutateData, setData] = useState<{ tokenId?: number; hash?: string }>();
 
   const mutateReset = () => {
     setLoading(false);
@@ -48,7 +48,6 @@ export function useMutate() {
     });
 
     if (receipt.logs) {
-      console.log(receipt.logs);
       const tokenId = BigNumber.from(receipt.logs[0].topics[1]).toNumber();
       setData({ hash, tokenId });
       setLoading(false);

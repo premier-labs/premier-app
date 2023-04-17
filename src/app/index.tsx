@@ -19,11 +19,19 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet, goerli, localhost } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { CONFIG } from "@common/config";
+import { CONFIG, isDevelopment, isProduction, isStaging } from "@common/config";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
+
+const chain = isProduction ? mainnet : isStaging ? goerli : localhost;
 
 const { chains, provider } = configureChains(
-  [localhost, mainnet, goerli],
-  [alchemyProvider({ apiKey: CONFIG.network.web3_provider_url }), publicProvider()]
+  [chain],
+  [
+    publicProvider({ priority: 0 }),
+    alchemyProvider({ apiKey: CONFIG.web3_provider_url, priority: 1 }),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
@@ -41,23 +49,18 @@ const wagmiClient = createClient({
 const AppWrapper: FC = ({ children }) => {
   return (
     <Provider store={store}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} theme={lightTheme({ accentColor: "black" })}>
-          <App />
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains} theme={lightTheme({ accentColor: "black" })}>
+            <App />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
     </Provider>
   );
 };
 
 const App: FC = ({ children }) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // dispatch(init());
-    // dispatch(login());
-  }, []);
-
   return (
     <Style.RootApp>
       <Navbar />

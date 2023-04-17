@@ -16,7 +16,7 @@ export function useMint() {
   const [isMintLoading, setLoading] = useState(false);
   const [isMintError, setError] = useState(false);
   const [isMintDone, setDone] = useState(false);
-  const [mintData, setData] = useState<{ tokenId?: number; hash?: string }>({});
+  const [mintData, setData] = useState<{ tokenId?: number; hash?: string }>();
 
   const mintReset = () => {
     setLoading(false);
