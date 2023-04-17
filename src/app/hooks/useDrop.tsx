@@ -20,9 +20,6 @@ export const normalizeIPFSUrl = (address: string) => {
 export default function useDrop(dropId: number, options: { skip?: boolean }) {
   const { chainId } = useChain();
 
-  console.log(chainId);
-  console.log(ChainIdToStoreContract[chainId]);
-
   const [isDropLoading, setLoading] = useState(true);
   const [isDropError, setError] = useState(false);
   const [isDropDone, setDone] = useState(false);
@@ -54,8 +51,7 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
   });
 
   const isDropLoaded = isStoreDropSucess && isDropDataSucess && _dropData != undefined;
-  console.log(storeDropError);
-  console.log(dropDataError);
+
   useEffect(() => {
     (async function () {
       if (isDropLoaded) {

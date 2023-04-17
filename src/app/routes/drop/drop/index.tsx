@@ -596,7 +596,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                         </Grid>
                         <Grid item xs={12}>
                           <Clickable
-                            activated={isMintable}
+                            activated={isMintable && isConnected}
                             onClick={() => {
                               setOpen(true);
                             }}
@@ -747,7 +747,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
 
                 <Grid item xs={12}>
                   <Clickable
-                    activated={isMintable}
+                    activated={isMintable && isConnected}
                     onClick={() => {
                       setOpen(true);
                     }}
