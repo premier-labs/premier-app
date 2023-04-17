@@ -30,7 +30,7 @@ const { chains, provider } = configureChains(
   [chain],
   [
     publicProvider({ priority: 0 }),
-    alchemyProvider({ apiKey: CONFIG.web3_provider_url, priority: 1 }),
+    alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey, priority: 1 }),
   ]
 );
 
