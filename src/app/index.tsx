@@ -28,10 +28,7 @@ const chain = isProduction ? mainnet : isStaging ? goerli : localhost;
 
 const { chains, provider } = configureChains(
   [chain],
-  [
-    publicProvider({ priority: 0 }),
-    alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey, priority: 1 }),
-  ]
+  [alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
