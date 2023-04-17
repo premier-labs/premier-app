@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Address, useContractEvent, useNetwork } from "wagmi";
 import { useContractRead } from "wagmi";
+import { useChain } from "./useChain";
 
 export const IPFS_GATEWAY = CONFIG.ipfs_provider_url + "/ipfs/";
 const IPFS_EXP = "ipfs://";
@@ -17,8 +18,7 @@ export const normalizeIPFSUrl = (address: string) => {
 };
 
 export default function useDrop(dropId: number, options: { skip?: boolean }) {
-  const { chain } = useNetwork();
-  const chainId = chain?.id as number;
+  const { chainId } = useChain();
 
   console.log(chainId);
   console.log(ChainIdToStoreContract[chainId]);
