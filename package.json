@@ -10,7 +10,7 @@
     "@mui/material": "^5.12.0",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "^5.8.0",
-    "@premier-labs/contracts": "^0.0.73",
+    "@premier-labs/contracts": "^0.0.74",
     "@rainbow-me/rainbowkit": "^0.12.8",
     "@react-spring/three": "^9.5.5",
     "@react-spring/web": "^9.6.1",
