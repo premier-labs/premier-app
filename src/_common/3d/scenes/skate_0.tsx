@@ -34,8 +34,8 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = (props) => {
 
   const { camera } = useThree();
 
-  camera.position.set(0, 40, -58);
-  camera.lookAt(0, 40, 0);
+  camera.position.set(0, 0, -58);
+  camera.lookAt(0, 0, 0);
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();

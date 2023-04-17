@@ -640,7 +640,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
           >
             <StyledBox
               sx={{
-                backgroundColor: theme.colors.primary, // drop.metadata.versions[currentVersion].color
+                backgroundColor: theme.colors.primary,
                 position: "absolute",
                 top: -drawerBleeding,
                 borderTopLeftRadius: 25,

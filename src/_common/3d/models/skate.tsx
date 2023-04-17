@@ -43,10 +43,10 @@ type GLTFResult = GLTF & {
 export type SkateRefs = ReturnType<typeof useSkateRefsLoader>;
 export const useSkateRefsLoader = () => {
   return {
-    groupRef: React.useRef<JSX.IntrinsicElements["group"]>(null),
-    deckRef: React.useRef<JSX.IntrinsicElements["mesh"]>(null),
-    placeholderRef: React.useRef<JSX.IntrinsicElements["mesh"]>(null),
-    textRef: React.useRef<JSX.IntrinsicElements["meshBasicMaterial"]>(null),
+    groupRef: React.useRef<THREE.Group>(null),
+    deckRef: React.useRef<THREE.Mesh>(null),
+    placeholderRef: React.useRef<THREE.Mesh>(null),
+    textRef: React.useRef<THREE.MeshBasicMaterial>(null),
   };
 };
 
@@ -137,8 +137,8 @@ const Skate: FC<ModelProps> = React.memo(
     materials.Deck.map = deckInitialTexture;
 
     return (
-      <group ref={group}>
-        <Center alignTop>
+      <group ref={group} rotation={[0, Math.PI, 0]}>
+        <Center position={[0, 0, 0]}>
           <group rotation={[Math.PI, -Math.PI / 2, Math.PI / 2]} dispose={null}>
             <mesh
               ref={deckRef}

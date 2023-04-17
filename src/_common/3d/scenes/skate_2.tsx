@@ -57,7 +57,7 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((p
 
   return (
     <>
-      <CameraControls ref={cameraControls} position={[0, 40, -55]} target={[0, 40, 0]} />
+      {/* <CameraControls ref={cameraControls} position={[0, 40, -55]} target={[0, 40, 0]} /> */}
       <ambientLight intensity={0.975} />
       <ModelSkate refs={refs} {...props} />
     </>

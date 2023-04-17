@@ -8,11 +8,11 @@ import ModelSkate, {
 } from "@common/3d/models/skate";
 import LoaderScene from "@common/3d/utils/loaderScene";
 import { useFrame } from "@react-three/fiber";
-import { CameraControls } from "../utils/cameraControls";
 import { useR3fState } from "../utils/hooks";
 import { Loader } from "../utils/loader";
 import { OrbitControls } from "@react-three/drei";
 import { useSceneStore } from "@common/3d/hooks/hook";
+import { CameraControls } from "@react-three/drei";
 
 export type sceneRef = ReturnType<typeof sceneFunctions>;
 export type sceneRefType = React.MutableRefObject<sceneRef>;
@@ -54,7 +54,8 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((p
 
   return (
     <>
-      <CameraControls ref={cameraControls} position={[0, 40, -65]} target={[0, 40, 0]} />
+      <CameraControls ref={cameraControls} distance={65} />
+
       <ambientLight intensity={0.975} />
       <ModelSkate refs={refs} {...props} />
     </>
