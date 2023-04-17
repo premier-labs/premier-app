@@ -30,7 +30,7 @@ export const NavbarComponent: FC = () => {
     isDripsLoading: isLoading,
     isDripsDone,
     isDripsError,
-  } = useDrips(address as string, { skip: !isConnected });
+  } = useDrips(address as string, { skip: true }); // TODO
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {

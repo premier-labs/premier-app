@@ -68,17 +68,6 @@ export default function useDrips(address: string, options: { skip?: boolean }) {
   const [isDripsDone, setDone] = useState(false);
   const [dripsData, setData] = useState<Drips>();
 
-  if (options.skip) {
-    setLoading(false);
-
-    return {
-      isDripsLoading,
-      isDripsDone,
-      isDripsError,
-      dripsData,
-    };
-  }
-
   const {
     data: _dripsData,
     isError: isStoreDropError,
@@ -113,7 +102,7 @@ export default function useDrips(address: string, options: { skip?: boolean }) {
               img: "", // todo
               status: y.drip.status,
               owner: y.owner,
-              nft: await getNFT(y.drip.status, y.drip.mutation),
+              // nft: await getNFT(y.drip.status, y.drip.mutation),
             };
 
             drips.push(drip);

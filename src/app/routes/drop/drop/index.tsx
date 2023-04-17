@@ -55,7 +55,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
     { address: address as string },
-    { skip: !isConnected }
+    { skip: true } // TODO
   );
 
   const placeholderItem: NFT = {

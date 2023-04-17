@@ -25,17 +25,6 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
   const [isDropDone, setDone] = useState(false);
   const [dropData, setData] = useState<Drop>();
 
-  if (options.skip) {
-    setLoading(false);
-
-    return {
-      isDropLoading,
-      isDropDone,
-      isDropError,
-      dropData,
-    };
-  }
-
   const {
     data: dropContract,
     isError: isStoreDropError,
@@ -59,28 +48,46 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
     functionName: "drop",
   });
 
-  const isDropLoaded = isStoreDropSucess && isDropDataSucess;
+  const isDropLoaded = isStoreDropSucess && isDropDataSucess && _dropData != undefined;
 
-  let ipfsUrl: string;
-  if (isDropLoaded) {
-    ipfsUrl = normalizeIPFSUrl(_dropData?.dropURI as string);
-  }
+  useEffect(() => {
+    (async function () {
+      if (isDropLoaded) {
+        try {
+          const ipfsUrl = normalizeIPFSUrl(_dropData?.dropURI as string);
 
-  const { data, error, isLoading } = useQuery(
-    "repoData",
-    () =>
-      fetch(ipfsUrl).then((res) =>
-        res
-          .json()
-          .then((data) => {
-            return data;
-          })
-          .catch((e) => {
-            console.log(e);
-          })
-      ),
-    { enabled: isDropLoaded }
-  );
+          const data = await (await fetch(ipfsUrl)).json();
+
+          const metadata = data as DropMetadata;
+
+          for (const version of metadata.versions) {
+            version.texture = normalizeIPFSUrl(version.texture);
+          }
+          metadata.model = normalizeIPFSUrl(metadata.model);
+
+          setData({
+            address: _dropData?._contract as string,
+            symbol: _dropData?.symbol as string,
+            id: _dropData?.id.toNumber() as number,
+            maxSupply: _dropData?.maxSupply.toNumber() as number,
+            price: _dropData?.price.toString() as string,
+            currentSupply: _dropData?.currentSupply.toNumber() as number,
+            metadata: metadata,
+          });
+
+          setLoading(false);
+          setError(false);
+          setDone(true);
+        } catch (e) {
+          console.log("Error: useDrop: ", e);
+
+          setLoading(false);
+          setError(true);
+          setDone(true);
+        }
+      }
+    })();
+  }, [_dropData, isStoreDropError]);
 
   useContractEvent({
     address: dropContract as Address,
@@ -95,30 +102,6 @@ export default function useDrop(dropId: number, options: { skip?: boolean }) {
       }
     },
   });
-
-  useEffect(() => {
-    if (data) {
-      const metadata = data as DropMetadata;
-
-      for (const version of metadata.versions) {
-        version.texture = normalizeIPFSUrl(version.texture);
-      }
-      metadata.model = normalizeIPFSUrl(metadata.model);
-
-      setData({
-        address: _dropData?._contract as string,
-        symbol: _dropData?.symbol as string,
-        id: _dropData?.id.toNumber() as number,
-        maxSupply: _dropData?.maxSupply.toNumber() as number,
-        price: _dropData?.price.toString() as string,
-        currentSupply: _dropData?.currentSupply.toNumber() as number,
-        metadata: metadata,
-      });
-
-      setLoading(false);
-      setDone(true);
-    }
-  }, [data]);
 
   return {
     isDropLoading,
