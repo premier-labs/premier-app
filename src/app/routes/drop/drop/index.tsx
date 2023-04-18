@@ -615,7 +615,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
           </Grid>
         </Style.Root>
       </Box>
-
+      {/*  */}
       {/* <Box sx={{ display: { xs: "display", md: "none" } }}>
         <Root>
           <CssBaseline />
