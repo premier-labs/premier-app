@@ -24,7 +24,7 @@ const style = {
     height: "100%",
     width: "100%",
     position: "absolute",
-    top: 1,
+    // top: 1,
   })),
   Footer: styled("div")(({ theme }) => ({
     position: "absolute",

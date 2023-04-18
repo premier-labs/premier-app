@@ -15,7 +15,7 @@ const LoaderScene: FC = ({ children }) => {
   return (
     <div
       style={{
-        height: mq_md ? "calc(100% - 250px)" : "100%",
+        height: mq_md ? "calc(100% - 100px)" : "100%",
         width: "100%",
         position: "relative",
       }}
