@@ -49,7 +49,7 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
 
   return (
     <Style.Root>
-      <Style.BodyScene style={{ zIndex: 2 }}>
+      {/* <Style.BodyScene style={{ zIndex: 2 }}>
         <SceneLoader
           sceneRef={sceneRef}
           model={drop.metadata.model}
@@ -60,7 +60,7 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
           initialTokenNameId={"1" + " #" + 0}
           initialId={0}
         />
-      </Style.BodyScene>
+      </Style.BodyScene> */}
 
       <Style.RootChild>
         <Routes>
