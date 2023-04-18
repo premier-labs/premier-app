@@ -635,7 +635,6 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
             swipeAreaWidth={drawerBleeding}
             disableSwipeToOpen={false}
             allowSwipeInChildren={true}
-            disableDiscovery={true}
             ModalProps={{
               keepMounted: true,
             }}
