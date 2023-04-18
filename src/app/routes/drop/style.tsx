@@ -9,7 +9,7 @@ const sizeWidthRight = "1.5vw";
 
 const style = {
   Root: styled("div")(({ theme }) => ({
-    height: `calc(100vh)`,
+    height: `calc(100svh)`,
     position: "relative",
     backgroundColor: theme.colors.secondary,
   })),
