@@ -8,6 +8,9 @@ const LoaderScene: FC = ({ children }) => {
   const theme = useTheme();
 
   const mq_md = useMediaQuery(theme.breakpoints.down("md"));
+  if (mq_md) {
+    console.log("Mobile in canvas");
+  }
 
   return (
     <div
