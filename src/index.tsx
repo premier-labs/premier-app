@@ -10,7 +10,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
 
-import Static from "./static";
 import App from "./app";
 
 const Index: FC = () => {
@@ -19,8 +18,7 @@ const Index: FC = () => {
       <React.StrictMode>
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/*" element={<Static />} />
-            <Route path="/app/*" element={<App />} />
+            <Route path="/*" element={<App />} />
           </Routes>
         </ThemeProvider>
       </React.StrictMode>
