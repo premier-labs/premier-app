@@ -313,3 +313,12 @@ body,
 b {
   font-weight: 600;
 }
+
+html,
+body {
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+}

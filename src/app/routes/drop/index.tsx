@@ -50,7 +50,7 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
   return (
     <Style.Root>
       <Style.BodyScene style={{ zIndex: 2 }}>
-        {/* <SceneLoader
+        <SceneLoader
           sceneRef={sceneRef}
           model={drop.metadata.model}
           versions={drop.metadata.versions}
@@ -59,16 +59,14 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
           initialDropSymbol={drop.symbol}
           initialTokenNameId={"1" + " #" + 0}
           initialId={0}
-        /> */}
+        />
       </Style.BodyScene>
-
       <Style.RootChild>
         <Routes>
           <Route path="/:dripId" element={<DripComponent drop={drop} sceneRef={sceneRef} />} />
           <Route path="*" element={<DropComponent drop={drop} sceneRef={sceneRef} />} />
         </Routes>
       </Style.RootChild>
-
       <Style.Footer>
         <Grid container justifyContent="space-between">
           <Grid item>

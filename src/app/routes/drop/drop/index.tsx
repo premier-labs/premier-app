@@ -615,8 +615,8 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
           </Grid>
         </Style.Root>
       </Box>
-      {/*  */}
-      {/* <Box sx={{ display: { xs: "display", md: "none" } }}>
+
+      <Box sx={{ display: { xs: "display", md: "none" } }}>
         <Root>
           <CssBaseline />
           <Global
@@ -858,7 +858,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
             </Box>
           </SwipeableDrawer>
         </Root>
-      </Box> */}
+      </Box>
     </>
   );
 };
