@@ -49,7 +49,7 @@ const DropApp: FC<{ drop: Drop }> = ({ drop }) => {
 
   return (
     <Style.Root>
-      {/*  */}
+      {/* git  */}
       {/* <Style.BodyScene style={{ zIndex: 2 }}>
         <SceneLoader
           sceneRef={sceneRef}
