@@ -39,7 +39,6 @@ const { AddressZero } = ethers.constants;
 const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, sceneRef }) => {
   const { address, isConnected } = useAccount();
 
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -55,7 +54,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   // fetch data
   const { data: assets, isLoading } = useGetAssetsQuery(
     { address: address as string },
-    { skip: true } // TODO
+    { skip: !isConnected } // TODO
   );
 
   const placeholderItem: NFT = {
@@ -375,7 +374,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                 <Grid item flexGrow={1}>
                   <Style.BodyLeftSide $connected={isConnected}>
                     <Style.InnerLeftSide>
-                      {assets && assets.length ? (
+                      {isConnected && assets && assets.length ? (
                         assets.map((collection, index1) => (
                           <div key={index1} style={{ marginBottom: "20px" }}>
                             <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
