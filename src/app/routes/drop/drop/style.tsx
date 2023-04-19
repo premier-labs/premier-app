@@ -17,7 +17,9 @@ const bottom = "25px";
 const style = {
   Root: styled(Grid)(({ theme }) => ({
     width: "100%",
-    height: "100%",
+    height: `calc(100vh)`,
+    paddingTop: `calc(${theme.header.height} + 15px)`,
+    paddingBottom: `calc(${footerHeight} + 1.5vw)`,
   })),
   //
   BottomBar: styled("div")(({ theme }) => ({
@@ -105,6 +107,12 @@ const style = {
     fontFamily: theme.fontFamily.primary,
     fontWeight: 800,
     fontSize: "0.7em",
+    marginRight: "5px",
+  })),
+  MoreInfoSymbolMobile: styled("div")(({ theme }) => ({
+    fontFamily: theme.fontFamily.primary,
+    fontWeight: 800,
+    fontSize: "1em",
     marginRight: "5px",
   })),
   Footer: styled("div")(({ theme }) => ({
@@ -373,6 +381,27 @@ const style = {
     color: "white",
     borderRadius: "15px",
     padding: "10px",
+  })),
+  MintButtonMobile: styled("div")(({ theme }) => ({
+    backgroundColor: theme.colors.black,
+    fontFamily: theme.fontFamily.primary,
+    textAlign: "center",
+    fontWeight: 900,
+    fontSize: "0.9em",
+    color: "white",
+    borderRadius: "1px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  })),
+  VersionButtonMobile: styled("div")(({ theme }) => ({
+    height: "38px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "1px solid black",
+    gap: "10px",
   })),
   InnerContainerInfo2: styled("div")(({ theme }) => ({
     backgroundColor: theme.colors.primary,

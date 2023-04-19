@@ -9,16 +9,14 @@ const sizeWidthRight = "1.5vw";
 
 const style = {
   Root: styled("div")(({ theme }) => ({
-    height: `calc(100svh)`,
+    minHeight: `calc(100svh)`,
     position: "relative",
     backgroundColor: theme.colors.secondary,
   })),
   RootChild: styled(Grid)(({ theme }) => ({
-    ...theme.myBreakpoints.app,
+    // ...theme.myBreakpoints.app,
     width: "100%",
     height: "100%",
-    paddingTop: `calc(${theme.header.height} + 15px)`,
-    paddingBottom: `calc(${footerHeight} + 1.5vw)`,
   })),
   BodyScene: styled("div")(({ theme }) => ({
     height: "100%",

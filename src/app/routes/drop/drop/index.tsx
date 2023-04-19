@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { sceneRefType } from "@common/3d/scenes/skate_1";
+import SceneLoader, { sceneRefType } from "@common/3d/scenes/skate_1";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CssBaseline, Grid, ImageList, ImageListItem, Modal } from "@mui/material";
@@ -29,7 +29,7 @@ import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import { useMint } from "@app/hooks/useMint";
 import { useMutate } from "@app/hooks/useMutate";
 
@@ -358,60 +358,128 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
         </Style.ModelBox>
       </Modal>
 
+      <Box
+        sx={{
+          position: { xs: "relative", md: "absolute" },
+          height: { xs: "90vh", md: "100%" },
+        }}
+        style={{
+          zIndex: 2,
+          width: "100%",
+        }}
+      >
+        <SceneLoader
+          sceneRef={sceneRef}
+          model={drop.metadata.model}
+          versions={drop.metadata.versions}
+          initialVersion={0}
+          initialPlaceholderTexture={"/placeholder.png"}
+          initialDropSymbol={drop.symbol}
+          initialTokenNameId={"1" + " #" + 0}
+          initialId={0}
+        />
+      </Box>
+
       <Box sx={{ display: { xs: "none", md: "block" } }} style={{ height: "100%" }}>
         <Style.Root container justifyContent="space-between" columns={50}>
           <Grid item xs={0} sm={15} xl={12} style={{ zIndex: 10, height: "100%" }}>
             <Style.LeftSide>
-              <Grid container direction="column" style={{ height: "100%" }}>
-                <Grid item>
-                  <Style.HeaderLeftSide container alignItems="center">
-                    <Grid item flexGrow={1}>
-                      <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
+              <Grid container direction="column" style={{ height: "100%" }} spacing={2}>
+                <Grid item xs={7}>
+                  <Grid container direction="column" style={{ height: "100%" }}>
+                    <Grid item>
+                      <Style.HeaderLeftSide container alignItems="center">
+                        <Grid item flexGrow={1}>
+                          <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
+                        </Grid>
+                      </Style.HeaderLeftSide>
                     </Grid>
-                  </Style.HeaderLeftSide>
-                </Grid>
 
-                <Grid item flexGrow={1}>
-                  <Style.BodyLeftSide $connected={isConnected}>
-                    <Style.InnerLeftSide>
-                      {isConnected && assets && assets.length ? (
-                        assets.map((collection, index1) => (
-                          <div key={index1} style={{ marginBottom: "20px" }}>
-                            <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
-                            <ImageList cols={4} gap={4}>
-                              {collection.assets.map((item, index) => (
-                                <ImageListItem
+                    <Grid item flexGrow={1}>
+                      <Style.BodyLeftSide $connected={isConnected}>
+                        <Style.InnerLeftSide>
+                          {isConnected && assets && assets.length ? (
+                            assets.map((collection, index1) => (
+                              <div key={index1} style={{ marginBottom: "20px" }}>
+                                <Style.CollectionName>
+                                  {collection.collectionName}
+                                </Style.CollectionName>
+                                <ImageList cols={4} gap={4}>
+                                  {collection.assets.map((item, index) => (
+                                    <ImageListItem
+                                      key={index}
+                                      style={{
+                                        border:
+                                          currentItem &&
+                                          currentItem.name === collection.collectionName &&
+                                          currentItem.id === item.id
+                                            ? "3px solid #2AFE00"
+                                            : "3px solid white",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() => {
+                                        updateItem(item);
+                                      }}
+                                    >
+                                      <img src={item.img} alt={"item.id"} loading="lazy" />
+                                    </ImageListItem>
+                                  ))}
+                                </ImageList>
+                              </div>
+                            ))
+                          ) : isConnected ? (
+                            <Style.InnerLeftSideNoNfts>
+                              {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+                            </Style.InnerLeftSideNoNfts>
+                          ) : (
+                            <Style.InnerLeftSideNoNfts>
+                              You are not connected :'(
+                            </Style.InnerLeftSideNoNfts>
+                          )}
+                        </Style.InnerLeftSide>
+                      </Style.BodyLeftSide>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Grid container direction="column" style={{ height: "100%" }}>
+                    <Grid item>
+                      <Style.HeaderLeftSide container alignItems="center">
+                        <Grid item flexGrow={1}>
+                          <Style.StepTitle>SELECT YOUR VERSION</Style.StepTitle>
+                        </Grid>
+                      </Style.HeaderLeftSide>
+                    </Grid>
+
+                    <Grid item flexGrow={1}>
+                      <Style.BottomBar>
+                        <Style.BottomBarContainer
+                          container
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <Grid item xs={12}>
+                            <Style.GalleryWrap>
+                              {drop.metadata.versions.map((item, index) => (
+                                <Style.GalleryItem
                                   key={index}
+                                  onMouseEnter={() => setHover(index)}
+                                  onMouseLeave={() => setHover(currentVersion)}
+                                  onClick={() => updateVersion(index)}
+                                  $onHover={hover === index}
+                                  color={item.texture}
                                   style={{
-                                    border:
-                                      currentItem &&
-                                      currentItem.name === collection.collectionName &&
-                                      currentItem.id === item.id
-                                        ? "3px solid #2AFE00"
-                                        : "3px solid white",
-                                    cursor: "pointer",
+                                    height: "50px",
+                                    borderRadius: "5px",
                                   }}
-                                  onClick={() => {
-                                    updateItem(item);
-                                  }}
-                                >
-                                  <img src={item.img} alt={"item.id"} loading="lazy" />
-                                </ImageListItem>
+                                />
                               ))}
-                            </ImageList>
-                          </div>
-                        ))
-                      ) : isConnected ? (
-                        <Style.InnerLeftSideNoNfts>
-                          {isLoading ? "Loading ..." : "You do not own any NFTs :("}
-                        </Style.InnerLeftSideNoNfts>
-                      ) : (
-                        <Style.InnerLeftSideNoNfts>
-                          You are not connected :'(
-                        </Style.InnerLeftSideNoNfts>
-                      )}
-                    </Style.InnerLeftSide>
-                  </Style.BodyLeftSide>
+                            </Style.GalleryWrap>
+                          </Grid>
+                        </Style.BottomBarContainer>
+                      </Style.BottomBar>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Style.LeftSide>
@@ -501,47 +569,6 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                       </Grid>
                     </Grid>
                   </Grid>
-
-                  <Grid
-                    item
-                    xs={12}
-                    style={{
-                      marginTop: "15px",
-                      paddingTop: "15px",
-                      borderTop: "1.5px solid lightgrey",
-                    }}
-                  >
-                    <Style.InfoDivItemName>DECK</Style.InfoDivItemName>
-                  </Grid>
-
-                  <Grid item>
-                    <Style.BottomBar>
-                      <Style.BottomBarContainer
-                        container
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <Grid item xs={12}>
-                          <Style.GalleryWrap>
-                            {drop.metadata.versions.map((item, index) => (
-                              <Style.GalleryItem
-                                key={index}
-                                onMouseEnter={() => setHover(index)}
-                                onMouseLeave={() => setHover(currentVersion)}
-                                onClick={() => updateVersion(index)}
-                                $onHover={hover === index}
-                                color={item.texture}
-                                style={{
-                                  height: "50px",
-                                  borderRadius: "5px",
-                                }}
-                              />
-                            ))}
-                          </Style.GalleryWrap>
-                        </Grid>
-                      </Style.BottomBarContainer>
-                    </Style.BottomBar>
-                  </Grid>
                 </Style.InfoDiv>
               </Grid>
 
@@ -616,271 +643,189 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
       </Box>
 
       <Box sx={{ display: { xs: "display", md: "none" } }}>
-        <Root>
-          <CssBaseline />
-          <Global
-            styles={{
-              ".MuiDrawer-root > .MuiPaper-root": {
-                height: `calc(90% - ${drawerBleeding}px)`,
-                overflow: "visible",
-              },
-            }}
-          />
-          <SwipeableDrawer
-            anchor="bottom"
-            open={openDrawer}
-            onClose={toggleDrawer(false)}
-            onOpen={toggleDrawer(true)}
-            swipeAreaWidth={drawerBleeding}
-            disableSwipeToOpen={false}
-            allowSwipeInChildren={true}
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            <StyledBox
-              sx={{
-                backgroundColor: theme.colors.primary,
-                position: "absolute",
-                top: -drawerBleeding,
-                borderTopLeftRadius: 25,
-                borderTopRightRadius: 25,
-                visibility: "visible",
-                right: 0,
-                left: 0,
-                display: { sm: "block", md: "none" },
-              }}
+        <div
+          style={{
+            position: "absolute",
+            top: "80svh",
+            width: "100vw",
+            height: "20svh",
+            zIndex: 1000000,
+            backgroundColor: theme.colors.primary,
+          }}
+        >
+          <Box style={{ height: "100%", boxSizing: "border-box" }}>
+            <Grid
+              container
+              direction="column"
+              justifyContent="space-between"
+              style={{ height: "100%" }}
             >
-              <Puller />
-
-              <Grid
-                container
-                style={{
-                  height: `${drawerBleeding}px`,
-                  boxSizing: "border-box",
-                  paddingTop: "20px",
-                  paddingLeft: "15px",
-                  paddingRight: "15px",
-                }}
-                justifyContent="space-between"
-              >
-                <Grid item flexGrow={1}>
-                  <Grid container justifyContent="space-between">
-                    {currentItem.address === AddressZero ? (
-                      <Grid item>
-                        <Typos.Normal style={{ paddingTop: "1px" }}>
-                          <Style.StepTitle>SELECT YOUR NFT</Style.StepTitle>
-                        </Typos.Normal>
-                      </Grid>
-                    ) : (
-                      <Grid item>
+              <Grid item flexGrow={1} style={{ padding: "0.65rem" }}>
+                <Grid container justifyContent="space-between">
+                  <Grid item>
+                    <Style.MoreInfoSymbolMobile
+                      style={{
+                        backgroundColor: theme.colors.light,
+                        color: theme.colors.black,
+                        padding: "5px",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      DROP #{drop.id}
+                    </Style.MoreInfoSymbolMobile>
+                  </Grid>
+                  <Grid item>
+                    <Grid container alignItems="center" spacing={0.5}>
+                      <Grid
+                        item
+                        style={{
+                          display: currentItem.address === AddressZero ? "none" : "block",
+                        }}
+                      >
                         <Style.MoreInfoSymbol
                           style={{
-                            backgroundColor: theme.colors.light,
-                            color: theme.colors.black,
+                            backgroundColor: theme.colors.secondary,
                             padding: "5px",
                             borderRadius: "5px",
                           }}
                         >
-                          DROP #{drop.id}
+                          {currentItem.symbol} #{currentItem.id}
                         </Style.MoreInfoSymbol>
                       </Grid>
-                    )}
-                    <Grid item>
-                      <Grid container alignItems="center" spacing={0.5}>
-                        {currentItem.address === AddressZero && (
-                          <Grid item>
-                            <Style.MoreInfoSymbol
-                              style={{
-                                backgroundColor: theme.colors.light,
-                                color: theme.colors.black,
-                                padding: "5px",
-                                borderRadius: "5px",
-                              }}
-                            >
-                              DROP #{drop.id}
-                            </Style.MoreInfoSymbol>
-                          </Grid>
-                        )}
-                        <Grid item>
-                          <Style.MoreInfoSymbol
-                            style={{
-                              backgroundColor: drop.metadata.versions[currentVersion].color,
-                              color: theme.colors.black,
-                              padding: "5px",
-                              borderRadius: "5px",
-                            }}
-                          >
-                            {drop.metadata.versions[currentVersion].name}
-                          </Style.MoreInfoSymbol>
-                        </Grid>
-                        <Grid
-                          item
-                          style={{
-                            display: currentItem.address === AddressZero ? "none" : "block",
-                          }}
-                        >
-                          <Style.MoreInfoSymbol
-                            style={{
-                              backgroundColor: theme.colors.secondary,
-                              padding: "5px",
-                              borderRadius: "5px",
-                            }}
-                          >
-                            {currentItem.symbol} #{currentItem.id}
-                          </Style.MoreInfoSymbol>
-                        </Grid>
-                        <Grid
-                          item
-                          style={{
-                            display: currentItem.address === AddressZero ? "none" : "block",
-                          }}
-                        >
-                          <Clickable onClick={() => resetItem()}>
-                            <IconTrash style={{ width: "16.5px", height: "16.5px" }} />
-                          </Clickable>
-                        </Grid>
+                      <Grid
+                        item
+                        style={{
+                          display: currentItem.address === AddressZero ? "none" : "block",
+                        }}
+                      >
+                        <Clickable onClick={() => resetItem()}>
+                          <IconTrash style={{ width: "16.5px", height: "16.5px" }} />
+                        </Clickable>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
+              </Grid>
 
-                <Grid item xs={12}>
-                  <Clickable
-                    activated={isMintable && isConnected}
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                  >
-                    <Style.MintButton>
-                      {isMintable ? (
-                        <>
-                          MINT{" "}
-                          <span
-                            style={{
-                              fontFamily: theme.fontFamily.primary,
-                              fontSize: "0.75em",
-                              fontWeight: 600,
-                              opacity: 0.75,
-                            }}
-                          >
-                            ({drop.currentSupply} / {drop.maxSupply} Minted)
-                          </span>
-                        </>
-                      ) : (
-                        "OUT OF STOCK"
-                      )}
-                    </Style.MintButton>
-                  </Clickable>
+              <Grid item style={{ padding: "0.65rem" }}>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <Style.VersionButtonMobile>
+                      <div
+                        style={{
+                          height: "22.5px",
+                          width: "22.5px",
+                          borderRadius: "25px",
+                          backgroundColor: drop.metadata.versions[currentVersion].color,
+                        }}
+                      />
+                      <Typos.Normal style={{ fontSize: "0.75em" }}>
+                        {drop.metadata.versions[currentVersion].name}
+                      </Typos.Normal>
+                    </Style.VersionButtonMobile>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Clickable
+                      activated={isMintable && isConnected}
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                    >
+                      <Style.MintButtonMobile>
+                        {isMintable ? <>MINT</> : "OUT OF STOCK"}
+                      </Style.MintButtonMobile>
+                    </Clickable>
+                  </Grid>
                 </Grid>
               </Grid>
-            </StyledBox>
+            </Grid>
+          </Box>
+        </div>
 
-            <Box height={"calc(78%)"} overflow="scroll">
-              <Style.InnerLeftSide>
-                {assets && assets.length ? (
-                  assets.map((collection, index1) => (
-                    <div key={index1} style={{ marginBottom: "20px" }}>
-                      <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
-                      <ImageList cols={4} gap={4}>
-                        {collection.assets.map((item, index) => (
-                          <ImageListItem
-                            key={index}
-                            style={{
-                              border:
-                                currentItem &&
-                                currentItem.name === collection.collectionName &&
-                                currentItem.id === item.id
-                                  ? "3px solid #2AFE00"
-                                  : "3px solid white",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {
-                              updateItem(item);
-                            }}
-                          >
-                            <img src={item.img} alt={"item.id"} loading="lazy" />
-                          </ImageListItem>
-                        ))}
-                      </ImageList>
-                    </div>
-                  ))
-                ) : isConnected ? (
-                  <Style.InnerLeftSideNoNfts>
-                    {isLoading ? "Loading ..." : "You do not own any NFTs :("}
-                  </Style.InnerLeftSideNoNfts>
-                ) : (
-                  <Style.InnerLeftSideNoNfts>You are not connected :'(</Style.InnerLeftSideNoNfts>
-                )}
-              </Style.InnerLeftSide>
-            </Box>
+        <Box height={"calc(78%)"} overflow="scroll">
+          <Style.InnerLeftSide>
+            {assets && assets.length ? (
+              assets.map((collection, index1) => (
+                <div key={index1} style={{ marginBottom: "20px" }}>
+                  <Style.CollectionName>{collection.collectionName}</Style.CollectionName>
+                  <ImageList cols={4} gap={4}>
+                    {collection.assets.map((item, index) => (
+                      <ImageListItem
+                        key={index}
+                        style={{
+                          border:
+                            currentItem &&
+                            currentItem.name === collection.collectionName &&
+                            currentItem.id === item.id
+                              ? "3px solid #2AFE00"
+                              : "3px solid white",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          updateItem(item);
+                        }}
+                      >
+                        <img src={item.img} alt={"item.id"} loading="lazy" />
+                      </ImageListItem>
+                    ))}
+                  </ImageList>
+                </div>
+              ))
+            ) : isConnected ? (
+              <Style.InnerLeftSideNoNfts>
+                {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+              </Style.InnerLeftSideNoNfts>
+            ) : (
+              <Style.InnerLeftSideNoNfts>You are not connected :'(</Style.InnerLeftSideNoNfts>
+            )}
+          </Style.InnerLeftSide>
+        </Box>
 
-            <Box
-              height={"calc(22%)"}
-              style={{
-                paddingTop: "15px",
-                paddingBottom: "10px",
-                paddingLeft: "15px",
-                paddingRight: "15px",
-                boxSizing: "border-box",
-                backgroundColor: theme.colors.primary,
-                borderTopRightRadius: "25px",
-                borderTopLeftRadius: "25px",
-              }}
-            >
-              <Typos.Normal style={{ height: "22.5%", paddingBottom: "10px" }}>
-                <Style.StepTitle>SELECT VERSION</Style.StepTitle>
-              </Typos.Normal>
+        <Box
+          height={"calc(22%)"}
+          style={{
+            paddingTop: "15px",
+            paddingBottom: "10px",
+            paddingLeft: "15px",
+            paddingRight: "15px",
+            boxSizing: "border-box",
+            backgroundColor: theme.colors.primary,
+            borderTopRightRadius: "25px",
+            borderTopLeftRadius: "25px",
+          }}
+        >
+          <Typos.Normal style={{ height: "22.5%", paddingBottom: "10px" }}>
+            <Style.StepTitle>SELECT VERSION</Style.StepTitle>
+          </Typos.Normal>
 
-              <Style.BottomBar style={{ height: "calc(77.5% - 10px - 5px)" }}>
-                <Style.BottomBarContainer container justifyContent="center" alignItems="center">
-                  <Grid item xs={12} style={{ height: "100%" }}>
-                    <Style.GalleryWrap style={{ height: "100%" }}>
-                      {drop.metadata.versions.map((item, index) => (
-                        <Style.GalleryItem
-                          key={index}
-                          onMouseEnter={() => setHover(index)}
-                          onMouseLeave={() => setHover(currentVersion)}
-                          onClick={() => updateVersion(index)}
-                          $onHover={hover === index}
-                          color={item.texture}
-                          style={{
-                            height: "100%",
-                            borderRadius: "5px",
-                          }}
-                        />
-                      ))}
-                    </Style.GalleryWrap>
-                  </Grid>
-                </Style.BottomBarContainer>
-              </Style.BottomBar>
-            </Box>
-          </SwipeableDrawer>
-        </Root>
+          <Style.BottomBar style={{ height: "calc(77.5% - 10px - 5px)" }}>
+            <Style.BottomBarContainer container justifyContent="center" alignItems="center">
+              <Grid item xs={12} style={{ height: "100%" }}>
+                <Style.GalleryWrap style={{ height: "100%" }}>
+                  {drop.metadata.versions.map((item, index) => (
+                    <Style.GalleryItem
+                      key={index}
+                      onMouseEnter={() => setHover(index)}
+                      onMouseLeave={() => setHover(currentVersion)}
+                      onClick={() => updateVersion(index)}
+                      $onHover={hover === index}
+                      color={item.texture}
+                      style={{
+                        height: "100%",
+                        borderRadius: "5px",
+                      }}
+                    />
+                  ))}
+                </Style.GalleryWrap>
+              </Grid>
+            </Style.BottomBarContainer>
+          </Style.BottomBar>
+        </Box>
       </Box>
     </>
   );
 };
 
 const drawerBleeding = 100;
-
-const Root = styled("div")(({ theme }) => ({
-  height: "100%",
-  backgroundColor: theme.palette.mode === "light" ? grey[100] : theme.palette.background.default,
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
-}));
-
-const Puller = styled(Box)(({ theme }) => ({
-  width: 30,
-  height: 6,
-  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
-  borderRadius: 3,
-  position: "absolute",
-  top: 8,
-  left: "calc(50% - 15px)",
-}));
 
 export default DropComponent;

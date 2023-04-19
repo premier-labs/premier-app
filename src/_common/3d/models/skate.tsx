@@ -142,6 +142,8 @@ const Skate: FC<ModelProps> = React.memo(
           <group rotation={[Math.PI, -Math.PI / 2, Math.PI / 2]} dispose={null}>
             <mesh
               ref={deckRef}
+              receiveShadow
+              castShadow
               geometry={nodes.Deck.geometry}
               material={materials.Deck}
               rotation={[Math.PI / 2, 0, 0]}
@@ -149,6 +151,8 @@ const Skate: FC<ModelProps> = React.memo(
             />
             <mesh
               ref={placeholderRef}
+              receiveShadow
+              castShadow
               geometry={nodes.Placeholder.geometry}
               material={materials.Placeholder}
               rotation={[Math.PI / 2, 0, 0]}

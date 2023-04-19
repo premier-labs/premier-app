@@ -15,6 +15,12 @@ import { useSceneStore } from "@common/3d/hooks/hook";
 import { CameraControls } from "@react-three/drei";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+import {
+  PerspectiveCamera,
+  MeshTransmissionMaterial,
+  ContactShadows,
+  Environment,
+} from "@react-three/drei";
 
 export type sceneRef = ReturnType<typeof sceneFunctions>;
 export type sceneRefType = React.MutableRefObject<sceneRef>;
@@ -45,13 +51,6 @@ const SceneLoader: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.m
 const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((props) => {
   const { setLoaded } = useSceneStore();
 
-  const theme = useTheme();
-
-  const mq_md = useMediaQuery(theme.breakpoints.down("md"));
-  if (mq_md) {
-    console.log("Mobile in Model");
-  }
-
   useEffect(() => {
     setLoaded(true);
   }, []);
@@ -61,16 +60,20 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((p
   const refs = useSkateRefsLoader();
   useImperativeHandle(props.sceneRef, () => sceneFunctions(refs, cameraControls, props));
 
+  useFrame((state, delta) => {
+    const t = state.clock.getElapsedTime();
+    const ref = refs.groupRef.current as any;
+
+    ref.rotation.z = (1 + Math.sin(t / 1.5)) / 90;
+    ref.position.y = (1 + Math.sin(t / 0.7)) / 0.75;
+  });
+
   return (
     <>
-      <CameraControls ref={cameraControls} distance={65} />
-
-      <ambientLight intensity={0.975} />
-      <ModelSkate
-        refs={refs}
-        {...props}
-        three={{ group: { position: mq_md ? [0, -5, 0] : [0, 0, 0] } }}
-      />
+      <PerspectiveCamera makeDefault position={[0, 0, 150]} fov={40} />
+      <spotLight intensity={0.1} angle={0.15} penumbra={1} position={[300, 300, 300]} castShadow />
+      <ambientLight intensity={0.95} />
+      <ModelSkate refs={refs} {...props} />
     </>
   );
 });

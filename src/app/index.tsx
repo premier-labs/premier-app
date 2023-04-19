@@ -16,21 +16,57 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import { getDefaultWallets, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, goerli, localhost } from "wagmi/chains";
+import { mainnet, goerli } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { CONFIG, isDevelopment, isProduction, isStaging } from "@common/config";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
+const localhost = {
+  id: 1337,
+  name: "Localhost",
+  network: "localhost",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ether",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: {
+      http: ["http://192.168.2.1:8545"],
+    },
+    public: {
+      http: ["http://192.168.2.1:8545"],
+    },
+  },
+};
+
 const chain = isProduction ? mainnet : isStaging ? goerli : localhost;
+const providers =
+  isProduction || isStaging
+    ? [
+        publicProvider({ priority: 0 }),
+        alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey, priority: 1 }),
+      ]
+    : [
+        jsonRpcProvider({
+          rpc: () => ({
+            http: "http://192.168.2.1:8545",
+          }),
+        }),
+      ];
 
 const { chains, provider } = configureChains(
   [chain],
   [
-    publicProvider({ priority: 0 }),
-    alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey, priority: 1 }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: "http://192.168.2.1:8545",
+      }),
+    }),
   ]
 );
 
