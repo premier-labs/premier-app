@@ -2,8 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@static/*": ["./src/static/*"],
+      "@app/*": ["./src/*"],
       "@common/*": ["./src/_common/*"],
 
       "@premier-contracts": ["./node_modules/@premier-labs/contracts/dist/contracts"],

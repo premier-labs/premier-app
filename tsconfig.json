@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": ["src", "swiper.d.ts"],
   "extends": "./tsconfig.paths.json"
 }

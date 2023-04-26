@@ -18,7 +18,7 @@ const themeBasics = {
     primary: "#f9f9fb",
     secondary: "#f1f1f5",
     tertiary: "#cbcbdc",
-    light: "rgba(0,0,0,0.02)",
+    light: "#F5F5F6",
     black: "#09090c",
   },
 
@@ -26,7 +26,7 @@ const themeBasics = {
     primary: "montserrat",
     secondary: "",
     tertiary: "futura",
-    wide: "phonk",
+    wide: "wide",
   },
 };
 
@@ -115,20 +115,20 @@ const themeOpts = {
       fontSize: "1.1em",
     },
     normalTitle: {
-      fontFamily: themeBasics.fontFamily.primary,
+      fontFamily: themeBasics.fontFamily.wide,
       fontColor: themeBasics.colors.black,
       fontWeight: 900,
-      fontSize: "1.1em",
+      fontSize: "1.25em",
       [breakpoints.up("xl")]: {
-        fontSize: "1.25em",
+        fontSize: "1.5em",
       },
       [breakpoints.only("xs")]: {},
     },
     normal: {
       fontFamily: themeBasics.fontFamily.primary,
       fontColor: themeBasics.colors.black,
-      fontWeight: 500,
-      fontSize: "1em",
+      fontWeight: 400,
+      fontSize: "0.925em",
       [breakpoints.up("xl")]: {},
       [breakpoints.only("xs")]: {},
     },

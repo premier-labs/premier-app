@@ -251,7 +251,7 @@ body,
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
   60% {
     transform: translateY(-7.5px);
@@ -326,4 +326,9 @@ b {
 canvas {
   opacity: 0;
   animation: fade-in 5s ease 3s forwards;
+}
+
+.rec-slider-container {
+  padding: 0 !important;
+  margin: 0 !important;
 }

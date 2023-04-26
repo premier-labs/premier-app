@@ -4,6 +4,7 @@ import { FC } from "react";
 import Style from "./style";
 
 type props = {
+  children?: React.ReactNode;
   newPage?: boolean;
   isSpan?: boolean;
   onClick?: Function;

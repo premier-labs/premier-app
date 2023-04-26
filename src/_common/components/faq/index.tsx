@@ -3,7 +3,6 @@ import { FC, Fragment } from "react";
 // styles
 import Style from "./style";
 
-import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { useTheme } from "@mui/material/styles";
@@ -24,25 +23,24 @@ const Faq: FC<{
     <Style.Root>
       {content.map((item, index) => (
         <Fragment key={index}>
-          <Style.Accordion>
+          <Style.Accordion defaultExpanded={index === 0}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ paddingLeft: "0px" }}>
               <Typos.Normal
                 style={{
-                  fontSize: "1.05em",
-                  fontFamily: theme.fontFamily.wide,
-                  fontWeight: 600,
-                  letterSpacing: "-1px",
-                  opacity: "0.9",
+                  fontSize: "0.8em",
+                  fontWeight: 500,
                 }}
               >
                 {item.question}
               </Typos.Normal>
             </AccordionSummary>
             <AccordionDetails>
-              <Typos.Normal style={{ fontSize: "0.95em" }}>{item.answer}</Typos.Normal>
+              <Typos.Normal style={{ fontSize: "0.75em", lineHeight: "1.5em", fontWeight: 400 }}>
+                {item.answer}
+              </Typos.Normal>
             </AccordionDetails>
           </Style.Accordion>
-          <div style={{ height: "1px", backgroundColor: "rgba(0,0,0,0.05)" }}></div>
+          <div style={{ height: "1px", backgroundColor: theme.colors.secondary }}></div>
         </Fragment>
       ))}
     </Style.Root>

@@ -48,30 +48,25 @@ export const loadTextureToObject = (texturePath: string, ref: any) => {
 
 const canvasTextureLoaderCache: { [key: number | string]: THREE.CanvasTexture } = {};
 export const loadTextureTextToObject = (
-  id: number,
-  versionName: string,
-  dropSymbol: string,
-  tokenNameId: string,
+  dripId: number,
+  dropId: number,
+  totalSupply: number,
   ref: any
 ) => {
-  const cachedTexture = canvasTextureLoaderCache[id];
+  const cachedTexture = canvasTextureLoaderCache[dripId];
   if (cachedTexture) {
     ref.current.map = cachedTexture;
     ref.current.map.needsUpdate = true;
     return;
   }
 
-  ref.current.map = generatesCanvasTexture(id, versionName, dropSymbol, tokenNameId);
+  ref.current.map = generatesCanvasTexture(dripId, dropId, totalSupply);
   ref.current.map.needsUpdate = true;
 };
 
-export const generatesCanvasTexture = (
-  _itemId: number,
-  versionName: string,
-  dropSymbol: string,
-  tokenNameId: string
-) => {
-  const itemId = "#" + _itemId;
+export const generatesCanvasTexture = (dripId: number, dropId: number, totalSupply: number) => {
+  const _dropId = "DROP #" + dropId;
+  const dripIdSupply = `${dripId} / ${totalSupply}`;
 
   const canvas = document.createElement("canvas");
 
@@ -83,14 +78,10 @@ export const generatesCanvasTexture = (
 
   ctx.textAlign = "center";
   ctx.fillStyle = "black";
-  ctx.font = "700 40px montserrat";
-  ctx.fillText(versionName, ctx.canvas.width / 2, ctx.canvas.height / 2);
-  ctx.font = "700 20px montserrat";
-  ctx.fillText(itemId, ctx.canvas.width / 2, ctx.canvas.height / 2 + 100);
-  ctx.font = "700 20px montserrat";
-  ctx.fillText(dropSymbol, ctx.canvas.width / 2, ctx.canvas.height / 2 + 125);
-  ctx.font = "700 20px montserrat";
-  ctx.fillText(tokenNameId, ctx.canvas.width / 2, ctx.canvas.height / 2 + 150);
+  ctx.font = "700 20px wide";
+  ctx.fillText(_dropId, ctx.canvas.width / 2, ctx.canvas.height / 2 + 125);
+  ctx.font = "700 20px wide";
+  ctx.fillText(dripIdSupply, ctx.canvas.width / 2, ctx.canvas.height / 2 + 150);
 
   return new CanvasTexture(canvas);
 };

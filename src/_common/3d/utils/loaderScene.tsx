@@ -2,9 +2,9 @@ import { ThemeProvider, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Preload } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { FC } from "react";
+import React, { FC } from "react";
 
-const LoaderScene: FC = ({ children }) => {
+const LoaderScene: FC<{ children: React.ReactNode }> = ({ children }) => {
   const theme = useTheme();
 
   return (

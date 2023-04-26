@@ -49,12 +49,6 @@ const SceneLoader: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.m
 );
 
 const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((props) => {
-  const { setLoaded } = useSceneStore();
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
   const cameraControls = React.useRef<CameraControls>(null!);
 
   const refs = useSkateRefsLoader();
@@ -64,14 +58,15 @@ const Scene: FC<ModelMetadataProps & { sceneRef: sceneRefType }> = React.memo((p
     const t = state.clock.getElapsedTime();
     const ref = refs.groupRef.current as any;
 
-    ref.rotation.z = (1 + Math.sin(t / 1.5)) / 90;
+    ref.rotation.z = (1 + Math.sin(t / 0.5)) / 90;
     ref.position.y = (1 + Math.sin(t / 0.7)) / 0.75;
   });
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 150]} fov={40} />
-      <spotLight intensity={0.1} angle={0.15} penumbra={1} position={[300, 300, 300]} castShadow />
+      {/* <CameraControls ref={cameraControls} position={[0, 40, -55]} target={[0, 40, 0]} /> */}
+      <PerspectiveCamera makeDefault position={[0, 0, 130]} fov={40} />
+      <spotLight intensity={0.05} angle={0.15} penumbra={1} position={[300, 300, 300]} castShadow />
       <ambientLight intensity={0.95} />
       <ModelSkate refs={refs} {...props} />
     </>
