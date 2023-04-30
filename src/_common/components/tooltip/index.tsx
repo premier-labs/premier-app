@@ -5,7 +5,7 @@ import { Tooltip as MaterialTootip, TooltipProps } from "@mui/material";
 // styles
 import Style from "./style";
 
-type props = { title: any; placement?: TooltipProps["placement"] };
+type props = { children: React.ReactNode; title: any; placement?: TooltipProps["placement"] };
 
 const Tooltip: FC<props> = ({ children, title, placement = "top" }) => {
   return (
