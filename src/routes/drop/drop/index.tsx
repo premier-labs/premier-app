@@ -3,7 +3,6 @@ import { placeholderItem } from "@app/_common/utils";
 import ModalActionComponent from "@app/components/modalAction";
 import useDrop from "@app/hooks/useDrop";
 import NotFound from "@app/components/error";
-import { useGetAssetsQuery } from "@app/store/services";
 import SceneLoader, { sceneRefType } from "@common/3d/scenes/skate_1";
 import { IconEtherscan, IconMouse, IconOpenSea } from "@common/assets/images";
 import Box from "@common/components/box";
@@ -21,13 +20,15 @@ import { Drop, NFT } from "@premier-types";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { animated, useSpring } from "@react-spring/web";
 import { ethers } from "ethers";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMint } from "src/hooks/useMint";
 import { useMutate } from "src/hooks/useMutate";
 import { useAccount } from "wagmi";
 import Style from "./style";
 import ErrorComponent from "@app/components/error";
+import useNfts from "@app/hooks/useNfts";
+import { useSceneStore } from "@app/_common/3d/hooks/hook";
 
 const { formatEther } = ethers.utils;
 
@@ -48,10 +49,9 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   // Server hooks
 
   // Assets
-  const { data: assets, isLoading } = useGetAssetsQuery(
-    { address: address as string },
-    { skip: !isConnected }
-  );
+  const { nfts, isNftsLoading, isNftsError } = useNfts(address, {
+    enabled: isConnected,
+  });
 
   // Client hooks
 
@@ -126,7 +126,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
       price: formatEther(drop.price).toString(),
       action: {
         name: "MINT",
-        fct: () => mint(drop.address, selectedDripVersion, drop.price, selectedNFT),
+        fct: () => mint(drop.id, selectedDripVersion, drop.price),
       },
     },
 
@@ -152,12 +152,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
             action: {
               name: "MUTATE",
               fct: () =>
-                mutate(
-                  drop.address,
-                  mintData?.tokenId as number,
-                  selectedNFT.address,
-                  selectedNFT.id
-                ),
+                mutate(drop.id, mintData?.dripId as number, selectedNFT.address, selectedNFT.id),
             },
           },
         ]
@@ -224,6 +219,19 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
     config: { mass: 1, tension: 170, friction: 26 },
   });
 
+  // Page life cycle
+
+  const { isLoaded } = useSceneStore();
+
+  useEffect(() => {
+    setShowSelectNFT(false);
+
+    if (!isLoaded || !sceneRef.current) return;
+
+    resetItem();
+    updateVersion(0);
+  }, [isLoaded, drop]);
+
   return (
     <>
       <ModalActionComponent
@@ -231,7 +239,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
         showModal={showActionModal}
         onClose={() => hideActionModal()}
         modalActions={modalActions}
-        dripId={mintData?.tokenId}
+        dripId={mintData?.dripId}
       />
 
       <Box>
@@ -245,23 +253,14 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
               position: "relative",
             }}
           >
-            <SceneLoader
-              sceneRef={sceneRef}
-              model={drop.metadata.model}
-              versions={drop.metadata.versions}
-              initialVersion={0}
-              initialPlaceholderTexture={"/placeholder.png"}
-              initialDropId={drop.id}
-              initialDripId={0}
-              initialMaxSupply={drop.maxSupply}
-            />
+            {/* 3D Scene */}
             <div
               style={{
                 position: "absolute",
                 zIndex: 10000,
                 bottom: 10,
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                left: "1.5%",
+                transform: "translate(0%, -40%)",
               }}
             >
               <Typos.Normal style={{ fontSize: "0.7em", textAlign: "center" }}>
@@ -294,13 +293,26 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
               <Grid item>
                 <Grid container spacing={1.25}>
                   <Grid item xs={12}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>
-                        <Style.MintPriceTitle>
-                          {drop.currentSupply} / {drop.maxSupply} Minted
-                        </Style.MintPriceTitle>
+                    {drop && (
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <Grid container spacing={0.5}>
+                            <Grid item>
+                              <Clickable
+                                address={CONFIG.blockExplorerUrl + `/address/${drop.address}`}
+                              >
+                                <IconEtherscan style={{ width: "15px", height: "15px" }} />
+                              </Clickable>
+                            </Grid>
+                            <Grid item>
+                              <Clickable address={CONFIG.openseaUrl + `/${drop.address}`}>
+                                <IconOpenSea style={{ width: "15px", height: "15px" }} />
+                              </Clickable>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} style={{ marginBottom: "10px" }}>
@@ -318,6 +330,16 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                         <Typos.Normal style={{ fontWeight: 300, fontSize: "1.25em" }}>
                           {formatEther(drop.price).toString()} ETH
                         </Typos.Normal>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Grid container spacing={1} style={{ marginBottom: "10px" }}>
+                      <Grid item xs={12}>
+                        <Style.MintPriceTitle>
+                          {drop.currentSupply} / {drop.maxSupply} Minted
+                        </Style.MintPriceTitle>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -378,19 +400,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                                                 : "transparent"
                                             }`,
                                           }}
-                                        ></div>
-                                        {/* <img
-                      src={item.texture}
-                      style={{
-                        width: "100%",
-                        height: "calc(100% - 2rem)",
-                        borderRadius: "1px",
-                        border: `1px solid ${
-                          currentVersion === item.id ? theme.colors.black : "transparent"
-                        }`,
-                      }}
-                      alt=""
-                    /> */}
+                                        />
                                         <div style={{ height: "1.7rem" }}>
                                           <Typos.Normal
                                             style={{
@@ -427,8 +437,8 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
 
                               <Style.BodyLeftSide $connected={isConnected}>
                                 <Style.InnerLeftSide>
-                                  {isConnected && assets && assets.length ? (
-                                    assets.map((collection, index1) => (
+                                  {isConnected && nfts && nfts.length ? (
+                                    nfts.map((collection, index1) => (
                                       <div key={index1} style={{ marginBottom: "20px" }}>
                                         <Style.CollectionName>
                                           {collection.collectionName}
@@ -459,7 +469,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                                     ))
                                   ) : isConnected ? (
                                     <Style.InnerLeftSideNoNfts>
-                                      {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+                                      {isNftsLoading ? "Loading ..." : "You do not own any NFTs :("}
                                     </Style.InnerLeftSideNoNfts>
                                   ) : (
                                     <Style.InnerLeftSideNoNfts>
@@ -747,28 +757,20 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
   );
 };
 
-const DropRouteProxy: FC<{ sceneRef: sceneRefType }> = ({ sceneRef }) => {
-  const dropId = Number(useParams().dropId);
+// const DropRouteProxy: FC<{ sceneRef: sceneRefType }> = ({ sceneRef }) => {
+//   const dropId = Number(useParams().dropId);
 
-  const { dropData, isDropLoading, isDropError } = useDrop(dropId);
+//   const { drop, isDropLoading, isDropError } = useDrop(dropId);
 
-  if (isDropLoading) {
-    return <DropLoading />;
-  }
+//   if (isDropLoading) {
+//     return <DropLoading />;
+//   }
 
-  if (isDropError) {
-    return <DropNotFound />;
-  }
+//   if (isDropError) {
+//     return <DropNotFound />;
+//   }
 
-  return <DropComponent drop={dropData!} sceneRef={sceneRef} />;
-};
+//   return <DropComponent drop={drop!} sceneRef={sceneRef} />;
+// };
 
-const DropLoading: FC = () => {
-  return <></>;
-};
-
-const DropNotFound: FC = () => {
-  return <ErrorComponent text="The Drop you are trying to access doesn't exist." />;
-};
-
-export default DropRouteProxy;
+export default DropComponent;

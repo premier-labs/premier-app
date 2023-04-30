@@ -1,143 +1,52 @@
-import { CONFIG, isDevelopment } from "@common/config";
-import { ListMockTokens } from "@premier-labs/contracts/dist/mock";
-import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
-import { Drop__factory, ERC721__factory, Store__factory } from "@premier-typechain";
-import { Drip, Drips, dripStatus, DripStatus, Drop, DropMetadata, NFT } from "@premier-types";
-import { readContract, readContracts } from "@wagmi/core";
-import { BigNumber } from "ethers";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { Address, useContractEvent, useNetwork } from "wagmi";
-import { useContractRead } from "wagmi";
+import { CONFIG } from "@common/config";
+import { Drips, Drip } from "@premier-labs/contracts/dist/types";
+import axios from "axios";
+import { useQuery, useQueryClient } from "react-query";
+import useSocketIo from "./useSocketIo";
+import { useEffect } from "react";
 
-const getNFT = async (
-  dripStatus: DripStatus,
-  mutation: {
-    tokenContract: `0x${string}`;
-    tokenId: BigNumber;
-  }
-) => {
-  if (dripStatus === DripStatus.MUTATED) {
-    if (!isDevelopment) {
-      for (const listName in ListMockTokens) {
-        const list = ListMockTokens[listName];
+export default function useDrips(address: string, options: { enabled: boolean }) {
+  const { socket } = useSocketIo();
+  const queryClient = useQueryClient();
 
-        if (list.contract === mutation.tokenContract) {
-          const a = await readContracts({
-            contracts: [
-              {
-                address: mutation.tokenContract,
-                abi: ERC721__factory.abi,
-                functionName: "name",
-              },
-              {
-                address: mutation.tokenContract,
-                abi: ERC721__factory.abi,
-                functionName: "symbol",
-              },
-            ],
-          });
+  const queryKey = `drips_${address}`;
 
-          return {
-            address: list.contract,
-            img: list.tokens[mutation.tokenId.toNumber()],
-            id: mutation.tokenId.toNumber(),
-            name: a[0],
-            symbol: a[1],
-          };
-        }
-      }
-    } else {
-      const req = await fetch(
-        `${CONFIG.network.server_url}/nft/${mutation.tokenContract}/${mutation.tokenId}`
-      );
-      const res = await req.json();
-      return res as NFT;
-    }
-  } else {
-    return undefined;
-  }
-};
-
-export default function useDrips(address: string, options: { skip?: boolean }) {
-  const { chain } = useNetwork();
-  const chainId = chain?.id as number;
-
-  const [isDripsLoading, setLoading] = useState(true);
-  const [isDripsError, setError] = useState(false);
-  const [isDripsDone, setDone] = useState(false);
-  const [dripsData, setData] = useState<Drips>();
+  const {
+    isLoading: isDripsLoading,
+    error: isDripsError,
+    data: drips,
+  } = useQuery({
+    queryKey: [queryKey],
+    queryFn: () =>
+      axios.get(CONFIG.network.server_url + `/drips/${address}`).then((res) => res.data),
+    enabled: options.enabled,
+  });
 
   useEffect(() => {
-    (async () => {
-      if (options.skip) return;
+    socket.on(queryKey, (event: { data: Drip }) => {
+      const data = event.data as Drip;
+      queryClient.setQueriesData(queryKey, (oldData: Drips | undefined) => {
+        if (!oldData) return [];
 
-      const drips: Drips = [];
+        const newDrips = oldData;
 
-      const storeContract = ChainIdToStoreContract[chainId] as Address;
+        for (let index = 0; index < newDrips.length; index++) {
+          if (newDrips[index].drop.id === data.drop.id && newDrips[index].id === data.id) {
+            newDrips[index] = data;
 
-      const dropTotalSupply = await readContract({
-        address: storeContract,
-        abi: Store__factory.abi,
-        functionName: "DROP_SUPPLY",
-      });
-
-      for (let y = BigNumber.from(0); y < dropTotalSupply; y = y.add(1)) {
-        const dropContract = await readContract({
-          address: storeContract,
-          abi: Store__factory.abi,
-          functionName: "drop",
-          args: [y],
-        });
-
-        const dripOwnedByAddress = await readContract({
-          address: dropContract,
-          abi: Drop__factory.abi,
-          functionName: "balanceOf",
-          args: [address as Address],
-        });
-
-        for (let x = BigNumber.from(0); x < dripOwnedByAddress; x = x.add(1)) {
-          const tokenOfOwnerByIndex = await readContract({
-            address: dropContract,
-            abi: Drop__factory.abi,
-            functionName: "tokenOfOwnerByIndex",
-            args: [address as Address, x],
-          });
-
-          const _drip = await readContract({
-            address: dropContract,
-            abi: Drop__factory.abi,
-            functionName: "dripInfo",
-            args: [tokenOfOwnerByIndex],
-          });
-
-          const drip: Drip = {
-            drop: {
-              id: y.toNumber(),
-            } as any,
-            id: _drip.id.toNumber(),
-            version: _drip.drip.version,
-            img: "", // todo
-            status: _drip.drip.status,
-            owner: _drip.owner,
-            nft: await getNFT(_drip.drip.status, _drip.drip.mutation),
-          };
-
-          drips.push(drip);
+            return newDrips;
+          }
         }
-      }
 
-      setData(drips);
-      setLoading(false);
-      setDone(true);
-    })();
+        newDrips.push(data);
+        return newDrips;
+      });
+    });
   }, []);
 
   return {
     isDripsLoading,
-    isDripsDone,
     isDripsError,
-    dripsData,
+    drips: drips as Drips,
   };
 }

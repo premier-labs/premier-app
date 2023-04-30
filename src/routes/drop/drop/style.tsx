@@ -455,7 +455,7 @@ const style = {
   })),
   MintPriceTitle: styled("div")(({ theme }) => ({
     fontFamily: theme.fontFamily.primary,
-    fontSize: "0.75em",
+    fontSize: "0.8em",
     fontWeight: 600,
     opacity: 0.3,
   })),

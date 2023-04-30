@@ -78,9 +78,9 @@ export const generatesCanvasTexture = (dripId: number, dropId: number, totalSupp
 
   ctx.textAlign = "center";
   ctx.fillStyle = "black";
-  ctx.font = "700 20px wide";
+  ctx.font = "700 15px wide";
   ctx.fillText(_dropId, ctx.canvas.width / 2, ctx.canvas.height / 2 + 125);
-  ctx.font = "700 20px wide";
+  ctx.font = "700 15px wide";
   ctx.fillText(dripIdSupply, ctx.canvas.width / 2, ctx.canvas.height / 2 + 150);
 
   return new CanvasTexture(canvas);

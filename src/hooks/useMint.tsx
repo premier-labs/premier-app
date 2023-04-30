@@ -1,22 +1,16 @@
-import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
-import { NFT } from "@premier-labs/contracts/dist/types";
+import { Store__factory } from "@premier-labs/contracts/dist/typechain";
+import { prepareWriteContract, waitForTransaction, writeContract } from "@wagmi/core";
+import { BigNumber } from "ethers";
 import { useState } from "react";
-import { usePrepareContractWrite, useWaitForTransaction, useNetwork, Address } from "wagmi";
-import { readContract } from "@wagmi/core";
-import { Drop__factory } from "@premier-labs/contracts/dist/typechain";
-import {
-  prepareWriteContract,
-  writeContract,
-  waitForTransaction,
-  watchContractEvent,
-} from "@wagmi/core";
-import { BigNumber, ethers } from "ethers";
+import { useStore } from "./useStore";
 
 export function useMint() {
   const [isMintLoading, setLoading] = useState(false);
   const [isMintError, setError] = useState(false);
   const [isMintDone, setDone] = useState(false);
-  const [mintData, setData] = useState<{ tokenId?: number; hash?: string }>();
+  const [mintData, setData] = useState<{ dripId?: number; hash?: string }>();
+
+  const { storeContract } = useStore();
 
   const mintReset = () => {
     setLoading(false);
@@ -25,12 +19,12 @@ export function useMint() {
     setData({});
   };
 
-  const mint = async (dropContract: string, versionId: number, value: string, nft: NFT) => {
+  const mint = async (dropId: number, versionId: number, value: string) => {
     const config = await prepareWriteContract({
-      address: dropContract as Address,
-      abi: Drop__factory.abi,
+      address: storeContract,
+      abi: Store__factory.abi,
       functionName: "mint",
-      args: [versionId],
+      args: [BigNumber.from(dropId), versionId],
       overrides: {
         value: BigNumber.from(value),
       },
@@ -46,8 +40,8 @@ export function useMint() {
     });
 
     if (receipt.logs) {
-      const tokenId = BigNumber.from(receipt.logs[1].topics[1]).toNumber();
-      setData({ hash, tokenId });
+      const dripId = BigNumber.from(receipt.logs[1].topics[2]).toNumber();
+      setData({ hash, dripId });
       setLoading(false);
       setDone(true);
     } else {

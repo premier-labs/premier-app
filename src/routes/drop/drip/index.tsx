@@ -1,6 +1,5 @@
 import { placeholderItem } from "@app/_common/utils";
 import ModalActionComponent from "@app/components/modalAction";
-import { useGetAssetsQuery } from "@app/store/services";
 import SceneLoader, { sceneRefType } from "@common/3d/scenes/skate_1";
 import { IconEtherscan, IconOpenSea } from "@common/assets/images";
 import Box from "@common/components/box";
@@ -9,9 +8,9 @@ import Typos from "@common/components/typography";
 import { CONFIG } from "@common/config";
 import { useImagePreloader } from "@common/hooks/imagePreloader";
 import ArrowRightAlt from "@mui/icons-material/ArrowRightAlt";
-import { Grid, ImageList, ImageListItem } from "@mui/material";
+import { Grid, ImageList, ImageListItem, Skeleton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Drip, DripStatus, NFT } from "@premier-types";
+import { Drip, DripStatus, Drop, NFT } from "@premier-types";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -20,10 +19,16 @@ import { useMutate } from "src/hooks/useMutate";
 import { useAccount } from "wagmi";
 import Style from "./style";
 import ErrorComponent from "@app/components/error";
+import useNfts from "@app/hooks/useNfts";
+import { useSceneStore } from "@app/_common/3d/hooks/hook";
+import { shortenAddress } from "@app/utils";
 
-const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, sceneRef }) => {
-  const { drop } = drip;
-
+const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: sceneRefType }> = ({
+  drop,
+  drip,
+  isLoading,
+  sceneRef,
+}) => {
   // Preloading
   const {} = useImagePreloader(drop.metadata.versions.map((item) => item.texture));
 
@@ -56,17 +61,16 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
 
   // Utils
 
-  const isMutable = drip.status === DripStatus.DEFAULT;
-  const isOwner = address === drip.owner;
+  const isMutable = drip && drip.status === DripStatus.DEFAULT;
+  const isOwner = drip && address === drip.owner;
   const isSelectedNFTPlaceholder = selectedNFT.address === placeholderItem.address;
 
   // Server hooks
 
   // Assets
-  const { data: assets, isLoading } = useGetAssetsQuery(
-    { address: address as string },
-    { skip: !isConnected || !isOwner || !isMutable }
-  );
+  const { nfts, isNftsLoading, isNftsError } = useNfts(address, {
+    enabled: isConnected || isOwner || isMutable,
+  });
 
   // Actions
   const [showActionModal, setShowActionModal] = React.useState(false);
@@ -99,7 +103,7 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
       price: "0.0",
       action: {
         name: "MUTATE",
-        fct: () => mutate(drop.address, drip.id, selectedNFT.address, selectedNFT.id),
+        fct: () => mutate(drop.id, drip.id, selectedNFT.address, selectedNFT.id),
       },
     },
   ];
@@ -109,7 +113,7 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
   const mutateButton = (() => {
     if (!isConnected)
       return { txt: "CONNECT YOUR WALLET", action: () => openConnectModal?.(), activated: true };
-    if (!isMutable) return { txt: "ALREADY MUTATED", action: () => {}, activated: false };
+    if (!isMutable) return { txt: "MUTATED", action: () => {}, activated: false };
     if (!isOwner) return { txt: "YOU ARE NOT THE OWNER", action: () => {}, activated: false };
     if (isSelectedNFTPlaceholder && !showSelectNFT)
       return {
@@ -131,22 +135,30 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
 
   // Page life cycle
 
+  const { isLoaded } = useSceneStore();
+
   // Handling change of Drip
   useEffect(() => {
-    if (!sceneRef.current) return;
-    sceneRef.current.updateItem(drip.nft?.img || placeholderItem.img);
+    setShowSelectNFT(false);
+
+    if (!isLoaded || !drip || !sceneRef.current) return;
+
+    updateItem(drip?.nft || placeholderItem);
     sceneRef.current.updateVersion(drip.version);
-  }, [drip]);
+  }, [isLoaded, drip]);
 
   return (
     <>
-      <ModalActionComponent
-        drop={drop}
-        showModal={showActionModal}
-        onClose={() => hideActionModal()}
-        modalActions={modalActions}
-        dripId={drip.id}
-      />
+      {drip && (
+        <ModalActionComponent
+          drop={drop}
+          showModal={showActionModal}
+          onClose={() => hideActionModal()}
+          modalActions={modalActions}
+          dripId={drip.id}
+          closeOnView
+        />
+      )}
 
       <Box>
         <Grid container style={{ height: `calc(100vh - ${theme.header.height})` }}>
@@ -159,23 +171,13 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
               position: "relative",
             }}
           >
-            <SceneLoader
-              sceneRef={sceneRef}
-              model={drop.metadata.model}
-              versions={drop.metadata.versions}
-              initialVersion={0}
-              initialPlaceholderTexture={drip.nft?.img || "/placeholder.png"}
-              initialDropId={drop.id}
-              initialDripId={0}
-              initialMaxSupply={drop.maxSupply}
-            />
             <div
               style={{
                 position: "absolute",
                 zIndex: 10000,
                 bottom: 10,
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                left: "1.5%",
+                transform: "translate(0%, -40%)",
               }}
             >
               <Typos.Normal style={{ fontSize: "0.7em", textAlign: "center" }}>
@@ -205,58 +207,94 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
               {!showSelectNFT && <Grid item />}
 
               <Grid item>
-                <Grid container spacing={1.25}>
+                <Grid container spacing={1}>
                   <Grid item xs={12}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>
-                        <Style.MintPriceTitle>
-                          {drop.currentSupply} / {drop.maxSupply} Minted
-                        </Style.MintPriceTitle>
+                    {drip && (
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <Grid container spacing={0.5}>
+                            <Grid item>
+                              <Clickable
+                                address={CONFIG.blockExplorerUrl + `/address/${drop.address}`}
+                              >
+                                <IconEtherscan style={{ width: "15px", height: "15px" }} />
+                              </Clickable>
+                            </Grid>
+                            <Grid item>
+                              <Clickable
+                                address={CONFIG.openseaUrl + `/${drop.address}/${drip.id}`}
+                              >
+                                <IconOpenSea style={{ width: "15px", height: "15px" }} />
+                              </Clickable>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    )}
                   </Grid>
 
-                  <Grid item xs={12} style={{ marginBottom: "10px" }}>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>
-                        <Typos.NormalTitle>
-                          DRIP{" "}
-                          <span style={{ fontWeight: 500, fontFamily: theme.fontFamily.primary }}>
-                            / {drop.id} /
-                          </span>{" "}
-                          <span style={{ fontWeight: 900, fontFamily: theme.fontFamily.primary }}>
-                            #{drip.id}
-                          </span>
-                        </Typos.NormalTitle>
+                  {drip && (
+                    <Grid item xs={12} style={{ marginBottom: "10px" }}>
+                      <Grid container justifyContent="space-between">
+                        <Grid item>
+                          <Typos.NormalTitle>
+                            DROP
+                            <span style={{ fontWeight: 500, fontFamily: theme.fontFamily.primary }}>
+                              {` / ${drop.id} / `}
+                            </span>
+                            DRIP
+                            <span style={{ fontWeight: 500, fontFamily: theme.fontFamily.primary }}>
+                              {` / ${drip.id}`}
+                            </span>
+                          </Typos.NormalTitle>
+                        </Grid>
                       </Grid>
-
-                      {/* <Grid item>
-                        <Typos.Normal style={{ fontWeight: 300, fontSize: "1.25em" }}>
-                          {formatEther(drop.price)} ETH
-                        </Typos.Normal>
-                      </Grid> */}
                     </Grid>
+                  )}
+
+                  <Grid item xs={12}>
+                    {drip && (
+                      <Grid container spacing={1} style={{ marginBottom: "10px" }}>
+                        <Grid item xs={12}>
+                          <Style.MintPriceTitle>
+                            {drip.nft ? (
+                              <>
+                                Mutated: {drip.nft?.symbol} #{drip.nft?.id}
+                              </>
+                            ) : (
+                              <>Mutated: None</>
+                            )}
+                          </Style.MintPriceTitle>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Style.MintPriceTitle>
+                            Owner:{" "}
+                            {shortenAddress(drip.owner) + (drip.owner === address ? " (you)" : "")}
+                          </Style.MintPriceTitle>
+                        </Grid>
+                      </Grid>
+                    )}
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Style.VersionButton>
+                      <div
+                        style={{
+                          height: "22.5px",
+                          width: "22.5px",
+                          borderRadius: "25px",
+                          border: `1px solid ${theme.colors.secondary}`,
+                          backgroundColor: drop.metadata.versions[drip?.version || 0].color,
+                        }}
+                      />
+                      <Typos.Normal style={{ fontSize: "0.75em" }}>
+                        {drop.metadata.versions[drip?.version || 0].name}
+                      </Typos.Normal>
+                    </Style.VersionButton>
                   </Grid>
 
                   <Grid item xs={12}>
                     <Grid container>
-                      <Grid item>
-                        <Style.VersionButton>
-                          <div
-                            style={{
-                              height: "22.5px",
-                              width: "22.5px",
-                              borderRadius: "25px",
-                              border: `1px solid ${theme.colors.secondary}`,
-                              backgroundColor: drop.metadata.versions[drip.version].color,
-                            }}
-                          />
-                          <Typos.Normal style={{ fontSize: "0.75em" }}>
-                            {drop.metadata.versions[drip.version].name}
-                          </Typos.Normal>
-                        </Style.VersionButton>
-                      </Grid>
-
                       {showSelectNFT && (
                         <Grid item style={{ width: "100%", paddingTop: "25px" }}>
                           <Grid
@@ -272,8 +310,8 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
 
                               <Style.BodyLeftSide $connected={isConnected}>
                                 <Style.InnerLeftSide>
-                                  {isConnected && assets && assets.length ? (
-                                    assets.map((collection, index1) => (
+                                  {isConnected && nfts && nfts.length ? (
+                                    nfts.map((collection, index1) => (
                                       <div key={index1} style={{ marginBottom: "20px" }}>
                                         <Style.CollectionName>
                                           {collection.collectionName}
@@ -304,7 +342,7 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
                                     ))
                                   ) : isConnected ? (
                                     <Style.InnerLeftSideNoNfts>
-                                      {isLoading ? "Loading ..." : "You do not own any NFTs :("}
+                                      {isNftsLoading ? "Loading ..." : "You do not own any NFTs :("}
                                     </Style.InnerLeftSideNoNfts>
                                   ) : (
                                     <Style.InnerLeftSideNoNfts>
@@ -413,18 +451,38 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
               {!showSelectNFT ? (
                 <Grid item style={{ width: "100%" }}>
                   <Grid container justifyContent="center" alignItems="center" spacing={0.75}>
+                    <Grid item xs={3.5}>
+                      <Grid
+                        container
+                        alignItems="center"
+                        justifyContent="left"
+                        style={{ height: "100%" }}
+                      >
+                        <Clickable address={`/drop/${drop.id}`}>
+                          <Grid item style={{ display: "flex", alignItems: "center" }}>
+                            <ArrowRightAlt
+                              style={{
+                                transform: "rotate(180deg)",
+                                marginRight: "5px",
+                                height: "22.5px",
+                              }}
+                            />
+                            <Typos.Normal style={{ fontSize: "0.8em" }}>Access Drop</Typos.Normal>
+                          </Grid>
+                        </Clickable>
+                      </Grid>
+                    </Grid>
                     <Grid item xs={5}>
                       <Clickable activated={mutateButton.activated} onClick={mutateButton.action}>
                         <Style.MintButton>{mutateButton.txt}</Style.MintButton>
                       </Clickable>
                     </Grid>
+                    <Grid item xs={3.5}></Grid>
                   </Grid>
                 </Grid>
               ) : (
                 <Grid item style={{ width: "100%" }}>
                   <Grid container justifyContent="center" alignItems="center" spacing={0.75}>
-                    <Grid item xs={12} />
-
                     <Grid item xs={3.5}>
                       <Grid
                         container
@@ -468,25 +526,16 @@ const DripComponent: FC<{ drip: Drip; sceneRef: sceneRefType }> = ({ drip, scene
   );
 };
 
-const DripRouteProxy: FC<{ sceneRef: sceneRefType }> = ({ sceneRef }) => {
-  const dropId = Number(useParams().dropId);
+const DripRouteProxy: FC<{ sceneRef: sceneRefType; drop: Drop }> = ({ sceneRef, drop }) => {
   const dripId = Number(useParams().dripId);
 
-  const { dripData, isDripLoading, isDripError } = useDrip(dropId, dripId);
-
-  if (isDripLoading) {
-    return <DripLoading />;
-  }
+  const { drip, isDripLoading, isDripError } = useDrip(drop.id, dripId);
 
   if (isDripError) {
     return <DripNotFound />;
   }
 
-  return <DripComponent drip={dripData!} sceneRef={sceneRef} />;
-};
-
-const DripLoading: FC = () => {
-  return <></>;
+  return <DripComponent drop={drop} drip={drip!} isLoading={isDripLoading} sceneRef={sceneRef} />;
 };
 
 const DripNotFound: FC = () => {

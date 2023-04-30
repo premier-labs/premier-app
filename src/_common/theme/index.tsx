@@ -120,7 +120,7 @@ const themeOpts = {
       fontWeight: 900,
       fontSize: "1.25em",
       [breakpoints.up("xl")]: {
-        fontSize: "1.5em",
+        fontSize: "1.35em",
       },
       [breakpoints.only("xs")]: {},
     },

@@ -8,7 +8,7 @@ import CenterItem from "@common/components/grid/centerItem";
 import { CONFIG } from "@common/config";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Grid, Modal } from "@mui/material";
+import { BackdropProps, Grid, Modal } from "@mui/material";
 import Style from "./style";
 import { Drop } from "@premier-labs/contracts/dist/types";
 
@@ -31,7 +31,8 @@ export const ModalActionComponent: FC<{
     };
   }[];
   dripId: number | undefined;
-}> = ({ drop, showModal, onClose, modalActions, dripId }) => {
+  closeOnView?: boolean;
+}> = ({ drop, showModal, onClose, modalActions, dripId, closeOnView }) => {
   return (
     <Style.Root>
       <Modal
@@ -118,11 +119,19 @@ export const ModalActionComponent: FC<{
             <Grid item xs={12}>
               <Grid container direction="row-reverse">
                 <Grid item>
-                  <Clickable address={`/drop/${drop.id}/${dripId}`}>
-                    <Style.FinalStep2 $display={modalActions[modalActions.length - 1].isDone}>
-                      View
-                    </Style.FinalStep2>
-                  </Clickable>
+                  {closeOnView ? (
+                    <Clickable onClick={() => onClose()}>
+                      <Style.FinalStep2 $display={modalActions[modalActions.length - 1].isDone}>
+                        View
+                      </Style.FinalStep2>
+                    </Clickable>
+                  ) : (
+                    <Clickable address={`/drop/${drop.id}/${dripId}`}>
+                      <Style.FinalStep2 $display={modalActions[modalActions.length - 1].isDone}>
+                        View
+                      </Style.FinalStep2>
+                    </Clickable>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

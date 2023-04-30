@@ -13,19 +13,14 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { FC, useRef } from "react";
 import useDrips from "src/hooks/useDrips";
 import { useAccount } from "wagmi";
-import { useDispatch } from "../../store/hooks";
 import Style from "./style";
 
 export const NavbarComponent: FC = () => {
   const { address, isConnected } = useAccount();
-  const dispatch = useDispatch();
 
-  const {
-    dripsData: drips,
-    isDripsLoading: isLoading,
-    isDripsDone,
-    isDripsError,
-  } = useDrips(address as string, { skip: !isConnected }); // TODO
+  const { drips, isDripsLoading, isDripsError } = useDrips(address as string, {
+    enabled: isConnected,
+  });
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -134,10 +129,10 @@ export const NavbarComponent: FC = () => {
                                                 <Style.WalletTypoCollectionDrop
                                                   style={{
                                                     borderBottom: `5px solid black`,
-                                                    // borderImage: `linear-gradient(to right, ${
-                                                    //   drip.drop.metadata.versions[drip.version]
-                                                    //     .color
-                                                    // } 50%, transparent 50%) 100% 1`,
+                                                    borderImage: `linear-gradient(to right, ${
+                                                      drip.drop.metadata.versions[drip.version]
+                                                        .color
+                                                    } 50%, transparent 50%) 100% 1`,
                                                   }}
                                                 >
                                                   DROP #{drip.drop.id}
@@ -233,7 +228,7 @@ export const NavbarComponent: FC = () => {
                             justifyContent="center"
                             alignItems="center"
                           >
-                            {isLoading ? (
+                            {isDripsLoading ? (
                               <Style.WalletTypo1>Loading ...</Style.WalletTypo1>
                             ) : (
                               <Style.WalletTypo1>You do not own any drips :'(</Style.WalletTypo1>

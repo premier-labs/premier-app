@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { ThemeProvider, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Preload } from "@react-three/drei";
@@ -9,10 +10,11 @@ const LoaderScene: FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Canvas
-      gl={{ antialias: false }}
+      gl={{ antialias: false, toneMapping: THREE.NoToneMapping }}
       dpr={Math.max(window.devicePixelRatio, 2)}
       flat
       linear
+      shadows
       style={{ height: "100%", width: "100%", position: "relative" }}
     >
       <Preload all />

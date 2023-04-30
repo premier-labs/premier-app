@@ -41,7 +41,6 @@ const style = {
   VersionButton: styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
     gap: "10px",
   })),
   InnerLeftSideNoNftsMobile: styled("div")(({ theme }) => ({

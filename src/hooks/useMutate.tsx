@@ -1,22 +1,17 @@
-import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
-import { NFT } from "@premier-labs/contracts/dist/types";
+import { Store__factory } from "@premier-labs/contracts/dist/typechain";
+import { prepareWriteContract, waitForTransaction, writeContract } from "@wagmi/core";
+import { BigNumber } from "ethers";
 import { useState } from "react";
-import { usePrepareContractWrite, useWaitForTransaction, useNetwork, Address } from "wagmi";
-import { readContract } from "@wagmi/core";
-import { Drop__factory } from "@premier-labs/contracts/dist/typechain";
-import {
-  prepareWriteContract,
-  writeContract,
-  waitForTransaction,
-  watchContractEvent,
-} from "@wagmi/core";
-import { BigNumber, ethers } from "ethers";
+import { Address } from "wagmi";
+import { useStore } from "./useStore";
 
 export function useMutate() {
   const [isMutateLoading, setLoading] = useState(false);
   const [isMutateError, setError] = useState(false);
   const [isMutateDone, setDone] = useState(false);
-  const [mutateData, setData] = useState<{ tokenId?: number; hash?: string }>();
+  const [mutateData, setData] = useState<{ dripId?: number; hash?: string }>();
+
+  const { storeContract } = useStore();
 
   const mutateReset = () => {
     setLoading(false);
@@ -25,17 +20,17 @@ export function useMutate() {
     setData({});
   };
 
-  const mutate = async (
-    dropContract: string,
-    dripId: number,
-    tokenContract: string,
-    tokenId: number
-  ) => {
+  const mutate = async (dropId: number, dripId: number, tokenContract: string, tokenId: number) => {
     const config = await prepareWriteContract({
-      address: dropContract as Address,
-      abi: Drop__factory.abi,
+      address: storeContract,
+      abi: Store__factory.abi,
       functionName: "mutate",
-      args: [BigNumber.from(dripId), tokenContract as Address, BigNumber.from(tokenId)],
+      args: [
+        BigNumber.from(dropId),
+        BigNumber.from(dripId),
+        tokenContract as Address,
+        BigNumber.from(tokenId),
+      ],
     });
 
     const { hash } = await writeContract(config);
@@ -48,8 +43,8 @@ export function useMutate() {
     });
 
     if (receipt.logs) {
-      const tokenId = BigNumber.from(receipt.logs[0].topics[1]).toNumber();
-      setData({ hash, tokenId });
+      const dripId = BigNumber.from(receipt.logs[0].topics[2]).toNumber();
+      setData({ hash, dripId });
       setLoading(false);
       setDone(true);
     } else {

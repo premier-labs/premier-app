@@ -36,6 +36,13 @@ const wagmiClient = createClient({
   provider,
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      retry: false,
+    },
+  },
+});
 
 export { queryClient, wagmiClient, chains };

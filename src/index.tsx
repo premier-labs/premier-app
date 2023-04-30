@@ -2,8 +2,7 @@ import Announcement from "@app/components/announcement";
 import FooterComponent from "@app/components/footer";
 import Navbar from "@app/components/navbar";
 import DropRoutes from "@app/routes/drop";
-import { store } from "@app/store";
-import { chains, queryClient, wagmiClient } from "@app/web3.config.";
+import { chains, queryClient, wagmiClient } from "@app/web3.config";
 import { theme } from "@common/theme";
 import { Grid, ThemeProvider, useTheme } from "@mui/material";
 import { RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
@@ -22,7 +21,6 @@ import { register } from "swiper/element/bundle";
 register();
 
 const App: FC = () => {
-  const theme = useTheme();
   return (
     <>
       <Box sx={{ display: { xs: "none", md: "block" } }}>
@@ -54,15 +52,13 @@ const Index: FC = () => {
     <React.StrictMode>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-              <WagmiConfig client={wagmiClient}>
-                <RainbowKitProvider chains={chains} theme={lightTheme({ accentColor: "black" })}>
-                  <App />
-                </RainbowKitProvider>
-              </WagmiConfig>
-            </QueryClientProvider>
-          </Provider>
+          <QueryClientProvider client={queryClient}>
+            <WagmiConfig client={wagmiClient}>
+              <RainbowKitProvider chains={chains} theme={lightTheme({ accentColor: "black" })}>
+                <App />
+              </RainbowKitProvider>
+            </WagmiConfig>
+          </QueryClientProvider>
         </ThemeProvider>
       </BrowserRouter>
     </React.StrictMode>
