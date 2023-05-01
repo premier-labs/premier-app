@@ -105,6 +105,7 @@ export const NavbarComponent: FC = () => {
                                 <Grid container>
                                   <Grid item xs={2}>
                                     <img
+                                      crossOrigin="anonymous"
                                       src={drip.img || drip.nft?.img || "/placeholder.png"}
                                       style={{ width: "100%" }}
                                       alt=""

@@ -1,13 +1,13 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient } from "wagmi";
-import { mainnet, goerli, localhost } from "wagmi/chains";
+import { mainnet, sepolia, localhost } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { CONFIG, isDevelopment, isProduction, isStaging } from "@common/config";
 import { QueryClient } from "react-query";
 
-const chain = isProduction ? mainnet : isStaging ? goerli : localhost;
+const chain = isProduction ? mainnet : isStaging ? sepolia : localhost;
 
 const providers = isDevelopment
   ? [

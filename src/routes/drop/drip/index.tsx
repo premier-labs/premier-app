@@ -334,7 +334,12 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: 
                                                 updateItem(item);
                                               }}
                                             >
-                                              <img src={item.img} alt={"item.id"} loading="lazy" />
+                                              <img
+                                                src={item.img}
+                                                crossOrigin="anonymous"
+                                                alt={"item.id"}
+                                                loading="lazy"
+                                              />
                                             </ImageListItem>
                                           ))}
                                         </ImageList>
@@ -369,6 +374,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: 
                                           width: "100%",
                                           borderRadius: "1px",
                                         }}
+                                        crossOrigin="anonymous"
                                         src={selectedNFT?.img}
                                         alt=""
                                       />

@@ -461,7 +461,12 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                                                 updateItem(item);
                                               }}
                                             >
-                                              <img src={item.img} alt={"item.id"} loading="lazy" />
+                                              <img
+                                                src={item.img}
+                                                crossOrigin="anonymous"
+                                                alt={"item.id"}
+                                                loading="lazy"
+                                              />
                                             </ImageListItem>
                                           ))}
                                         </ImageList>
@@ -492,6 +497,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
 
                                     <Grid item>
                                       <img
+                                        crossOrigin="anonymous"
                                         style={{
                                           width: "100%",
                                           borderRadius: "1px",
@@ -676,6 +682,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                           <Clickable hoverAnimation={false} onClick={() => updateVersion(item.id)}>
                             <img
                               src={item.texture}
+                              crossOrigin="anonymous"
                               style={{
                                 width: "100%",
                                 height: "calc(100% - 2rem)",
