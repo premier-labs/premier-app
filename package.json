@@ -9,7 +9,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "5.12.1",
     "@mui/system": "^5.12.1",
-    "@premier-labs/contracts": "^0.0.83",
+    "@premier-labs/contracts": "^0.0.84",
     "@rainbow-me/rainbowkit": "^0.12.8",
     "@react-spring/web": "^9.7.2",
     "@react-three/drei": "^9.65.3",
