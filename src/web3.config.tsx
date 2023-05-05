@@ -13,7 +13,7 @@ const providers = isDevelopment
   ? [
       jsonRpcProvider({
         rpc: () => ({
-          http: "http://192.168.2.1:8545",
+          http: "http://localhost:8545",
         }),
       }),
     ]
@@ -25,8 +25,8 @@ const providers = isDevelopment
 const { chains, provider } = configureChains([chain], providers as any);
 
 const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
-  projectId: "YOUR_PROJECT_ID",
+  appName: "premierstudio.xyz",
+  projectId: "xxx",
   chains,
 });
 
@@ -41,6 +41,7 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: Infinity,
       retry: false,
+      refetchOnWindowFocus: false,
     },
   },
 });

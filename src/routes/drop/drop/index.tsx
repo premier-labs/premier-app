@@ -230,7 +230,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
 
     resetItem();
     updateVersion(0);
-  }, [isLoaded, drop]);
+  }, [isLoaded]);
 
   return (
     <>
@@ -680,20 +680,16 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                       {drop.metadata.versions.map((item) => (
                         <swiper-slide key={item.id} style={{ height: "100%" }}>
                           <Clickable hoverAnimation={false} onClick={() => updateVersion(item.id)}>
-                            <img
-                              src={item.texture}
-                              crossOrigin="anonymous"
+                            <div
                               style={{
-                                width: "100%",
-                                height: "calc(100% - 2rem)",
-                                borderRadius: "1px",
-                                border: `1px solid ${
+                                height: "13.5vh",
+                                backgroundColor: item.color,
+                                border: `1.5px solid ${
                                   selectedDripVersion === item.id
                                     ? theme.colors.black
                                     : "transparent"
                                 }`,
                               }}
-                              alt=""
                             />
                             <div style={{ height: "1.7rem" }}>
                               <Typos.Normal

@@ -26,7 +26,7 @@ export default function useDrips(address: string, options: { enabled: boolean })
     socket.on(queryKey, (event: { data: Drip }) => {
       const data = event.data as Drip;
       queryClient.setQueriesData(queryKey, (oldData: Drips | undefined) => {
-        if (!oldData) return [];
+        if (!oldData) return [data];
 
         const newDrips = oldData;
 
