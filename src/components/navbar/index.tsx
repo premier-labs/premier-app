@@ -130,13 +130,13 @@ export const NavbarComponent: FC = () => {
                                                 <Style.WalletTypoCollectionDrop
                                                   style={{
                                                     borderBottom: `5px solid black`,
-                                                    borderImage: `linear-gradient(to right, ${
-                                                      drip.drop.metadata.versions[drip.version]
-                                                        .color
-                                                    } 50%, transparent 50%) 100% 1`,
+                                                    // borderImage: `linear-gradient(to right, ${
+                                                    //   drip.drop.metadata.versions[drip.version]
+                                                    //     .color
+                                                    // } 50%, transparent 50%) 100% 1`,
                                                   }}
                                                 >
-                                                  DROP #{drip.drop.id}
+                                                  {/* DROP #{drip.drop.id} */}
                                                 </Style.WalletTypoCollectionDrop>
                                               </CenterItem>
                                               <Grid item>
@@ -164,7 +164,7 @@ export const NavbarComponent: FC = () => {
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
                                                 <Clickable
-                                                  address={`${CONFIG.blockExplorerUrl}/address/${drip.drop.address}`}
+                                                // address={`${CONFIG.blockExplorerUrl}/address/${drip.drop.address}`}
                                                 >
                                                   <IconEtherscan
                                                     style={{ width: "15px", height: "15px" }}
@@ -182,7 +182,7 @@ export const NavbarComponent: FC = () => {
                                               <Grid item>
                                                 <Clickable
                                                   hoverAnimation={false}
-                                                  address={`/drop/${drip.drop.id}/${drip.id}`}
+                                                  // address={`/drop/${drip.drop.id}/${drip.id}`}
                                                   onClick2={() => handlePopoverClose()}
                                                 >
                                                   <Style.WalletTypoDripAction>

@@ -17,7 +17,7 @@ export default function useNfts(
   } = useQuery({
     queryKey: [queryKey],
     queryFn: () =>
-      axios.get(CONFIG.network.server_url + `/nfts/${address}`).then((res) => res.data),
+      axios.get(CONFIG.server_provider_url + `/nfts?address=${address}`).then((res) => res.data),
     enabled: options.enabled && address !== undefined,
     staleTime: Infinity,
     retry: false,

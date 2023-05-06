@@ -2,9 +2,12 @@ import { Store__factory } from "@premier-labs/contracts/dist/typechain";
 import { prepareWriteContract, waitForTransaction, writeContract } from "@wagmi/core";
 import { BigNumber } from "ethers";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import { useStore } from "./useStore";
 
 export function useMint() {
+  const queryClient = useQueryClient();
+
   const [isMintLoading, setLoading] = useState(false);
   const [isMintError, setError] = useState(false);
   const [isMintDone, setDone] = useState(false);

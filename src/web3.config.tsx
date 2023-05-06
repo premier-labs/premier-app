@@ -9,19 +9,7 @@ import { QueryClient } from "react-query";
 
 const chain = isProduction ? mainnet : isStaging ? sepolia : localhost;
 
-const providers = isDevelopment
-  ? [
-      jsonRpcProvider({
-        rpc: () => ({
-          http: "http://localhost:8545",
-        }),
-      }),
-    ]
-  : [
-      publicProvider({ priority: 0 }),
-      alchemyProvider({ apiKey: CONFIG.web3_provider_apiKey, priority: 1 }),
-    ];
-
+const providers = [publicProvider({ priority: 0 })];
 const { chains, provider } = configureChains([chain], providers as any);
 
 const { connectors } = getDefaultWallets({

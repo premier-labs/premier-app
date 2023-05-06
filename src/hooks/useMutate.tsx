@@ -2,14 +2,17 @@ import { Store__factory } from "@premier-labs/contracts/dist/typechain";
 import { prepareWriteContract, waitForTransaction, writeContract } from "@wagmi/core";
 import { BigNumber } from "ethers";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
 import { Address } from "wagmi";
 import { useStore } from "./useStore";
 
 export function useMutate() {
+  const queryClient = useQueryClient();
+
   const [isMutateLoading, setLoading] = useState(false);
   const [isMutateError, setError] = useState(false);
   const [isMutateDone, setDone] = useState(false);
-  const [mutateData, setData] = useState<{ dripId?: number; hash?: string }>();
+  const [mutateData, setData] = useState<{ hash?: string }>();
 
   const { storeContract } = useStore();
 
@@ -38,18 +41,13 @@ export function useMutate() {
     setLoading(true);
     setData({ hash });
 
-    const receipt = await waitForTransaction({
+    await waitForTransaction({
       hash: hash,
     });
 
-    if (receipt.logs) {
-      const dripId = BigNumber.from(receipt.logs[0].topics[2]).toNumber();
-      setData({ hash, dripId });
-      setLoading(false);
-      setDone(true);
-    } else {
-      setError(true);
-    }
+    setData({ hash });
+    setLoading(false);
+    setDone(true);
   };
 
   return {
