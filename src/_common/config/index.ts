@@ -35,6 +35,8 @@ export const CONFIG = (() => {
   return {
     chain: (chainSupported as any)[import.meta.env?.VITE__CHAIN_ID! as string],
     server_url: import.meta.env?.VITE__SERVER_URL! as string,
+    blockExplorerUrl: "",
+    openseaUrl: "",
   };
 })();
 
