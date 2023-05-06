@@ -1,21 +1,15 @@
 import { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
 import { Store__factory } from "@premier-labs/contracts/dist/typechain";
-import { Drip, DripStatus } from "@premier-labs/contracts/dist/types";
-import { ethers } from "ethers";
-
 import { DripInfoStructOutput } from "@premier-labs/contracts/dist/typechain/contracts/system/Drop";
+import { Drip, DripStatus } from "@premier-labs/contracts/dist/types";
+import { getDrop } from "./drop";
+import { CONFIG } from "./utils/config";
+import { headers } from "./utils/http";
 import { getAsset } from "./utils/opensea";
 import { provider } from "./utils/provider";
-import { CONFIG } from "./utils/config";
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-};
-
-const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chain.id], provider);
 
 export const getDrip = async (dropId: number, dripId: number): Promise<Drip | undefined> => {
   let dripInfo: DripInfoStructOutput;
@@ -24,7 +18,7 @@ export const getDrip = async (dropId: number, dripId: number): Promise<Drip | un
   } catch {
     return undefined;
   }
-  const drop = undefined;
+  const drop = await getDrop(dropId);
 
   const nft = (async () => {
     if (dripInfo.drip.status === DripStatus.MUTATED) {

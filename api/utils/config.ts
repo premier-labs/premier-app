@@ -1,33 +1,40 @@
-enum ENV {
-  DEVELOPMENT,
-  STAGING,
-  PRODUCTION,
+import { localhost, mainnet, sepolia } from "wagmi/chains";
+
+const supportedChains = {
+  [mainnet.id]: mainnet,
+  [sepolia.id]: sepolia,
+  [localhost.id]: localhost,
+};
+interface EnvOptions {
+  SERVER_CHAIN_ID: string;
+  SERVER_WEB3_PROVIDER_URL: string;
+  SERVER_IPFS_PROVIDER_URL: string;
+  SERVER_OPENSEA_KEY: string;
 }
 
-const nodeEnv = (() => {
-  const env = process.env.VITE__NODE_ENV;
+const {
+  SERVER_CHAIN_ID,
+  SERVER_WEB3_PROVIDER_URL,
+  SERVER_IPFS_PROVIDER_URL,
+  SERVER_OPENSEA_KEY,
+}: EnvOptions = process.env as any as EnvOptions;
 
-  switch (env) {
-    case "development":
-      return ENV.DEVELOPMENT;
-    case "staging":
-      return ENV.STAGING;
-    case "production":
-      return ENV.PRODUCTION;
-    default:
-      throw new Error();
-  }
+export const CONFIG = (() => {
+  const chainId = Number(SERVER_CHAIN_ID);
+
+  if (isNaN(chainId)) throw "ChainId shouldn't be NaN";
+
+  if (chainId !== mainnet.id && chainId !== sepolia.id && chainId !== localhost.id)
+    throw `ChainId ${chainId} is not supported`;
+
+  return {
+    chain: supportedChains[chainId],
+    web3_provider_url: SERVER_WEB3_PROVIDER_URL,
+    ipfs_provider_url: SERVER_IPFS_PROVIDER_URL,
+    opensea_api_key: SERVER_OPENSEA_KEY,
+  };
 })();
 
-export const CONFIG = {
-  env: nodeEnv,
-  //
-  chainId: process.env.SERVER_CHAIN_ID!,
-  web3_provider_url: process.env.SERVER_WEB3_PROVIDER_URL!,
-  ipfs_provider_url: process.env.SERVER_IPFS_PROVIDER_URL!,
-  opensea_api_key: process.env.SERVER_OPENSEA_KEY!,
-};
-
-export const isDevelopment = (() => CONFIG.env === ENV.DEVELOPMENT)();
-export const isStaging = (() => CONFIG.env === ENV.STAGING)();
-export const isProduction = (() => CONFIG.env === ENV.PRODUCTION)();
+export const isDevelopment = (() => CONFIG.chain.id === localhost.id)();
+export const isStaging = (() => CONFIG.chain.id === sepolia.id)();
+export const isProduction = (() => CONFIG.chain.id === mainnet.id)();

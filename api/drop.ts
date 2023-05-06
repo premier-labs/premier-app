@@ -2,22 +2,16 @@ import { Handler } from "@netlify/functions";
 import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
 import { Store__factory } from "@premier-labs/contracts/dist/typechain";
 import { Drop, DropMetadata } from "@premier-labs/contracts/dist/types";
-import { BigNumber } from "ethers";
-
 import axios from "axios";
+import { BigNumber } from "ethers";
+import { CONFIG } from "./utils/config";
+import { headers } from "./utils/http";
 import { normalizeIPFSUrl } from "./utils/ipfs";
 import { provider } from "./utils/provider";
-import { CONFIG } from "./utils/config";
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-};
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chain.id], provider);
 
-const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
-
-const snapshotDrop = async (dropId: BigNumber | number): Promise<Drop> => {
+export const getDrop = async (dropId: BigNumber | number): Promise<Drop> => {
   const dropInfo = await Store.dropInfo(dropId);
 
   const metadataUrl = normalizeIPFSUrl(dropInfo.dropURI);
@@ -48,7 +42,7 @@ const handler: Handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(await snapshotDrop(dropId)),
+    body: JSON.stringify(await getDrop(dropId)),
     headers,
   };
 };

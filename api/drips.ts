@@ -2,18 +2,12 @@ import { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
 import { Drop__factory, Store__factory } from "@premier-labs/contracts/dist/typechain";
 import { Drips } from "@premier-labs/contracts/dist/types";
-
 import { getDrip } from "./drip";
-import { provider } from "./utils/provider";
 import { CONFIG } from "./utils/config";
+import { headers } from "./utils/http";
+import { provider } from "./utils/provider";
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-};
-
-const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chain.id], provider);
 
 const getDripsOwnedByAddress = async (address: string) => {
   const dropSupply = (await Store.dropSupply()).toNumber();
