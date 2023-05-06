@@ -22,10 +22,10 @@ const nodeEnv = (() => {
 export const CONFIG = {
   env: nodeEnv,
   //
-  chainId: process.env.SERVER_CHAIN_ID,
-  web3_provider_url: process.env.SERVER_WEB3_PROVIDER_URL,
-  ipfs_provider_url: process.env.SERVER_IPFS_PROVIDER_URL,
-  opensea_api_key: process.env.SERVER_OPENSEA_KEY,
+  chainId: process.env.SERVER_CHAIN_ID!,
+  web3_provider_url: process.env.SERVER_WEB3_PROVIDER_URL!,
+  ipfs_provider_url: process.env.SERVER_IPFS_PROVIDER_URL!,
+  opensea_api_key: process.env.SERVER_OPENSEA_KEY!,
 };
 
 export const isDevelopment = (() => CONFIG.env === ENV.DEVELOPMENT)();

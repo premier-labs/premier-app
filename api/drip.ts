@@ -7,6 +7,7 @@ import { ethers } from "ethers";
 import { DripInfoStructOutput } from "@premier-labs/contracts/dist/typechain/contracts/system/Drop";
 import { getAsset } from "./utils/opensea";
 import { provider } from "./utils/provider";
+import { CONFIG } from "./utils/config";
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
@@ -14,7 +15,7 @@ const headers = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
 };
 
-const Store = Store__factory.connect(ChainIdToStoreContract[1337], provider);
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
 
 export const getDrip = async (dropId: number, dripId: number): Promise<Drip | undefined> => {
   let dripInfo: DripInfoStructOutput;

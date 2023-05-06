@@ -5,6 +5,7 @@ import { Drips } from "@premier-labs/contracts/dist/types";
 
 import { getDrip } from "./drip";
 import { provider } from "./utils/provider";
+import { CONFIG } from "./utils/config";
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
@@ -12,7 +13,7 @@ const headers = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
 };
 
-const Store = Store__factory.connect(ChainIdToStoreContract[1337], provider);
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
 
 const getDripsOwnedByAddress = async (address: string) => {
   const dropSupply = (await Store.dropSupply()).toNumber();

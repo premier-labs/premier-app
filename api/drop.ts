@@ -7,6 +7,7 @@ import { BigNumber } from "ethers";
 import axios from "axios";
 import { normalizeIPFSUrl } from "./utils/ipfs";
 import { provider } from "./utils/provider";
+import { CONFIG } from "./utils/config";
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
@@ -14,7 +15,7 @@ const headers = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
 };
 
-const Store = Store__factory.connect(ChainIdToStoreContract[1337], provider);
+const Store = Store__factory.connect(ChainIdToStoreContract[CONFIG.chainId], provider);
 
 const snapshotDrop = async (dropId: BigNumber | number): Promise<Drop> => {
   const dropInfo = await Store.dropInfo(dropId);
