@@ -14,7 +14,7 @@ export default function useDrip(dropId: number, dripId: number, options = { enab
     queryKey: [queryKey],
     queryFn: () =>
       axios
-        .get(CONFIG.server_provider_url + `/drip?dropId=${dropId}&dripId=${dripId}`)
+        .get(CONFIG.server_url + `/drip?dropId=${dropId}&dripId=${dripId}`)
         .then((res) => res.data),
     enabled: options.enabled,
   });

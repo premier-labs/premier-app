@@ -1,3 +1,5 @@
+import { mainnet, sepolia, localhost } from "wagmi/chains";
+
 enum ENV {
   DEVELOPMENT,
   STAGING,
@@ -5,7 +7,7 @@ enum ENV {
 }
 
 const nodeEnv = (() => {
-  const env = import.meta.env?.VITE__NODE_ENV ?? process.env.VITE__NODE_ENV;
+  const env = import.meta.env?.VITE__NODE_ENV;
 
   switch (env) {
     case "development":
@@ -19,16 +21,21 @@ const nodeEnv = (() => {
   }
 })();
 
-export const CONFIG = {
-  env: nodeEnv,
-  //
-  server_provider_url:
-    import.meta.env?.VITE__SERVER_PROVIDER_URL! ?? process.env.VITE__SERVER_PROVIDER_URL,
-  //
-  blockExplorerUrl: import.meta.env?.VITE__BLOCKEXPLORER! ?? process.env.VITE__BLOCKEXPLORER,
-  openseaUrl: import.meta.env?.VITE__OPENSEA_URL! ?? process.env.VITE__OPENSEA_URL,
+export const isDevelopment = (() => nodeEnv === ENV.DEVELOPMENT)();
+export const isStaging = (() => nodeEnv === ENV.STAGING)();
+export const isProduction = (() => nodeEnv === ENV.PRODUCTION)();
+
+export const chainSupported = {
+  [mainnet.id]: mainnet,
+  [sepolia.id]: sepolia,
+  [localhost.id]: localhost,
 };
 
-export const isDevelopment = (() => CONFIG.env === ENV.DEVELOPMENT)();
-export const isStaging = (() => CONFIG.env === ENV.STAGING)();
-export const isProduction = (() => CONFIG.env === ENV.PRODUCTION)();
+export const CONFIG = (() => {
+  return {
+    chain: (chainSupported as any)[import.meta.env?.VITE__CHAIN_ID! as string],
+    server_url: import.meta.env?.VITE__SERVER_URL! as string,
+  };
+})();
+
+console.log(CONFIG);

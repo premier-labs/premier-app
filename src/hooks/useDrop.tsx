@@ -12,8 +12,7 @@ export default function useDrop(dropId: number, options = { enabled: true }) {
     data: drop,
   } = useQuery({
     queryKey: [queryKey],
-    queryFn: () =>
-      axios.get(CONFIG.server_provider_url + `/drop?dropId=${dropId}`).then((res) => res.data),
+    queryFn: () => axios.get(CONFIG.server_url + `/drop?dropId=${dropId}`).then((res) => res.data),
     enabled: options.enabled,
   });
 

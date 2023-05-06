@@ -1,9 +1,8 @@
-import { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import { withPlanetscale } from "@netlify/planetscale";
+import { Handler } from "@netlify/functions";
 import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
 import { Store__factory } from "@premier-labs/contracts/dist/typechain";
 import { Drop, DropMetadata } from "@premier-labs/contracts/dist/types";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 
 import axios from "axios";
 import { normalizeIPFSUrl } from "./utils/ipfs";

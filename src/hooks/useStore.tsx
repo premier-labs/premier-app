@@ -1,9 +1,7 @@
 import { ChainIdToStoreContract } from "@premier-labs/contracts/dist/system";
 import { Address } from "wagmi";
-import { useChain } from "./useChain";
+import { CONFIG } from "@app/_common/config";
 
 export function useStore() {
-  const { chainId } = useChain();
-
-  return { storeContract: ChainIdToStoreContract[chainId] as Address };
+  return { storeContract: ChainIdToStoreContract[CONFIG.chain.id] as Address };
 }

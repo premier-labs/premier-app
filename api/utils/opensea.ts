@@ -2,11 +2,9 @@ import { NFT, NFTs, NFTsByCollection } from "@premier-labs/contracts/dist/types"
 import axios from "axios";
 
 import axiosRetry from "axios-retry";
-import { CONFIG, isProduction } from "./config";
+import { CONFIG } from "./config";
 
-if (isProduction) {
-  axios.defaults.headers.common["X-API-KEY"] = CONFIG.opensea_api_key;
-}
+axios.defaults.headers.common["X-API-KEY"] = CONFIG.opensea_api_key;
 
 axiosRetry(axios, { retries: 10 });
 axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay });

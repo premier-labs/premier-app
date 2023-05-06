@@ -1,16 +1,12 @@
+import { CONFIG, isProduction, isStaging } from "@common/config";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { configureChains, createClient } from "wagmi";
-import { mainnet, sepolia, localhost } from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { CONFIG, isDevelopment, isProduction, isStaging } from "@common/config";
 import { QueryClient } from "react-query";
-
-const chain = isProduction ? mainnet : isStaging ? sepolia : localhost;
+import { configureChains, createClient } from "wagmi";
+import { localhost, mainnet, sepolia } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 
 const providers = [publicProvider({ priority: 0 })];
-const { chains, provider } = configureChains([chain], providers as any);
+const { chains, provider } = configureChains([CONFIG.chain], providers as any);
 
 const { connectors } = getDefaultWallets({
   appName: "premierstudio.xyz",

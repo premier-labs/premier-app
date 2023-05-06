@@ -13,7 +13,7 @@ export default function useDrips(address: string, options: { enabled: boolean })
   } = useQuery({
     queryKey: [queryKey],
     queryFn: () =>
-      axios.get(CONFIG.server_provider_url + `/drips?address=${address}`).then((res) => res.data),
+      axios.get(CONFIG.server_url + `/drips?address=${address}`).then((res) => res.data),
     enabled: options.enabled,
   });
 
