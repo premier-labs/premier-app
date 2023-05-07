@@ -1,7 +1,7 @@
 import { CONFIG } from "@common/config";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { QueryClient } from "react-query";
-import { configureChains, createClient } from "wagmi";
+import { configureChains, createClient, mainnet } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
 const providers = [publicProvider({ priority: 0 })];

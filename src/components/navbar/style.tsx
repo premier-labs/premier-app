@@ -17,7 +17,7 @@ const style = {
     alignItems: "center",
     justifyContent: "center",
 
-    background: "linear-gradient(270deg, #bff5b3, #eddcf5)",
+    background: "linear-gradient(270deg, #c9e8c2, #f5ebf9)",
     backgroundSize: "400% 400%",
     "-webkit-animation": "AnimationName 53s ease infinite",
     "-moz-animation": "AnimationName 53s ease infinite",

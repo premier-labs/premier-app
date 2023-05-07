@@ -18,6 +18,7 @@ import { createRoot } from "react-dom/client";
 import ErrorComponent from "./components/error";
 
 import { register } from "swiper/element/bundle";
+import Home from "./routes/home";
 register();
 
 const App: FC = () => {
@@ -28,7 +29,7 @@ const App: FC = () => {
 
         <Routes>
           <Route path="/drop/*" element={<DropRoutes />} />
-          <Route path="/" element={<></>} />
+          <Route path="/" element={<Home />} />
         </Routes>
 
         <FooterComponent />

@@ -47,7 +47,7 @@
     "zustand": "^4.3.2"
   },
   "scripts": {
-    "start": "vite",
+    "start": "netlify dev",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },

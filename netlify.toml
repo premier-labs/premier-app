@@ -2,5 +2,6 @@
   directory = "api/"
 
 [dev]
-    command = "yarn start --force"
+    command = "yarn vite --force"
+    autoLaunch = false
     targetPort = 3000

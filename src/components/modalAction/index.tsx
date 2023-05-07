@@ -5,7 +5,7 @@ import React from "react";
 import { IconEth, IconEtherscan } from "@common/assets/images";
 import Clickable from "@common/components/clickable";
 import CenterItem from "@common/components/grid/centerItem";
-import { CONFIG } from "@common/config";
+import { CONFIG, blockExplorerUrl } from "@common/config";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { BackdropProps, Grid, Modal } from "@mui/material";
@@ -105,7 +105,7 @@ export const ModalActionComponent: FC<{
                           </Clickable>
                         </CenterItem>
                         <CenterItem item>
-                          <Clickable address={`${CONFIG.blockExplorerUrl}/tx/${step.tx}`}>
+                          <Clickable address={`${blockExplorerUrl}/tx/${step.tx}`}>
                             <IconEtherscan style={{ width: "16.5px", height: "16.5px" }} />
                           </Clickable>
                         </CenterItem>

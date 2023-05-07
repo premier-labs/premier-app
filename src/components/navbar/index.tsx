@@ -1,8 +1,8 @@
-import { IconEtherscan, PremierLogo, PremierMiniLogo } from "@common/assets/images";
+import { IconEtherscan, IconOpenSea, PremierLogo, PremierMiniLogo } from "@common/assets/images";
 import Box from "@common/components/box";
 import Clickable from "@common/components/clickable";
 import CenterItem from "@common/components/grid/centerItem";
-import { CONFIG } from "@common/config";
+import { CONFIG, blockExplorerUrl } from "@common/config";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { Grid, Toolbar } from "@mui/material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
@@ -137,13 +137,13 @@ export const NavbarComponent: FC = () => {
                                                 <Style.WalletTypoCollectionDrop
                                                   style={{
                                                     borderBottom: `5px solid black`,
-                                                    // borderImage: `linear-gradient(to right, ${
-                                                    //   drip.drop.metadata.versions[drip.version]
-                                                    //     .color
-                                                    // } 50%, transparent 50%) 100% 1`,
+                                                    borderImage: `linear-gradient(to right, ${
+                                                      drip.drop.metadata.versions[drip.version]
+                                                        .color
+                                                    } 50%, transparent 50%) 100% 1`,
                                                   }}
                                                 >
-                                                  {/* DROP #{drip.drop.id} */}
+                                                  DROP #{drip.drop.id}
                                                 </Style.WalletTypoCollectionDrop>
                                               </CenterItem>
                                               <Grid item>
@@ -156,7 +156,7 @@ export const NavbarComponent: FC = () => {
 
                                           <Grid item>
                                             <Grid container columnSpacing={0.5}>
-                                              {/* <CenterItem
+                                              <CenterItem
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
@@ -165,13 +165,13 @@ export const NavbarComponent: FC = () => {
                                                     style={{ width: "15px", height: "15px" }}
                                                   />
                                                 </Clickable>
-                                              </CenterItem> */}
+                                              </CenterItem>
                                               <CenterItem
                                                 item
                                                 style={{ display: "flex", alignContent: "center" }}
                                               >
                                                 <Clickable
-                                                // address={`${CONFIG.blockExplorerUrl}/address/${drip.drop.address}`}
+                                                  address={`${blockExplorerUrl}/address/${drip.drop.address}`}
                                                 >
                                                   <IconEtherscan
                                                     style={{ width: "15px", height: "15px" }}
@@ -189,7 +189,7 @@ export const NavbarComponent: FC = () => {
                                               <Grid item>
                                                 <Clickable
                                                   hoverAnimation={false}
-                                                  // address={`/drop/${drip.drop.id}/${drip.id}`}
+                                                  address={`/drop/${drip.drop.id}/${drip.id}`}
                                                   onClick2={() => handlePopoverClose()}
                                                 >
                                                   <Style.WalletTypoDripAction>
