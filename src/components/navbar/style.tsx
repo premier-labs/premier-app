@@ -4,15 +4,31 @@ import { AppBar, Toolbar, Typography, Button, Grid, SwipeableDrawer } from "@mui
 
 import { Link } from "react-router-dom";
 
+const appbarHeight = "75px";
+const announcementHeight = "30px";
+export const height = `calc(${appbarHeight} + ${announcementHeight})`;
+
 const style = {
-  Root: styled("div")(({ theme }) => ({
-    backgroundColor: theme.colors.secondary,
+  Root: styled("div")(({ theme }) => ({})),
+
+  Annoucement: styled("div")(({ theme }) => ({
+    height: announcementHeight,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    background: "linear-gradient(270deg, #bff5b3, #eddcf5)",
+    backgroundSize: "400% 400%",
+    "-webkit-animation": "AnimationName 53s ease infinite",
+    "-moz-animation": "AnimationName 53s ease infinite",
+    animation: "AnimationName 53s ease infinite",
   })),
+
   AppBar: styled(AppBar)(({ theme }) => ({
     ...theme.myBreakpoints.app,
-    backgroundColor: "transparent",
+    backgroundColor: theme.colors.secondary,
     boxShadow: "none",
-    height: theme.header.height,
+    height: appbarHeight,
     display: "flex",
     justifyContent: "center",
   })),
@@ -23,7 +39,7 @@ const style = {
     // ...theme.myBreakpoints.level3,
     position: "absolute",
     right: 0,
-    top: theme.header.height,
+    top: height,
     backgroundColor: "red",
     width: "-2.5px",
     height: "-2.5px",

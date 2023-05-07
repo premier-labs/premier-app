@@ -1,3 +1,4 @@
+import { height } from "@app/components/navbar/style";
 import { createTheme, Theme } from "@mui/material";
 import { createBreakpoints, useTheme as useThemeMUI } from "@mui/system";
 
@@ -34,7 +35,7 @@ const themeOpts = {
   ...themeBasics,
 
   header: {
-    height: "75px",
+    height: height,
   },
 
   components: {

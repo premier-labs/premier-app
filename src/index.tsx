@@ -24,7 +24,6 @@ const App: FC = () => {
   return (
     <>
       <Box sx={{ display: { xs: "none", md: "block" } }}>
-        <Announcement />
         <Navbar />
 
         <Routes>

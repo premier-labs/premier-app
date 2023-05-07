@@ -14,6 +14,7 @@ import React, { FC, useRef } from "react";
 import useDrips from "src/hooks/useDrips";
 import { useAccount } from "wagmi";
 import Style from "./style";
+import Typography from "@app/_common/components/typography";
 
 export const NavbarComponent: FC = () => {
   const { address, isConnected } = useAccount();
@@ -37,6 +38,12 @@ export const NavbarComponent: FC = () => {
 
   return (
     <Style.Root>
+      <Style.Annoucement>
+        <Typography.Normal style={{ fontSize: "0.75em" }}>
+          Now live on <b>Mainnet</b> 🌞
+        </Typography.Normal>
+      </Style.Annoucement>
+
       <Style.PointOpenWallet ref={f as any} />
       <Style.AppBar position="relative">
         <Toolbar style={{ padding: "0px" }}>
