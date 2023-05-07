@@ -5,7 +5,7 @@ import { IconEtherscan, IconOpenSea } from "@common/assets/images";
 import Box from "@common/components/box";
 import Clickable from "@common/components/clickable";
 import Typos from "@common/components/typography";
-import { CONFIG } from "@common/config";
+import { CONFIG, blockExplorerUrl, openseaUrl } from "@common/config";
 import { useImagePreloader } from "@common/hooks/imagePreloader";
 import ArrowRightAlt from "@mui/icons-material/ArrowRightAlt";
 import { Grid, ImageList, ImageListItem, Skeleton } from "@mui/material";
@@ -214,16 +214,12 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: 
                         <Grid item>
                           <Grid container spacing={0.5}>
                             <Grid item>
-                              <Clickable
-                                address={CONFIG.blockExplorerUrl + `/address/${drop.address}`}
-                              >
+                              <Clickable address={blockExplorerUrl + `/address/${drop.address}`}>
                                 <IconEtherscan style={{ width: "15px", height: "15px" }} />
                               </Clickable>
                             </Grid>
                             <Grid item>
-                              <Clickable
-                                address={CONFIG.openseaUrl + `/${drop.address}/${drip.id}`}
-                              >
+                              <Clickable address={openseaUrl + `/${drop.address}/${drip.id}`}>
                                 <IconOpenSea style={{ width: "15px", height: "15px" }} />
                               </Clickable>
                             </Grid>
@@ -422,7 +418,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: 
                                           <Grid item>
                                             <Clickable
                                               activated={!isSelectedNFTPlaceholder}
-                                              address={`${CONFIG.openseaUrl}/${selectedNFT.address}/${selectedNFT.id}`}
+                                              address={`${openseaUrl}/${selectedNFT.address}/${selectedNFT.id}`}
                                             >
                                               <IconOpenSea
                                                 style={{ width: "16.5px", height: "16.5px" }}
@@ -432,7 +428,7 @@ const DripComponent: FC<{ drop: Drop; drip: Drip; isLoading: boolean; sceneRef: 
                                           <Grid item>
                                             <Clickable
                                               activated={!isSelectedNFTPlaceholder}
-                                              address={`${CONFIG.blockExplorerUrl}/address/${selectedNFT.address}`}
+                                              address={`${blockExplorerUrl}/address/${selectedNFT.address}`}
                                             >
                                               <IconEtherscan
                                                 style={{ width: "16.5px", height: "16.5px" }}
