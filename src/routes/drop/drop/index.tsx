@@ -547,7 +547,7 @@ const DropComponent: FC<{ drop: Drop; sceneRef: sceneRefType }> = ({ drop, scene
                                           <Grid item>
                                             <Clickable
                                               activated={!isSelectedNFTPlaceholder}
-                                              address={`${CONFIG.openseaUrl}/${selectedNFT.address}/${selectedNFT.id}`}
+                                              address={`${openseaUrl}/${selectedNFT.address}/${selectedNFT.id}`}
                                             >
                                               <IconOpenSea
                                                 style={{ width: "16.5px", height: "16.5px" }}
